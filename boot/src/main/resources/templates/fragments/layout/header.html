@@ -1,0 +1,26 @@
+<!-- templates/fragments/layout/header.html -->
+<div th:fragment="header">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid justify-content-center">
+      <div class="d-flex align-items-center flex-column flex-sm-row">
+        <a class="navbar-brand mx-sm-3" href="#">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="mynavbar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">메뉴</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">정보 게시</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">계산기</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

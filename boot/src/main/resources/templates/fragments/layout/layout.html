@@ -19,5 +19,9 @@
 
     <!-- 고정 푸터 -->
     <div th:replace="~{fragments/layout/footer.html :: footer}"></div> <!-- 푸터 불러오기 -->
+
+    
+    <!-- 페이지별 스크립트 삽입용 -->
+    <th:block layout:fragment="script"></th:block>
 </body>
 </html>

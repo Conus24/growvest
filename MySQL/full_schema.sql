@@ -105,5 +105,7 @@ CREATE TABLE api (
     api_num INT PRIMARY KEY AUTO_INCREMENT,
     api_name VARCHAR(50),
     api_value INT,
-    api_datetime DATETIME
+    api_date DATE,
+    api_datetime DATETIME,
+    UNIQUE KEY uq_api_name_date (api_name, api_date)
 );

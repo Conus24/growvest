@@ -10,6 +10,7 @@ public interface ApiDAO {
 
     public void insertApiData(@Param("name") String name, 
                               @Param("value") double value, 
+                              @Param("date") String date,
                               @Param("datetime") String datetime);
 }
 

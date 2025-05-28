@@ -6,8 +6,9 @@
 		WHERE api_name = #{name}
 			AND DATE(api_datetime) = #{date}
 	</select>
+	<!-- API 호출 시간 -->
 	<insert id="insertApiData">
-		INSERT INTO api (api_name, api_value, api_datetime)
-		VALUES (#{name}, #{value}, #{datetime})
+		INSERT INTO api (api_name, api_value, api_datetime, api_date)
+		VALUES (#{name}, #{value}, NOW(), #{date})
 	</insert>
 </mapper>

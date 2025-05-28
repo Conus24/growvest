@@ -48,13 +48,14 @@ public class StockService {
       var values = (List<Map<String, String>>) response.get("values");
       Map<String, String> latest = values.get(0);
 
-      String datetime = latest.get("datetime");
+      String datetime = latest.get("datetime"); // "2025-05-27 10:00:00" 같은 형식
+      String date = datetime.substring(0, 10);  // "2025-05-27"
       double close = Double.parseDouble(latest.get("close"));
 
-      // 데이터 저장
-      apiDAO.insertApiData("QQQ", close, datetime);
+      apiDAO.insertApiData("QQQ", close, date, datetime);
 
       return "📈 저장 완료: " + datetime + ", 종가: " + close;
+
     } else {
       return "❌ 데이터 호출 실패";
     }

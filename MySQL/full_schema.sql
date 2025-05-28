@@ -15,7 +15,8 @@ CREATE TABLE user (
 CREATE TABLE user_asset (
     as_num INT PRIMARY KEY AUTO_INCREMENT,
     us_num INT,
-    as_asset_type ENUM('현금', '예적금', '채권', '금', 'ETF'),
+    as_asset_type ENUM('현금(원)', '현금(달러)', '예적금', '채권', '금', 'ETF'),
+    as_currency ENUM('KRW', 'USD'),
     as_amount BIGINT,
     as_created DATETIME,
     FOREIGN KEY (us_num) REFERENCES user(us_num)
@@ -24,7 +25,7 @@ CREATE TABLE user_asset (
 CREATE TABLE user_asset_target (
     ta_num INT PRIMARY KEY AUTO_INCREMENT,
     ta_us_num INT,
-    ta_asset_type ENUM('현금', '예적금', '채권', '금', 'ETF'),
+    ta_asset_type ENUM('현금(원)', '현금(달러)', '예적금', '채권', '금', 'ETF'),
     ta_target_percent FLOAT,
     ta_end_date DATE,
     ta_achieve ENUM('0', '1'),
@@ -34,7 +35,8 @@ CREATE TABLE user_asset_target (
 CREATE TABLE present_asset (
     pr_num INT PRIMARY KEY AUTO_INCREMENT,
     pr_us_num INT,
-    pr_cash INT,
+    pr_cash_won INT,
+    pr_cash_dollar INT,
     pr_deposit INT,
     pr_bond INT,
     pr_gold INT,

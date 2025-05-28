@@ -1,5 +1,6 @@
 package kr.kh.boot.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class StockService {
 
       String datetime = latest.get("datetime");
       String date = datetime.substring(0, 10);
-      double close = Double.parseDouble(latest.get("close"));
-
+      String closeStr = latest.get("close");
+      BigDecimal close = new BigDecimal(closeStr); // ← 문자열로 바로 생성하면 정밀도 손실 없음
       apiDAO.insertApiData(symbol, close, date, datetime);
     }
   }

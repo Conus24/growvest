@@ -15,9 +15,10 @@ public class HomeController {
   @GetMapping("/")
   public String home() {
     // 일일 주가 연동
-    stockService.getQQQPrice();
+    stockService.fetchAndStorePrice("QQQ");
+    stockService.fetchAndStorePrice("USD/KRW");
+    stockService.fetchAndStorePrice("VOO");
     return "index";
   }
 
 }
-

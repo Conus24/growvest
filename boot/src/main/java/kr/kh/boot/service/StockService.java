@@ -23,20 +23,17 @@ public class StockService {
   @Autowired
   private ApiDAO apiDAO;
 
-  public String getQQQPrice() {
-    // 오늘 날짜
-    String today = LocalDate.now().toString(); // "2025-05-28"
+  public void fetchAndStorePrice(String symbol) {
+    String today = LocalDate.now().toString();
 
-    // 이미 저장된 기록이 있다면 → API 호출하지 않고 종료
-    if (apiDAO.countDataByNameAndDate("QQQ", today) > 0) {
-      return ""; // 또는 null
+    if (apiDAO.countDataByNameAndDate(symbol, today) > 0) {
+      return;
     }
 
-    // API 호출 시작
     RestTemplate restTemplate = new RestTemplate();
 
     String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
-        .queryParam("symbol", "QQQ")
+        .queryParam("symbol", symbol)
         .queryParam("interval", "1day")
         .queryParam("apikey", apiKey)
         .queryParam("outputsize", 1)
@@ -48,16 +45,11 @@ public class StockService {
       var values = (List<Map<String, String>>) response.get("values");
       Map<String, String> latest = values.get(0);
 
-      String datetime = latest.get("datetime"); // "2025-05-27 10:00:00" 같은 형식
-      String date = datetime.substring(0, 10);  // "2025-05-27"
+      String datetime = latest.get("datetime");
+      String date = datetime.substring(0, 10);
       double close = Double.parseDouble(latest.get("close"));
 
-      apiDAO.insertApiData("QQQ", close, date, datetime);
-
-      return "📈 저장 완료: " + datetime + ", 종가: " + close;
-
-    } else {
-      return "❌ 데이터 호출 실패";
+      apiDAO.insertApiData(symbol, close, date, datetime);
     }
   }
 

@@ -26,6 +26,7 @@ public class HomeController {
     stockService.fetchAndStorePrice("USD/KRW");
     stockService.fetchAndStorePrice("QQQ");
     stockService.fetchAndStorePrice("VOO");
+    stockService.fetchAndStorePrice("GLD");
     return "index";
   }
 
@@ -38,5 +39,10 @@ public class HomeController {
   public String register(UserVO userVO) {
     userService.register(userVO);
     return "redirect:/login";
+  }
+
+  @GetMapping("/portfolio")
+  public String portfolio() {
+    return "portfolio";
   }
 }

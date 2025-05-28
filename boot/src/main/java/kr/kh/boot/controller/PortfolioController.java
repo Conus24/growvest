@@ -22,13 +22,13 @@ import kr.kh.boot.service.UserService;
 public class PortfolioController {
 
 	@Autowired
-  private UserService userService;
+	private UserService userService;
 
 	@Autowired
-  private UserAssetService userAssetService;
+	private UserAssetService userAssetService;
 
 	@Autowired
-  UserAssetDAO userAssetDAO;
+	UserAssetDAO userAssetDAO;
 
 	@Autowired
 	private ApiService apiService;
@@ -76,24 +76,25 @@ public class PortfolioController {
 		return "redirect:/";
 	}
 
-	 @GetMapping("/portfolio")
-	 public String summary(Model model, Principal principal) {
-		if (principal == null) {
-			return "redirect:/login"; // 로그인 화면으로 리디렉션
-    }
+	@GetMapping("/portfolio")
+	public String summary(Model model, Principal principal) {
+		if (principal == null)
+			return "redirect:/login";
 
-    int userId = userService.getUserNum(principal.getName());
-    long[] result = userAssetService.calculateUserKRWUSDSum(userId);
-    model.addAttribute("krwTotal", result[0]);
-    model.addAttribute("usdTotal", result[1]);
-		model.addAttribute("wonValue", result.length > 2 ? result[2] : 0L);
+		int userId = userService.getUserNum(principal.getName());
+		long[] result = userAssetService.calculateUserKRWUSDSum(userId);
 
-		// API로 실시간 환율 받아오기
-		Double exchangeRate = apiService.getExchangeRate();
+		double exchangeRate = apiService.getExchangeRate(); // USD/KRW 환율
+		long usdTotal = result[1];
+		long wonValue = (long) (usdTotal * exchangeRate); // 직접 계산
+
+		model.addAttribute("krwTotal", result[0]);
+		model.addAttribute("usdTotal", usdTotal);
 		model.addAttribute("exchangeRate", exchangeRate);
+		model.addAttribute("wonValue", wonValue);
 
 		model.addAttribute("userAssetForm", new UserAssetForm());
+		return "portfolio";
+	}
 
-    return "portfolio";
-  }
 }

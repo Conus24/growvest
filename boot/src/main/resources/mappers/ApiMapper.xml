@@ -11,4 +11,12 @@
 		INSERT INTO api (api_name, api_value, api_datetime, api_date)
 		VALUES (#{name}, #{value}, NOW(), #{date})
 	</insert>
+	<!-- 최신 USD/KRW 가져오기 -->
+	 <select id="getUsdToKrwExchangeRate" resultType="double">
+		SELECT api_value
+		FROM api
+		WHERE api_name = 'USD/KRW'
+		ORDER BY api_datetime DESC
+		LIMIT 1
+	</select>
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import kr.kh.boot.dao.UserAssetDAO;
 import kr.kh.boot.model.form.UserAssetForm;
 import kr.kh.boot.model.vo.UserAssetVO;
+import kr.kh.boot.service.ApiService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
 
@@ -28,6 +29,9 @@ public class PortfolioController {
 
 	@Autowired
   UserAssetDAO userAssetDAO;
+
+	@Autowired
+	private ApiService apiService;
 
 	@GetMapping("/portfolio/create")
 	public String portfolio(Model model) {
@@ -82,6 +86,11 @@ public class PortfolioController {
     long[] result = userAssetService.calculateUserKRWUSDSum(userId);
     model.addAttribute("krwTotal", result[0]);
     model.addAttribute("usdTotal", result[1]);
+		model.addAttribute("wonValue", result.length > 2 ? result[2] : 0L);
+
+		// API로 실시간 환율 받아오기
+		Double exchangeRate = apiService.getExchangeRate();
+		model.addAttribute("exchangeRate", exchangeRate);
 
 		model.addAttribute("userAssetForm", new UserAssetForm());
 

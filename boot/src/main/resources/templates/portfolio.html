@@ -18,7 +18,7 @@ layout:decorate="~{fragments/layout/layout.html}">
       <div th:if="${krwTotal != null}">
         <p>KRW 자산 합계: <span th:text="${krwTotal}"></span> 원</p>
         <p>USD 자산 합계: <span th:text="${usdTotal}"></span> 달러</p>
-        <p>여기에 달러*현재환율 ()</p>
+        <p>달러 원화가치: <span th:text="${usdTotal} + ' * ' + ${exchangeRate} + ' = ' + ${wonValue}"></span></p>
       </div>
   </div>
 </main>

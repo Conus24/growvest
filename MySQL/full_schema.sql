@@ -7,7 +7,7 @@ CREATE TABLE user (
     us_id VARCHAR(50),
     us_pw VARCHAR(255),
     us_nickname VARCHAR(50),
-    us_authority VARCHAR(10) DEFAULT 'USER',
+    us_authority VARCHAR(10),
     us_created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -27,10 +27,8 @@
               th:text="${usdTotal} + ' * ' + ${exchangeRate} + ' = ' + ${wonValue}"
             ></span>
           </p>
-
-          <p>KRW 비중: <span th:text="${krwPercent} + '%'"></span></p>
-          <p>USD 비중: <span th:text="${usdPercent} + '%'"></span></p>
-
+          <!-- <p>KRW 비중: <span th:text="${krwPercent} + '%'"></span></p> -->
+          <!-- <p>USD 비중: <span th:text="${usdPercent} + '%'"></span></p> -->
           <div style="width: 500px; margin: 0 auto">
             <canvas id="assetChart"></canvas>
           </div>
@@ -67,7 +65,7 @@
             responsive: true,
             plugins: {
               legend: { position: 'bottom' },
-              title: { display: true, text: '자산 비중 도넛 차트' },
+              title: { display: true, text: '자산 비중 비교하기' },
               datalabels: {
                 color: '#fff',
                 font: {

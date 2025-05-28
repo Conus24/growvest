@@ -2,14 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.kh.boot.dao.UserDAO">
 	<select id="selectUser" parameterType="string" resultType="kr.kh.boot.model.vo.UserVO">
-    SELECT 
-      us_id,
-      us_pw,
-      us_nickname,
-      us_authority,
-      us_created
-    FROM user
-    WHERE us_id = #{username}
+    SELECT us_num,us_id, us_pw, us_nickname, us_authority, us_created FROM user WHERE us_id = #{username}
   </select>
   <insert id="insertUser" parameterType="UserVO">
     INSERT INTO user (us_id, us_pw, us_nickname, us_authority)

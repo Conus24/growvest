@@ -18,26 +18,25 @@
     <main layout:fragment="content">
       <div class="container mt-5">
         <h2 class="mb-4">포트폴리오 생성</h2>
-        <form action="/portfolio" method="post">
+        <form th:action="@{/portfolio/create}" method="post" th:object="${userAssetForm}">
           <div class="mb-3">
-            <label for="initialAmount" class="form-label">
-              현금 (원)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
-            <label for="initialAmount" class="form-label">
-              현금 (달러)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
-            <label for="initialAmount" class="form-label">
-              예적금 (원)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
-            <label for="initialAmount" class="form-label">
-              채권 (원)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
-            <label for="initialAmount" class="form-label">
-              금 (원)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
-            <label for="initialAmount" class="form-label">
-              ETF (달러)</label>
-            <input type="number" class="form-control" id="initialAmount" name="pf_amount"/>
+            <label>현금 (원)</label>
+            <input type="number" th:field="*{cashWon}" class="form-control" />
+
+            <label>현금 (달러)</label>
+            <input type="number" th:field="*{cashDollar}" class="form-control" />
+
+            <label>예적금</label>
+            <input type="number" th:field="*{deposits}" class="form-control" />
+
+            <label>채권</label>
+            <input type="number" th:field="*{bond}" class="form-control" />
+
+            <label>금</label>
+            <input type="number" th:field="*{gold}" class="form-control" />
+
+            <label>ETF</label>
+            <input type="number" th:field="*{etf}" class="form-control" />
           </div>
           <button type="submit" class="btn btn-primary">생성하기</button>
         </form>

@@ -1,4 +1,4 @@
--- DROP DATABASE growvest;
+ DROP DATABASE growvest;
 CREATE DATABASE growvest DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE growvest;
 
@@ -11,21 +11,20 @@ CREATE TABLE user (
     us_created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE user_asset (
     as_num INT PRIMARY KEY AUTO_INCREMENT,
-    us_num INT,
-    as_asset_type ENUM('현금(원)', '현금(달러)', '예적금', '채권', '금', 'ETF'),
+    as_us_num INT,
+    as_asset_type VARCHAR(50),
     as_currency ENUM('KRW', 'USD'),
     as_amount BIGINT,
     as_created DATETIME,
-    FOREIGN KEY (us_num) REFERENCES user(us_num)
+    FOREIGN KEY (as_us_num) REFERENCES user(us_num)
 );
 
 CREATE TABLE user_asset_target (
     ta_num INT PRIMARY KEY AUTO_INCREMENT,
     ta_us_num INT,
-    ta_asset_type ENUM('현금(원)', '현금(달러)', '예적금', '채권', '금', 'ETF'),
+    ta_asset_type VARCHAR(50),
     ta_target_percent FLOAT,
     ta_end_date DATE,
     ta_achieve ENUM('0', '1'),
@@ -41,6 +40,7 @@ CREATE TABLE present_asset (
     pr_bond INT,
     pr_gold INT,
     pr_etf INT,
+    pr_datetime DATETIME,
     FOREIGN KEY (pr_us_num) REFERENCES user(us_num)
 );
 

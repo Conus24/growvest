@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.boot.dao.UserAssetDAO">
+  <!-- 유저 자산 1건 입력 -->
+  <insert id="insertUserAsset" parameterType="kr.kh.boot.model.vo.UserAssetVO">
+      INSERT INTO user_asset (
+          as_us_num, as_asset_type, as_currency, as_amount, as_created
+      )
+      VALUES (
+          #{as_us_num}, #{as_asset_type}, #{as_currency}, #{as_amount}, NOW()
+      )
+  </insert>
+  <!-- 특정 유저의 전체 자산 조회 -->
+  <select id="selectUserAssetsByUser" resultType="kr.kh.boot.model.vo.UserAssetVO">
+      SELECT * FROM user_asset
+      WHERE as_us_num = #{us_num}
+      ORDER BY as_created DESC
+  </select>
+</mapper>

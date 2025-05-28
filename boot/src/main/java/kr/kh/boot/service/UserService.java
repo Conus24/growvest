@@ -27,4 +27,10 @@ public class UserService {
 	public boolean isDuplicate(String us_id) {
 		return userDAO.selectUser(us_id) != null;
 	}
+
+	public int getUserNum(String username) {
+    UserVO user = userDAO.selectUser(username);
+    return user != null ? user.getUs_num() : 0; // or 예외 던지기
+	}
+
 }

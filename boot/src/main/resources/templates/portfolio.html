@@ -27,11 +27,9 @@
               th:text="${usdTotal} + ' * ' + ${exchangeRate} + ' = ' + ${wonValue}"
             ></span>
           </p>
-
-          <p>KRW 비중: <span th:text="${krwPercent} + '%'"></span></p>
-          <p>USD 비중: <span th:text="${usdPercent} + '%'"></span></p>
-
-          <div style="width: 400px; margin: 0 auto">
+          <!-- <p>KRW 비중: <span th:text="${krwPercent} + '%'"></span></p> -->
+          <!-- <p>USD 비중: <span th:text="${usdPercent} + '%'"></span></p> -->
+          <div style="width: 440px; margin: 0 auto">
             <canvas id="assetChart"></canvas>
           </div>
         </div>
@@ -45,10 +43,12 @@
       ></script>
 
       <script th:inline="javascript">
-        Chart.register(ChartDataLabels);
+                Chart.register(ChartDataLabels);
 
-        const krwPercent = [[${krwPercent}]];
-        const usdPercent = [[${usdPercent}]];
+                const krwPercent = [[${krwPercent}]];
+                const usdPercent = [[${usdPercent}]];
+        const krwAmount = [[${krwTotal}]];
+        const usdAmount = [[${usdTotal}]];
 
         const data = {
           labels: ['KRW 비중', 'USD 비중'],
@@ -67,21 +67,27 @@
             responsive: true,
             plugins: {
               legend: { position: 'bottom' },
-              title: { display: true, text: '자산 비중 도넛 차트' },
+              title: { display: true, text: '자산 비중 비교하기' },
               datalabels: {
                 color: '#fff',
                 font: {
                   weight: 'bold',
                   size: 14
                 },
-                formatter: (value) => value + '%'
+                  formatter: function(value, context) {
+                  const labelIndex = context.dataIndex;
+                  const amount = labelIndex === 0 ? krwAmount : usdAmount;
+                  const unit = labelIndex === 0 ? '원' : '달러';
+                  return value + '%\n(' + amount.toLocaleString() + ' ' + unit + ')';
+                }
               }
             }
           },
           plugins: [ChartDataLabels]
         };
 
-        new Chart(document.getElementById('assetChart'), config);
+
+                new Chart(document.getElementById('assetChart'), config);
       </script>
     </th:block>
   </body>

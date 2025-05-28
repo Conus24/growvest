@@ -12,7 +12,7 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    @GetMapping("/qqq")
+    @GetMapping("/")
     public String getQQQPrice() {
         return stockService.getQQQPrice();
     }

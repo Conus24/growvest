@@ -54,7 +54,7 @@
             label: '자산 비중',
             data: [krwPercent, usdPercent],
             backgroundColor: ['#36A2EB', '#4BC0C0'],
-            hoverOffset: 10
+            hoverOffset: 20
           }]
         };
 
@@ -65,12 +65,23 @@
             responsive: true,
             plugins: {
               legend: { position: 'bottom' },
-              title: { display: true, text: '자산 비중 비교하기' },
+              title: {
+                display: true,
+                text: '자산 비중 비교하기',
+                font: {
+                  size: 30,
+                  weight: 'bold'
+                },
+                padding: {
+                  top: 20,
+                  bottom: 10
+                }
+              },
               datalabels: {
                 color: '#fff',
                 font: {
                   weight: 'bold',
-                  size: 14
+                  size: 28
                 },
                 formatter: (value) => value + '%'
               }
@@ -78,7 +89,6 @@
           },
           plugins: [ChartDataLabels]
         };
-
         new Chart(document.getElementById('assetChart'), config);
       </script>
     </th:block>

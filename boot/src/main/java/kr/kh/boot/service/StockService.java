@@ -1,5 +1,7 @@
 package kr.kh.boot.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,15 @@ public class StockService {
   private ApiDAO apiDAO;
 
   public String getQQQPrice() {
+    // 오늘 날짜
+    String today = LocalDate.now().toString(); // "2025-05-28"
+
+    // 이미 저장된 기록이 있다면 → API 호출하지 않고 종료
+    if (apiDAO.countDataByNameAndDate("QQQ", today) > 0) {
+      return ""; // 또는 null
+    }
+
+    // API 호출 시작
     RestTemplate restTemplate = new RestTemplate();
 
     String url = UriComponentsBuilder.fromHttpUrl(BASE_URL)
@@ -34,23 +45,18 @@ public class StockService {
     Map<String, Object> response = restTemplate.getForObject(url, Map.class);
 
     if (response != null && response.containsKey("values")) {
-      var values = (java.util.List<Map<String, String>>) response.get("values");
+      var values = (List<Map<String, String>>) response.get("values");
       Map<String, String> latest = values.get(0);
 
-      String datetime = latest.get("datetime"); // 예: 2025-05-27
+      String datetime = latest.get("datetime");
       double close = Double.parseDouble(latest.get("close"));
 
-      // 🔁 중복 확인을 API가 준 날짜 기준으로!
-      if (apiDAO.countDataByNameAndDate("QQQ", datetime) > 0) {
-        return ""; // 이미 저장되어 있으면 아무것도 안 함
-      }
-
-      // 📝 DB에 저장
+      // 데이터 저장
       apiDAO.insertApiData("QQQ", close, datetime);
 
-      return "📈 시간: " + datetime + ", 종가: " + close;
+      return "📈 저장 완료: " + datetime + ", 종가: " + close;
     } else {
-      return "❌ 데이터 호출 실패: " + response;
+      return "❌ 데이터 호출 실패";
     }
   }
 

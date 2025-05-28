@@ -15,4 +15,6 @@ public interface UserAssetDAO {
 
     // 특정 유저의 전체 자산 조회 (선택적으로 사용)
     public List<UserAssetVO> selectUserAssetsByUser(@Param("us_num") int us_num);
+
+
 }

@@ -45,14 +45,16 @@
       <script th:inline="javascript">
         Chart.register(ChartDataLabels);
 
-        const krwPercent = [[${krwPercent}]];
-        const usdPercent = [[${usdPercent}]];
+        const krwTotal = [[${krwTotal}]];         // 예: 6915
+        const usdTotal = [[${usdTotal}]];         // 예: 8
+        const exchangeRate = [[${exchangeRate}]]; // 예: 1375.39
+        const usdToWon = usdTotal * exchangeRate;
 
         const data = {
           labels: ['KRW 비중', 'USD 비중'],
           datasets: [{
             label: '자산 비중',
-            data: [krwPercent, usdPercent],
+            data: [krwTotal, usdToWon],
             backgroundColor: ['#36A2EB', '#4BC0C0'],
             hoverOffset: 20
           }]
@@ -77,18 +79,33 @@
                   bottom: 10
                 }
               },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label;
+                    const value = context.raw;
+                    const formatted = Math.round(value).toLocaleString('ko-KR');
+                    return `${label}: ${formatted} 원`;
+                  }
+                }
+              },
               datalabels: {
                 color: '#fff',
                 font: {
                   weight: 'bold',
                   size: 28
                 },
-                formatter: (value) => value + '%'
+                formatter: (value, context) => {
+                  const total = context.chart._metasets[0].total;
+                  const percent = Math.round((value / total) * 100);
+                  return percent + '%';
+                }
               }
             }
           },
           plugins: [ChartDataLabels]
         };
+
         new Chart(document.getElementById('assetChart'), config);
       </script>
     </th:block>

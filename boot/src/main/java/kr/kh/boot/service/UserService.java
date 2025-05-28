@@ -20,7 +20,6 @@ public class UserService {
 
 	public void register(UserVO userVO) {
 		userVO.setUs_pw(passwordEncoder.encode(userVO.getUs_pw()));
-		userVO.setUs_authority("USER");
 		userDAO.insertUser(userVO);
 	}
 

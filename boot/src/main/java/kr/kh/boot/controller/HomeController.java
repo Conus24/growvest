@@ -3,22 +3,40 @@ package kr.kh.boot.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import kr.kh.boot.model.vo.UserVO;
 import kr.kh.boot.service.StockService;
+import kr.kh.boot.service.UserService;
 
 @Controller
 public class HomeController {
 
   @Autowired
+  // api db 연동
   private StockService stockService;
+
+  @Autowired
+  private UserService userService;
+
 
   @GetMapping("/")
   public String home() {
-    // 일일 주가 연동
-    stockService.fetchAndStorePrice("QQQ");
+    // api db 연동 => 일 1회
     stockService.fetchAndStorePrice("USD/KRW");
+    stockService.fetchAndStorePrice("QQQ");
     stockService.fetchAndStorePrice("VOO");
     return "index";
   }
 
+  @GetMapping("/signup")
+  public String signup() {
+    return "signup";
+  }
+
+  @PostMapping("/register")
+  public String register(UserVO userVO) {
+    userService.register(userVO);
+    return "redirect:/login";
+  }
 }

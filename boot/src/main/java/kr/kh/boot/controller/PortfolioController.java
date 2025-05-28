@@ -84,14 +84,23 @@ public class PortfolioController {
 		int userId = userService.getUserNum(principal.getName());
 		long[] result = userAssetService.calculateUserKRWUSDSum(userId);
 
-		double exchangeRate = apiService.getExchangeRate(); // USD/KRW 환율
+		// 원 * 환율
+		long krwTotal = result[0];
 		long usdTotal = result[1];
-		long wonValue = (long) (usdTotal * exchangeRate); // 직접 계산
+		double exchangeRate = apiService.getExchangeRate();
+		long wonValue = (long) (usdTotal * exchangeRate);
 
-		model.addAttribute("krwTotal", result[0]);
+		// 원과 달러 % 점유율 계산
+		long total = krwTotal + wonValue;
+		int krwPercent = (int) ((krwTotal * 100.0) / total);
+		int usdPercent = 100 - krwPercent;
+
+		model.addAttribute("krwTotal", krwTotal);
 		model.addAttribute("usdTotal", usdTotal);
 		model.addAttribute("exchangeRate", exchangeRate);
 		model.addAttribute("wonValue", wonValue);
+		model.addAttribute("krwPercent", krwPercent);
+		model.addAttribute("usdPercent", usdPercent);
 
 		model.addAttribute("userAssetForm", new UserAssetForm());
 		return "portfolio";

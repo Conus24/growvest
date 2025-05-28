@@ -19,6 +19,10 @@ layout:decorate="~{fragments/layout/layout.html}">
         <p>KRW 자산 합계: <span th:text="${krwTotal}"></span> 원</p>
         <p>USD 자산 합계: <span th:text="${usdTotal}"></span> 달러</p>
         <p>달러 원화가치: <span th:text="${usdTotal} + ' * ' + ${exchangeRate} + ' = ' + ${wonValue}"></span></p>
+
+        <p>KRW 비중: <span th:text="${krwPercent} + '%'"></span></p>
+        <p>USD 비중: <span th:text="${usdPercent} + '%'"></span></p>
+
       </div>
   </div>
 </main>

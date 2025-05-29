@@ -17,6 +17,8 @@ import kr.kh.boot.model.vo.UserAssetVO;
 import kr.kh.boot.model.vo.UserVO;
 import kr.kh.boot.service.StockService;
 import kr.kh.boot.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class HomeController {
@@ -34,5 +36,11 @@ public class HomeController {
     userService.register(userVO);
     return "redirect:/login";
   }
+
+  @GetMapping("/rebalancing")
+  public String rebalancing() {
+      return "rebalancing";
+  }
+  
 
 }

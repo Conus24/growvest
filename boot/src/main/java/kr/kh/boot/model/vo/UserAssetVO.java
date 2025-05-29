@@ -30,4 +30,9 @@ public class UserAssetVO {
 	public long getAs_amount() {
 		return as_amount;
 	}
+	
+	public String getAs_asset_type() {
+    return as_asset_type;
+	}
+
 }

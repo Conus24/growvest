@@ -2,7 +2,9 @@ package kr.kh.boot.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,25 +84,73 @@ public class PortfolioController {
 			return "redirect:/login";
 
 		int userId = userService.getUserNum(principal.getName());
-		long[] result = userAssetService.calculateUserKRWUSDSum(userId);
-
-		// 원 * 환율
-		long krwTotal = result[0];
-		long usdTotal = result[1];
+		List<UserAssetVO> assetList = userAssetDAO.selectUserAssetsByUser(userId);
 		double exchangeRate = apiService.getExchangeRate();
-		long wonValue = (long) (usdTotal * exchangeRate);
 
-		// 원과 달러 % 점유율 계산
-		long total = krwTotal + wonValue;
+		long krwTotal = 0;
+		long usdTotal = 0;
+		long wonValue = 0;
+		long total = 0;
+
+		Map<String, Double> assetTypeWonMap = new LinkedHashMap<>(); // 환산 금액
+		Map<String, Double> assetTypeRawAmountMap = new LinkedHashMap<>(); // 원본 금액
+		double assetTotalWon = 0.0;
+
+		for (UserAssetVO asset : assetList) {
+			String type = asset.getAs_asset_type(); // 예: "현금 (원)", "채권"
+			String currency = asset.getAs_currency();
+			double amount = asset.getAs_amount(); // 원본 금액
+			double won = amount;
+
+			if ("USD".equals(currency)) {
+				usdTotal += amount;
+				won *= exchangeRate;
+			} else {
+				krwTotal += amount;
+			}
+
+			// 환산 금액 저장
+			assetTypeWonMap.put(type, assetTypeWonMap.getOrDefault(type, 0.0) + won);
+			// 원본 금액 저장 (툴팁용)
+			assetTypeRawAmountMap.put(type, assetTypeRawAmountMap.getOrDefault(type, 0.0) + amount);
+			assetTotalWon += won;
+		}
+
+		wonValue = (long) (usdTotal * exchangeRate);
+		total = krwTotal + wonValue;
 		int krwPercent = (int) ((krwTotal * 100.0) / total);
 		int usdPercent = 100 - krwPercent;
 
+		// 📊 차트용 리스트 생성
+		List<String> typeLabels = new ArrayList<>();
+		List<Double> typeValues = new ArrayList<>(); // 환산 금액 (도넛 value)
+		List<Double> typePercents = new ArrayList<>(); // 퍼센트 (중앙 표시용)
+		List<Double> typeAmounts = new ArrayList<>(); // 원본 금액 (툴팁용)
+
+		for (Map.Entry<String, Double> entry : assetTypeWonMap.entrySet()) {
+			String type = entry.getKey();
+			double won = entry.getValue();
+			double percent = (won / assetTotalWon) * 100.0;
+			double raw = assetTypeRawAmountMap.get(type);
+
+			typeLabels.add(type);
+			typeValues.add(won);
+			typePercents.add(percent);
+			typeAmounts.add(raw);
+		}
+
+		// 📦 모델 전달
 		model.addAttribute("krwTotal", krwTotal);
 		model.addAttribute("usdTotal", usdTotal);
 		model.addAttribute("exchangeRate", exchangeRate);
 		model.addAttribute("wonValue", wonValue);
 		model.addAttribute("krwPercent", krwPercent);
 		model.addAttribute("usdPercent", usdPercent);
+
+		model.addAttribute("typeLabels", typeLabels); // 차트 항목
+		model.addAttribute("typeValues", typeValues); // 환산 금액 (도넛)
+		model.addAttribute("typePercents", typePercents); // 퍼센트 (내부)
+		model.addAttribute("typeAmounts", typeAmounts); // 원본 금액 (툴팁)
 
 		model.addAttribute("userAssetForm", new UserAssetForm());
 		return "portfolio";

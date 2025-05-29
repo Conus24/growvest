@@ -24,10 +24,13 @@ CREATE TABLE user_asset (
 CREATE TABLE user_asset_target (
     ta_num INT PRIMARY KEY AUTO_INCREMENT,
     ta_us_num INT,
+    ta_as_num INT,
     ta_target_percent FLOAT,
     ta_end_date DATE,
+    UNIQUE KEY uniq_user_asset (ta_us_num, ta_as_num),
     FOREIGN KEY (ta_us_num) REFERENCES user(us_num)
 );
+
 
 CREATE TABLE present_asset (
     pr_num INT PRIMARY KEY AUTO_INCREMENT,

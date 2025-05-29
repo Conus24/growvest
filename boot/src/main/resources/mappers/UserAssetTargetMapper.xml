@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.boot.dao.UserAssetTargetDAO">
+  <insert id="insertTarget" parameterType="kr.kh.boot.model.vo.UserAssetTargetVO">
+    INSERT INTO user_asset_target (
+      ta_us_num,
+      ta_as_num,
+      ta_target_percent,
+      ta_end_date)
+    VALUES (
+      #{ta_us_num},
+      #{ta_as_num},
+      #{ta_target_percent},
+      #{ta_end_date})
+  </insert>
+  <!-- 중복 방지 -->
+  <select id="selectTargetByUserAndType" resultType="kr.kh.boot.model.vo.UserAssetTargetVO">
+    SELECT *
+    FROM user_asset_target
+    WHERE ta_us_num = #{userId}
+      AND ta_as_num = #{assetType}
+  </select>
+  <insert id="insertOrUpdateTarget" parameterType="UserAssetTargetVO">
+    INSERT INTO user_asset_target (
+      ta_us_num, ta_as_num, ta_target_percent, ta_end_date
+    ) VALUES (
+      #{ta_us_num}, #{ta_as_num}, #{ta_target_percent}, #{ta_end_date}
+    )
+    ON DUPLICATE KEY UPDATE
+      ta_target_percent = VALUES(ta_target_percent),
+      ta_end_date = VALUES(ta_end_date)
+  </insert>
+</mapper>

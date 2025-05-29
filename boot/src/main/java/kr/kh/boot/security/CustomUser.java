@@ -24,5 +24,9 @@ public class CustomUser extends User {
 				Arrays.asList(new SimpleGrantedAuthority(vo.getUs_authority())));
 		this.member = vo;
 	}
+
+	public UserVO getUser() {
+			return member;
+	}
 }
 

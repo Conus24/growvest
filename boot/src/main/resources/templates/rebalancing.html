@@ -17,7 +17,7 @@
     <form id="targetForm" th:action="@{/rebalancing/submit}" method="post">
       <div class="mb-3">
         <label for="ta_end_date" class="form-label">목표 달성 날짜</label>
-        <input type="date" class="form-control" name="ta_end_date" required />
+        <input type="date" class="form-control" name="ta_end_date" id="ta_end_date" required />
       </div>
 
       <div class="mb-3" id="sliderContainer">
@@ -57,41 +57,52 @@
 </main>
 <th:block layout:fragment="script">
   <script th:inline="javascript">
-    function updateValue(slider, labelId) {
-      document.getElementById(labelId).textContent = slider.value + "%";
-      updateTotal(); // 실시간 합계 업데이트
+  function updateValue(slider, labelId) {
+    document.getElementById(labelId).textContent = slider.value + "%";
+    updateTotal();
+  }
+
+  function updateTotal() {
+    const sliders = document.querySelectorAll("input[type='range']");
+    let sum = 0;
+    sliders.forEach(slider => sum += parseFloat(slider.value));
+    document.getElementById("totalPercent").textContent = sum + "%";
+
+    const errorBox = document.getElementById("errorBox");
+    if (Math.round(sum) === 100) {
+      errorBox.classList.add("d-none");
     }
+  }
 
-    function updateTotal() {
-      const sliders = document.querySelectorAll("input[type='range']");
-      let sum = 0;
-      sliders.forEach(slider => sum += parseFloat(slider.value));
-      document.getElementById("totalPercent").textContent = sum + "%";
-
-      const errorBox = document.getElementById("errorBox");
-      if (Math.round(sum) === 100) {
-        errorBox.classList.add("d-none");
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll("input[type='range']").forEach(slider => {
-        const labelId = slider.getAttribute("oninput").match(/'([^']+)'/)[1];
-        updateValue(slider, labelId);
-      });
+  document.addEventListener("DOMContentLoaded", function () {
+    // 슬라이더 초기값 렌더링
+    document.querySelectorAll("input[type='range']").forEach(slider => {
+      const labelId = slider.getAttribute("oninput").match(/'([^']+)'/)[1];
+      updateValue(slider, labelId);
     });
 
-    document.getElementById("targetForm").addEventListener("submit", function (e) {
-      const sliders = document.querySelectorAll("input[type='range']");
-      let sum = 0;
-      sliders.forEach(slider => sum += parseFloat(slider.value));
+    // 날짜 기본값을 오늘 + 3개월로 설정
+    const dateInput = document.getElementById("ta_end_date");
+    const now = new Date();
+    now.setMonth(now.getMonth() + 3);
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    dateInput.value = `${yyyy}-${mm}-${dd}`;
+  });
 
-      if (Math.round(sum) !== 100) {
-        e.preventDefault();
-        document.getElementById("errorBox").classList.remove("d-none");
-      }
-    });
-  </script>
+  document.getElementById("targetForm").addEventListener("submit", function (e) {
+    const sliders = document.querySelectorAll("input[type='range']");
+    let sum = 0;
+    sliders.forEach(slider => sum += parseFloat(slider.value));
+
+    if (Math.round(sum) !== 100) {
+      e.preventDefault();
+      document.getElementById("errorBox").classList.remove("d-none");
+    }
+  });
+</script>
+
 </th:block>
 </body>
 </html>

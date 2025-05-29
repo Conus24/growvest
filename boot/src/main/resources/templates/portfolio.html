@@ -115,6 +115,7 @@
         const typeLabels = /*[[${typeLabels}]]*/ [];
         const typeValues = /*[[${typeValues}]]*/ [];
         const typeAmounts = /*[[${typeAmounts}]]*/ [];
+        const typeCurrencies = /*[[${typeCurrencies}]]*/ [];
         const typeData = {
           labels: typeLabels,
           datasets: [{
@@ -144,12 +145,14 @@
                       const label = context.label;
                       const idx = context.dataIndex;
                       const amount = typeAmounts[idx];
-                      const formatted = Math.round(amount).toLocaleString('ko-KR') + ' 원';
-
-                      return `${label}: ${formatted}`; // as_amount 그대로
+                      const currency = typeCurrencies[idx];
+                      const formatted = Math.round(amount).toLocaleString('ko-KR');
+                      const unit = currency === 'USD' ? '달러' : '원';
+                      return `${label}: ${formatted} ${unit}`;
                     }
                   }
-                },
+                }
+                ,
                 datalabels: {
                   color: '#fff',
                   font: { size: 18, weight: 'bold' },

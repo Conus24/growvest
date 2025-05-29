@@ -14,6 +14,7 @@ CREATE TABLE user (
 CREATE TABLE user_asset (
     as_num INT PRIMARY KEY AUTO_INCREMENT,
     as_us_num INT,
+    as_type INT,
     as_asset_type VARCHAR(50),
     as_currency ENUM('KRW', 'USD'),
     as_amount BIGINT,

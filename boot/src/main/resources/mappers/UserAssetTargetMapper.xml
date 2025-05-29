@@ -30,4 +30,23 @@
       ta_target_percent = VALUES(ta_target_percent),
       ta_end_date = VALUES(ta_end_date)
   </insert>
+  <!-- 목표와 현재의 %차이 계산 -->
+   <select id="selectRebalancingComparison" resultType="map" parameterType="int">
+    SELECT 
+      ua.as_asset_type,
+      ua.as_currency,
+      ua.as_amount,
+      ROUND(ua.as_amount / total.total_amount * 100, 2) AS current_percent,
+      ut.ta_target_percent,
+      ROUND(ROUND(ua.as_amount / total.total_amount * 100, 2) - ut.ta_target_percent, 2) AS gap_percent
+    FROM user_asset ua
+    JOIN (
+      SELECT SUM(as_amount) AS total_amount 
+      FROM user_asset 
+      WHERE as_us_num = #{userId}
+    ) total
+    JOIN user_asset_target ut ON ua.as_type = ut.ta_as_num
+    WHERE ua.as_us_num = #{userId}
+      AND ut.ta_us_num = #{userId}
+  </select>
 </mapper>

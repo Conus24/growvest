@@ -1,7 +1,6 @@
 package kr.kh.boot.controller;
 
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,10 +28,8 @@ public class RebalancingController {
 			@RequestParam("gold") int gold,
 			@RequestParam("etf") int etf) {
 		int userId = customUser.getUser().getUs_num();
-
 		rebalancingService.insertTarget(userId, endDate, cashWon, cashDollar, deposits, bond, gold, etf);
-
-		return "redirect:/"; // 저장 후 이동할 페이지
+		return "redirect:/";
 	}
 
 }

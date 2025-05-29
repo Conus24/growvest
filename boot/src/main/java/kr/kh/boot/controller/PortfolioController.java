@@ -17,12 +17,17 @@ import kr.kh.boot.dao.UserAssetDAO;
 import kr.kh.boot.model.form.UserAssetForm;
 import kr.kh.boot.model.vo.UserAssetVO;
 import kr.kh.boot.service.ApiService;
+import kr.kh.boot.service.StockService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
 
 @Controller
 public class PortfolioController {
 
+	@Autowired
+  // api db 연동
+  private StockService stockService;
+	
 	@Autowired
 	private UserService userService;
 
@@ -78,8 +83,14 @@ public class PortfolioController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/portfolio")
-	public String summary(Model model, Principal principal) {
+	@GetMapping("/")
+	// api db 연동 => 일 1회
+	public String home(Model model, Principal principal) {
+		stockService.fetchAndStorePrice("USD/KRW");
+		stockService.fetchAndStorePrice("QQQ");
+		stockService.fetchAndStorePrice("VOO");
+		stockService.fetchAndStorePrice("GLD");
+
 		if (principal == null)
 			return "redirect:/login";
 
@@ -149,7 +160,7 @@ public class PortfolioController {
 		model.addAttribute("typeCurrencies", typeCurrencies);
 
 		model.addAttribute("userAssetForm", new UserAssetForm());
-		return "portfolio";
+		return "index";
 	}
 
 }

@@ -24,20 +24,6 @@ public class HomeController {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  // api db 연동
-  private StockService stockService;
-
-  @GetMapping("/")
-  public String home() {
-    // api db 연동 => 일 1회
-    stockService.fetchAndStorePrice("USD/KRW");
-    stockService.fetchAndStorePrice("QQQ");
-    stockService.fetchAndStorePrice("VOO");
-    stockService.fetchAndStorePrice("GLD");
-    return "index";
-  }
-
   @GetMapping("/signup")
   public String signup() {
     return "signup";

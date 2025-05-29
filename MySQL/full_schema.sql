@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS growvest;
+ DROP DATABASE growvest;
 CREATE DATABASE growvest DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE growvest;
 
@@ -24,10 +24,8 @@ CREATE TABLE user_asset (
 CREATE TABLE user_asset_target (
     ta_num INT PRIMARY KEY AUTO_INCREMENT,
     ta_us_num INT,
-    ta_asset_type VARCHAR(50),
     ta_target_percent FLOAT,
     ta_end_date DATE,
-    ta_achieve ENUM('0', '1'),
     FOREIGN KEY (ta_us_num) REFERENCES user(us_num)
 );
 

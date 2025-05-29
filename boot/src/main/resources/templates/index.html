@@ -95,13 +95,9 @@ layout:decorate="~{fragments/layout/layout.html}">
 </main>
 <th:block layout:fragment="script">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"
-  ></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script th:inline="javascript">
     Chart.register(ChartDataLabels);
-
     const krwTotal = [[${krwTotal}]];         // 예: 6915
     const usdTotal = [[${usdTotal}]];         // 예: 8
     const exchangeRate = [[${exchangeRate}]]; // 예: 1375.39

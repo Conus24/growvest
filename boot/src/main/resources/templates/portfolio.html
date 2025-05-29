@@ -61,7 +61,7 @@
             label: '자산 비중',
             data: [krwTotal, usdToWon],
             backgroundColor: ['#36A2EB', '#4BC0C0'],
-            hoverOffset: 20
+            hoverOffset: 25
           }]
         };
 
@@ -76,7 +76,7 @@
                 display: true,
                 text: '자산 비중 비교하기',
                 font: {
-                  size: 30,
+                  size: 24,
                   weight: 'bold'
                 },
                 padding: {
@@ -110,7 +110,7 @@
           },
           plugins: [ChartDataLabels]
         };
-
+        // 새 차트
         new Chart(document.getElementById('assetChart'), config);
         const typeLabels = /*[[${typeLabels}]]*/ [];
         const typeValues = /*[[${typeValues}]]*/ [];
@@ -119,54 +119,54 @@
         const typeData = {
           labels: typeLabels,
           datasets: [{
-            data: typeValues, // ★ 금액 원본
+            data: typeValues, // 금액 원본
             backgroundColor: [
               '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
             ],
-            hoverOffset: 20
+            hoverOffset: 25
           }]
         };
 
-                  const typeConfig = {
-            type: 'doughnut',
-            data: typeData,
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { position: 'bottom' },
-                title: {
-                  display: true,
-                  text: '자산 유형별 비중',
-                  font: { size: 22, weight: 'bold' }
-                },
-                tooltip: {
-                  callbacks: {
-                    label: function(context) {
-                      const label = context.label;
-                      const idx = context.dataIndex;
-                      const amount = typeAmounts[idx];
-                      const currency = typeCurrencies[idx];
-                      const formatted = Math.round(amount).toLocaleString('ko-KR');
-                      const unit = currency === 'USD' ? '달러' : '원';
-                      return `${label}: ${formatted} ${unit}`;
-                    }
-                  }
-                }
-                ,
-                datalabels: {
-                  color: '#fff',
-                  font: { size: 18, weight: 'bold' },
-                  formatter: function(value, context) {
-                    const total = context.chart._metasets[0].total;
-                    const percent = (value / total) * 100;
-                    return percent.toFixed(1) + '%';
+          const typeConfig = {
+          type: 'doughnut',
+          data: typeData,
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom' },
+              title: {
+                display: true,
+                text: '자산 유형별 비중',
+                font: { size: 24, weight: 'bold' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label;
+                    const idx = context.dataIndex;
+                    const amount = typeAmounts[idx];
+                    const currency = typeCurrencies[idx];
+                    const formatted = Math.round(amount).toLocaleString('ko-KR');
+                    const unit = currency === 'USD' ? '달러' : '원';
+                    return `${label}: ${formatted} ${unit}`;
                   }
                 }
               }
-            },
-            plugins: [ChartDataLabels]
-          };
-          new Chart(document.getElementById('typeChart'), typeConfig);
+              ,
+              datalabels: {
+                color: '#fff',
+                font: { size: 18, weight: 'bold' },
+                formatter: function(value, context) {
+                  const total = context.chart._metasets[0].total;
+                  const percent = (value / total) * 100;
+                  return percent.toFixed(1) + '%';
+                }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        };
+        new Chart(document.getElementById('typeChart'), typeConfig);
       </script>
     </th:block>
   </body>

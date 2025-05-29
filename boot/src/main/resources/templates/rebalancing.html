@@ -46,10 +46,11 @@
           <label class="form-label">ETF: <span id="etfVal">0%</span></label>
           <input type="range" class="form-range" name="etf" min="0" max="100" value="0" oninput="updateValue(this, 'etfVal')">
         </div>
+        <div class="mb-3 text-center">
+          현재 합계: <span id="totalPercent">0%</span>
+        </div>
       </div>
-
       <div class="alert alert-danger d-none" id="errorBox">총합이 100%가 되어야 합니다.</div>
-
       <button type="submit" class="btn btn-primary">목표 저장</button>
     </form>
   </div>
@@ -57,13 +58,24 @@
 <th:block layout:fragment="script">
   <script th:inline="javascript">
     function updateValue(slider, labelId) {
-      const label = document.getElementById(labelId);
-      label.textContent = slider.value + "%";
+      document.getElementById(labelId).textContent = slider.value + "%";
+      updateTotal(); // 실시간 합계 업데이트
+    }
+
+    function updateTotal() {
+      const sliders = document.querySelectorAll("input[type='range']");
+      let sum = 0;
+      sliders.forEach(slider => sum += parseFloat(slider.value));
+      document.getElementById("totalPercent").textContent = sum + "%";
+
+      const errorBox = document.getElementById("errorBox");
+      if (Math.round(sum) === 100) {
+        errorBox.classList.add("d-none");
+      }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      const sliders = document.querySelectorAll("input[type='range']");
-      sliders.forEach(slider => {
+      document.querySelectorAll("input[type='range']").forEach(slider => {
         const labelId = slider.getAttribute("oninput").match(/'([^']+)'/)[1];
         updateValue(slider, labelId);
       });

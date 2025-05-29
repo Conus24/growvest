@@ -1,4 +1,4 @@
- DROP DATABASE growvest;
+-- DROP DATABASE IF EXISTS growvest;
 CREATE DATABASE growvest DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE growvest;
 

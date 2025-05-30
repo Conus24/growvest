@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.boot.model.form.UserAssetForm;
+import kr.kh.boot.service.ApiService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
 
@@ -22,7 +23,25 @@ public class PortfolioController {
 
 	@Autowired
 	private UserAssetService userAssetService;
+
+	@Autowired
+	private ApiService apiService;
+
 	
+	@GetMapping("/portfolio")
+  public String portfolio(Model model, Principal principal) {
+    // 유저 정보
+    int userId = userService.getUserNum(principal.getName());
+    double exchangeRate = apiService.getExchangeRate();
+
+    // 포트폴리오 요약 정보 (총합 등)
+    Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate);
+    model.addAllAttributes(summary);
+    model.addAttribute("userAssetForm", new UserAssetForm());
+
+    return "portfolio";
+  }
+
 	@GetMapping("/portfolio/create")
 	public String portfolio(Model model) {
 		model.addAttribute("userAssetForm", new UserAssetForm());

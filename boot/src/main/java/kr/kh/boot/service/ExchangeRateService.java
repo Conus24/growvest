@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import kr.kh.boot.dao.ApiDAO;
 
 @Service
-public class ApiService {
+public class ExchangeRateService {
 
 	@Autowired
 	private ApiDAO apiDAO;

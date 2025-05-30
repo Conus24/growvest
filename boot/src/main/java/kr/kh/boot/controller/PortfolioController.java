@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.boot.model.form.UserAssetForm;
-import kr.kh.boot.service.ApiService;
+import kr.kh.boot.service.ExchangeRateService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
 
@@ -25,14 +25,14 @@ public class PortfolioController {
 	private UserAssetService userAssetService;
 
 	@Autowired
-	private ApiService apiService;
+	private ExchangeRateService exchangeRateService;
 
 	
 	@GetMapping("/portfolio")
   public String portfolio(Model model, Principal principal) {
     // 유저 정보
     int userId = userService.getUserNum(principal.getName());
-    double exchangeRate = apiService.getExchangeRate();
+    double exchangeRate = exchangeRateService.getExchangeRate();
 
     // 포트폴리오 요약 정보 (총합 등)
     Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate);

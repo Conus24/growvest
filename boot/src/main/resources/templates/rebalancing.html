@@ -1,54 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{fragments/layout/layout.html}" >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<title>리밸런싱 목표 설정</title>
-</head>
-<body>
-  <main layout:fragment="content">
-    <div class="container mt-5">
-      <button>
-        <a class="nav-link" href="/rebalancing/create">리밸런싱 목표 설정</a>
-      </button>
-      <!-- 데이터가 있을 경우만 테이블 보여줌 -->
-      <div th:if="${not #lists.isEmpty(comparisonList)}">
-        <table class="table mt-4">
-          <thead>
-            <tr>
-              <th>자산</th>
-              <th>통화</th>
-              <th>현재 비중</th>
-              <th>목표 비중</th>
-              <th>차이</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="row : ${comparisonList}">
-              <td th:text="${row.as_asset_type}"></td>
-              <td th:text="${row.as_currency}"></td>
-              <td th:text="${row.current_percent + '%'}"></td>
-              <td th:text="${row.ta_target_percent + '%'}"></td>
-              <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- 데이터 없을 경우 경고 출력 -->
-      <div th:if="${#lists.isEmpty(comparisonList)}" class="alert alert-warning text-center">
-        아직 등록된 리밸런싱 목표가 없거나 자산 데이터가 없습니다.
-      </div>
-        <div class="d-flex justify-content-center">
-          <div class="text-center text-danger fw-bold">
-            여기에 요약해서 알려줌 가장 많이 벗어난 순으로 % 출력
-          </div>
-      </div>
+  layout:decorate="~{fragments/layout/layout.html}">
+<head><title>리밸런싱</title></head>
+<main layout:fragment="content">
+  <div class="container mt-5">
+    <button>
+      <a class="nav-link" href="/rebalancing/create">리밸런싱 목표 설정</a>
+    </button>
+    <!-- 데이터가 있을 경우만 테이블 보여줌 -->
+    <div th:if="${not #lists.isEmpty(comparisonList)}">
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th>자산</th>
+            <th>통화</th>
+            <th>현재 비중</th>
+            <th>목표 비중</th>
+            <th>차이</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="row : ${comparisonList}">
+            <td th:text="${row.as_asset_type}"></td>
+            <td th:text="${row.as_currency}"></td>
+            <td th:text="${row.current_percent + '%'}"></td>
+            <td th:text="${row.ta_target_percent + '%'}"></td>
+            <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </main>
-</body>
+    <!-- 데이터 없을 경우 경고 출력 -->
+    <div th:if="${#lists.isEmpty(comparisonList)}" class="alert alert-warning text-center">
+      아직 등록된 리밸런싱 목표가 없거나 자산 데이터가 없습니다.
+    </div>
+      <div class="d-flex justify-content-center">
+        <div class="text-center text-danger fw-bold">
+          여기에 요약해서 알려줌 가장 많이 벗어난 순으로 % 출력
+        </div>
+    </div>
+  </div>
+</main>
 </html>
 

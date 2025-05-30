@@ -64,6 +64,18 @@ CREATE TABLE etf (
     etf_type ENUM('국내', '해외')
 );
 
+CREATE TABLE user_etf (
+  ue_num INT PRIMARY KEY AUTO_INCREMENT,
+  ue_us_num INT NOT NULL,
+  ue_etf_num INT NOT NULL,
+  ue_amount BIGINT NOT NULL,
+  ue_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (ue_us_num) REFERENCES user(us_num),
+  FOREIGN KEY (ue_etf_num) REFERENCES etf(etf_num)
+);
+
+
 CREATE TABLE recommendation_result (
     result_num INT PRIMARY KEY AUTO_INCREMENT,
     us_num INT,
@@ -86,7 +98,6 @@ CREATE TABLE asset_type_score (
     at_name VARCHAR(20) NOT NULL,
     at_mdd FLOAT,
     at_score INT,
-    at_grade VARCHAR(20),
     FOREIGN KEY (at_as_num) REFERENCES user_asset(as_num)
 );
 

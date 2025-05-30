@@ -49,39 +49,6 @@ layout:decorate="~{fragments/layout/layout.html}">
           </div>
         </div>
       </div>
-      <!-- 데이터가 있을 경우만 테이블 보여줌 -->
-      <div th:if="${not #lists.isEmpty(comparisonList)}">
-        <table class="table mt-4">
-          <thead>
-            <tr>
-              <th>자산</th>
-              <th>통화</th>
-              <th>현재 비중</th>
-              <th>목표 비중</th>
-              <th>차이</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="row : ${comparisonList}">
-              <td th:text="${row.as_asset_type}"></td>
-              <td th:text="${row.as_currency}"></td>
-              <td th:text="${row.current_percent + '%'}"></td>
-              <td th:text="${row.ta_target_percent + '%'}"></td>
-              <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="text-center text-danger fw-bold">
-          여기에 요약해서 알려줌 가장 많이 벗어난 순으로 % 출력
-        </div>
-      </div>
-      <!-- 데이터 없을 경우 경고 출력 -->
-      <div th:if="${#lists.isEmpty(comparisonList)}" class="alert alert-warning text-center">
-        아직 등록된 리밸런싱 목표가 없거나 자산 데이터가 없습니다.
-      </div>
-
   </div>
   <!-- 오른쪽 사이드 패널 -->
   <div class="col-lg-2 border-start ps-4">

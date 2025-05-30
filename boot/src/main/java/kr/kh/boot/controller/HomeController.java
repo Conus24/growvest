@@ -1,7 +1,6 @@
 package kr.kh.boot.controller;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import kr.kh.boot.model.form.UserAssetForm;
 import kr.kh.boot.model.vo.UserVO;
 import kr.kh.boot.service.ApiService;
-import kr.kh.boot.service.RebalancingService;
 import kr.kh.boot.service.StockService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
@@ -34,8 +32,6 @@ public class HomeController {
   @Autowired
   private UserAssetService userAssetService;
 
-  @Autowired
-  private RebalancingService rebalancingService;
 
   @GetMapping("/signup")
   public String signup() {
@@ -60,9 +56,6 @@ public class HomeController {
     stockService.fetchAndStorePrice("VOO");
     stockService.fetchAndStorePrice("GLD");
 
-    if (principal == null)
-      return "redirect:/login";
-
     // 유저 정보
     int userId = userService.getUserNum(principal.getName());
     double exchangeRate = apiService.getExchangeRate();
@@ -71,10 +64,6 @@ public class HomeController {
     Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate);
     model.addAllAttributes(summary);
     model.addAttribute("userAssetForm", new UserAssetForm());
-
-    // 리밸런싱 비교
-    List<Map<String, Object>> comparisonList = rebalancingService.getRebalancingComparison(userId);
-    model.addAttribute("comparisonList", comparisonList);
 
     return "index";
   }

@@ -41,7 +41,6 @@ CREATE TABLE present_asset (
     pr_deposit INT,
     pr_bond INT,
     pr_gold INT,
-    pr_etf INT,
     pr_datetime DATETIME,
     FOREIGN KEY (pr_us_num) REFERENCES user(us_num)
 );
@@ -56,33 +55,23 @@ CREATE TABLE recommendation_input (
     re_stock_max_percent FLOAT
 );
 
-CREATE TABLE etf (
-    etf_num INT PRIMARY KEY AUTO_INCREMENT,
-    etf_name VARCHAR(50),
-    etf_expected_return FLOAT,
-    etf_risk_score INT,
-    etf_type ENUM('국내', '해외')
+CREATE TABLE stock (
+    stock_num INT PRIMARY KEY AUTO_INCREMENT,
+    stock_name VARCHAR(50),
+    stock_expected_return FLOAT,
+    stock_risk_score INT,
+    stock_type ENUM('국내', '해외')
 );
 
-CREATE TABLE user_etf (
-  ue_num INT PRIMARY KEY AUTO_INCREMENT,
-  ue_us_num INT NOT NULL,
-  ue_etf_num INT NOT NULL,
-  ue_amount BIGINT NOT NULL,
-  ue_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE user_stock (
+  us_num INT PRIMARY KEY AUTO_INCREMENT,
+  us_us_num INT NOT NULL,
+  us_stock_num INT NOT NULL,
+  us_amount BIGINT NOT NULL,
+  us_created DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-  FOREIGN KEY (ue_us_num) REFERENCES user(us_num),
-  FOREIGN KEY (ue_etf_num) REFERENCES etf(etf_num)
-);
-
-
-CREATE TABLE recommendation_result (
-    result_num INT PRIMARY KEY AUTO_INCREMENT,
-    us_num INT,
-    result_etf_num INT,
-    result_recommended_percent FLOAT,
-    FOREIGN KEY (us_num) REFERENCES user(us_num),
-    FOREIGN KEY (result_etf_num) REFERENCES etf(etf_num)
+  FOREIGN KEY (us_us_num) REFERENCES user(us_num),
+  FOREIGN KEY (us_stock_num) REFERENCES stock(stock_num)
 );
 
 CREATE TABLE portfolio_risk_profile (

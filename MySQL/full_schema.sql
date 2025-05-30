@@ -87,9 +87,8 @@ CREATE TABLE asset_type_score (
     at_mdd FLOAT,
     at_score INT,
     at_grade VARCHAR(20),
-  CONSTRAINT fk_at_as_num FOREIGN KEY (at_as_num) REFERENCES user_asset(as_type)
+    FOREIGN KEY (at_as_num) REFERENCES user_asset(as_num)
 );
-
 
 CREATE TABLE goal_tracker (
     go_num INT PRIMARY KEY AUTO_INCREMENT,

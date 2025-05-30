@@ -80,6 +80,17 @@ CREATE TABLE portfolio_risk_profile (
     FOREIGN KEY (ri_us_num) REFERENCES user(us_num)
 );
 
+CREATE TABLE asset_type_score (
+    at_num INT PRIMARY KEY AUTO_INCREMENT,
+    at_as_num INT NOT NULL,
+    at_name VARCHAR(20) NOT NULL,
+    at_mdd FLOAT,
+    at_score INT,
+    at_grade VARCHAR(20),
+  CONSTRAINT fk_at_as_num FOREIGN KEY (at_as_num) REFERENCES user_asset(as_type)
+);
+
+
 CREATE TABLE goal_tracker (
     go_num INT PRIMARY KEY AUTO_INCREMENT,
     go_us_num INT,

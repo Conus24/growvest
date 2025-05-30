@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,6 +17,16 @@ public class RebalancingController {
 
 	@Autowired
 	private RebalancingService rebalancingService;
+
+	@GetMapping("/rebalancing")
+  public String rebalancing() {
+    return "rebalancing";
+  }
+
+	@GetMapping("/rebalancing/create")
+  public String rebalancing_create() {
+    return "rebalancing_create";
+  }
 
 	@PostMapping("/rebalancing/submit")
 	public String submitRebalancing(

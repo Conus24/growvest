@@ -48,9 +48,9 @@ public class HomeController {
     return "redirect:/login";
   }
 
-  @GetMapping("/rebalancing")
-  public String rebalancing() {
-    return "rebalancing";
+  @GetMapping("/portfolio")
+  public String portfolio() {
+    return "portfolio";
   }
 
   @GetMapping("/")

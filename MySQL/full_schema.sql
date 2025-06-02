@@ -86,7 +86,7 @@ CREATE TABLE asset_type_score (
     at_as_num INT NOT NULL,
     at_name VARCHAR(20) NOT NULL,
     at_mdd FLOAT,
-    at_score INT,
+    at_score FLOAT,
     FOREIGN KEY (at_as_num) REFERENCES user_asset(as_num)
 );
 

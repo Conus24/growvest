@@ -50,11 +50,6 @@ public class PortfolioController {
 		model.addAttribute("userAssetForm", new UserAssetForm());
 		return "portfolio_create";
 	}
-	@GetMapping("/portfolio/create/etf")
-	public String portfolioEtf(Model model) {
-		model.addAttribute("userAssetForm", new UserAssetForm());
-		return "portfolio_create_etf";
-	}
 
 	@PostMapping("/portfolio/submit")
 	public String createPortfolio(@ModelAttribute UserAssetForm form, Principal principal, Model model) {
@@ -68,5 +63,10 @@ public class PortfolioController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/portfolio/risk")
+	public String risk(Model model) {
+		model.addAttribute("userAssetForm", new UserAssetForm());
+		return "portfolio_risk";
+	}
 
 }

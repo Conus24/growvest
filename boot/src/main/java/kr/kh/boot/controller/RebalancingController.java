@@ -56,9 +56,9 @@ public class RebalancingController {
 			@RequestParam("deposits") int deposits,
 			@RequestParam("bond") int bond,
 			@RequestParam("gold") int gold,
-			@RequestParam("etf") int etf) {
+			@RequestParam("voo") int voo) {
 		int userId = customUser.getUser().getUs_num();
-		rebalancingService.insertTarget(userId, endDate, cashWon, cashDollar, deposits, bond, gold, etf);
+		rebalancingService.insertTarget(userId, endDate, cashWon, cashDollar, deposits, bond, gold, voo);
 
 		return "redirect:/";
 	}

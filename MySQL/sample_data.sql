@@ -13,6 +13,14 @@ INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amoun
    (1, '4', '채권', 'KRW', 7000000, NOW()),
    (1, '5', '금', 'GLD', 13, NOW()),
    (1, '6', 'S&P 500', 'VOO', 8, NOW());
+   
+INSERT INTO target_asset (ta_us_num, ta_as_num, ta_target_percent, ta_end_date) VALUES
+   (1, 1, 13, '2025-09-02'),
+   (1, 2, 14, '2025-09-02'),
+   (1, 3, 25, '2025-09-02'),
+   (1, 4, 18, '2025-09-02'),
+   (1, 5, 14, '2025-09-02'),
+   (1, 6, 16, '2025-09-02');
 
 INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score) VALUES
    (1, '현금 (원)', 0, 0),

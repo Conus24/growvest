@@ -6,7 +6,7 @@ public class UserAssetForm {
     private long deposits;
     private long bond;
     private long gold;
-    private long etf;
+    private long voo;
 
     // 기본 생성자
     public UserAssetForm() {}
@@ -27,7 +27,7 @@ public class UserAssetForm {
     public long getGold() { return gold; }
     public void setGold(long gold) { this.gold = gold; }
 
-    public long getEtf() { return etf; }
-    public void setEtf(long etf) { this.etf = etf; }
+    public long getVoo() { return voo; }
+    public void setVoo(long voo) { this.voo = voo; }
 
 }

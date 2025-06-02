@@ -59,10 +59,10 @@ public class UserAssetService {
 			assets.add(new UserAssetVO(userId, "채권", "KRW", form.getBond()));
 		}
 		if (form.getGold() > 0) {
-			assets.add(new UserAssetVO(userId, "금", "KRW", form.getGold()));
+			assets.add(new UserAssetVO(userId, "금", "GLD", form.getGold()));
 		}
-		if (form.getEtf() > 0) {
-			assets.add(new UserAssetVO(userId, "ETF (달러)", "USD", form.getEtf()));
+		if (form.getVoo() > 0) {
+			assets.add(new UserAssetVO(userId, "S&P 500", "USD", form.getVoo()));
 		}
 
 		if (assets.isEmpty()) {
@@ -96,16 +96,16 @@ public class UserAssetService {
 			double won = amount;
 
 			if ("USD".equals(currency)) {
-					usdTotal += amount;
-					won *= exchangeRate;
+				usdTotal += amount;
+				won *= exchangeRate;
 			} else if ("GLD".equals(currency)) {
-					usdTotal += amount;
-					won *= gldRate * exchangeRate;
+				usdTotal += amount;
+				won *= gldRate * exchangeRate;
 			} else if ("VOO".equals(currency)) {
-					usdTotal += amount;
-					won *= vooRate * exchangeRate;
+				usdTotal += amount;
+				won *= vooRate * exchangeRate;
 			} else {
-					krwTotal += amount;
+				krwTotal += amount;
 			}
 
 			assetTypeWonMap.put(type, assetTypeWonMap.getOrDefault(type, 0.0) + won);
@@ -158,6 +158,5 @@ public class UserAssetService {
 
 		return summary;
 	}
-
 
 }

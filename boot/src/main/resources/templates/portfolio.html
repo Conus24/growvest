@@ -20,18 +20,44 @@
       </div>
     </div>
   </div>
-  </main>
+</main>
 <th:block layout:fragment="script">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script th:inline="javascript">
     Chart.register(ChartDataLabels);
-    const krwTotal = [[${krwTotal}]];
-    const usdTotal = [[${usdTotal}]];
-    const exchangeRate = [[${exchangeRate}]];
-    const exchangeRateGld = [[${exchangeRateGld}]];
-    const exchangeRateVoo = [[${exchangeRateVoo}]];
-    const usdToWon = usdTotal * exchangeRate;
+    const krwTotal = Number([[${krwTotal}]]);
+    const usdTotal = Number([[${usdTotal}]]);
+    const exchangeRate = Number([[${exchangeRate}]]);
+    const exchangeRateGld = Number([[${exchangeRateGld}]]);
+    const exchangeRateVoo = Number([[${exchangeRateVoo}]]);
+    
+    const typeLabels = /*[[${typeLabels}]]*/ [];
+    const typeValues = /*[[${typeValues}]]*/ [];
+    const typeAmounts = /*[[${typeAmounts}]]*/ [];
+    const typeCurrencies = /*[[${typeCurrencies}]]*/ [];
+    const typeUnitPrice = /*[[${typeUnitPrice}]]*/ [];
+
+    console.log("typeLabels", typeLabels);
+    console.log("typeAmounts", typeAmounts);
+    console.log("typeCurrencies", typeCurrencies);
+
+
+    let gldToWon = 0;
+    let vooToWon = 0;
+
+    for (let i = 0; i < typeLabels.length; i++) {
+      const currency = typeCurrencies[i];
+      const amount = Number(typeAmounts[i]);
+
+      if (currency === 'GLD') {
+        gldToWon += amount * exchangeRateGld * exchangeRate;
+      } else if (currency === 'VOO') {
+        vooToWon += amount * exchangeRateVoo * exchangeRate;
+        console.log("GLD amount × rate:", amount, exchangeRateGld, exchangeRate, amount * exchangeRateGld * exchangeRate);
+      }
+    }
+    const usdToWon = usdTotal * exchangeRate + gldToWon + vooToWon;
 
     const data = {
       labels: ['KRW 비중', 'USD 비중'],
@@ -82,11 +108,6 @@
 
     new Chart(document.getElementById('assetChart'), config);
 
-    const typeLabels = /*[[${typeLabels}]]*/ [];
-    const typeValues = /*[[${typeValues}]]*/ [];
-    const typeAmounts = /*[[${typeAmounts}]]*/ [];
-    const typeCurrencies = /*[[${typeCurrencies}]]*/ [];
-    const typeUnitPrice = /*[[${typeUnitPrice}]]*/ [];
 
     console.log("unitPrice list: ", typeUnitPrice);
 

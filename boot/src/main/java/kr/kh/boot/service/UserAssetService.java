@@ -96,14 +96,16 @@ public class UserAssetService {
 			double won = amount;
 
 			if ("USD".equals(currency)) {
-				usdTotal += amount;
-				won *= exchangeRate;
+					usdTotal += amount;
+					won *= exchangeRate;
 			} else if ("GLD".equals(currency)) {
-				won *= gldRate * exchangeRate;
+					usdTotal += amount;
+					won *= gldRate * exchangeRate;
 			} else if ("VOO".equals(currency)) {
-				won *= vooRate * exchangeRate;
+					usdTotal += amount;
+					won *= vooRate * exchangeRate;
 			} else {
-				krwTotal += amount;
+					krwTotal += amount;
 			}
 
 			assetTypeWonMap.put(type, assetTypeWonMap.getOrDefault(type, 0.0) + won);
@@ -142,6 +144,8 @@ public class UserAssetService {
 		summary.put("krwTotal", krwTotal);
 		summary.put("usdTotal", usdTotal);
 		summary.put("exchangeRate", exchangeRate);
+		summary.put("exchangeRateGld", gldRate);
+		summary.put("exchangeRateVoo", vooRate);
 		summary.put("wonValue", wonValue);
 		summary.put("krwPercent", krwPercent);
 		summary.put("usdPercent", usdPercent);

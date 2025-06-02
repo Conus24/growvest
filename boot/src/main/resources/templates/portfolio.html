@@ -29,6 +29,8 @@
     const krwTotal = [[${krwTotal}]];
     const usdTotal = [[${usdTotal}]];
     const exchangeRate = [[${exchangeRate}]];
+    const exchangeRateGld = [[${exchangeRateGld}]];
+    const exchangeRateVoo = [[${exchangeRateVoo}]];
     const usdToWon = usdTotal * exchangeRate;
 
     const data = {
@@ -84,6 +86,10 @@
     const typeValues = /*[[${typeValues}]]*/ [];
     const typeAmounts = /*[[${typeAmounts}]]*/ [];
     const typeCurrencies = /*[[${typeCurrencies}]]*/ [];
+    const typeUnitPrice = /*[[${typeUnitPrice}]]*/ [];
+
+    console.log("unitPrice list: ", typeUnitPrice);
+
 
     const typeData = {
       labels: typeLabels,
@@ -113,9 +119,17 @@
                 const idx = context.dataIndex;
                 const amount = typeAmounts[idx];
                 const currency = typeCurrencies[idx];
-                const formatted = Math.round(amount).toLocaleString('ko-KR');
-                const unit = currency === 'USD' ? '달러' : '원';
-                return `${label}: ${formatted} ${unit}`;
+                const unitPrice = typeUnitPrice[idx];
+
+                // "SHR" 또는 GLD/VOO는 주식 단위
+                if (currency === 'GLD' || currency === 'VOO' || currency === 'SHR') {
+                  const won = amount * unitPrice;
+                  return `${label}: ${amount}주 (${won.toLocaleString('ko-KR')} 원)`;
+                } else {
+                  const formatted = Math.round(amount).toLocaleString('ko-KR');
+                  const unit = currency === 'USD' ? '달러' : '원';
+                  return `${label}: ${formatted} ${unit}`;
+                }
               }
             }
           },
@@ -136,5 +150,4 @@
     new Chart(document.getElementById('typeChart'), typeConfig);
   </script>
 </th:block>
-
 </html>

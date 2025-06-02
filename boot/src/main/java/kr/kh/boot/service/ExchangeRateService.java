@@ -15,4 +15,12 @@ public class ExchangeRateService {
 	public Double getExchangeRate() {
 		return apiDAO.getUsdToKrwExchangeRate();
 	}
+
+	public Double getExchangeRateGld() {
+		return apiDAO.getGldToKrwExchangeRate();
+	}
+
+	public Double getExchangeRateVoo() {
+		return apiDAO.getVooToKrwExchangeRate();
+	}
 }

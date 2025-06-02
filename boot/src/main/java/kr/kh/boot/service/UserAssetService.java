@@ -76,7 +76,7 @@ public class UserAssetService {
 		return true;
 	}
 
-	public Map<String, Object> getPortfolioSummary(int userId, double exchangeRate) {
+	public Map<String, Object> getPortfolioSummary(int userId, double exchangeRate, double gldRate, double vooRate) {
 		List<UserAssetVO> assetList = getUserAssetsByUser(userId);
 
 		long krwTotal = 0;
@@ -98,6 +98,10 @@ public class UserAssetService {
 			if ("USD".equals(currency)) {
 				usdTotal += amount;
 				won *= exchangeRate;
+			} else if ("GLD".equals(currency)) {
+				won *= gldRate * exchangeRate;
+			} else if ("VOO".equals(currency)) {
+				won *= vooRate * exchangeRate;
 			} else {
 				krwTotal += amount;
 			}
@@ -118,6 +122,7 @@ public class UserAssetService {
 		List<Double> typePercents = new ArrayList<>();
 		List<Double> typeAmounts = new ArrayList<>();
 		List<String> typeCurrencies = new ArrayList<>();
+		List<Double> typeUnitPrice = new ArrayList<>();
 
 		for (String type : assetTypeWonMap.keySet()) {
 			typeLabels.add(type);
@@ -125,6 +130,12 @@ public class UserAssetService {
 			typePercents.add((assetTypeWonMap.get(type) / assetTotalWon) * 100.0);
 			typeAmounts.add(assetTypeRawAmountMap.get(type));
 			typeCurrencies.add(typeCurrencyMap.getOrDefault(type, "KRW"));
+
+			// 💡 여기서 단가 계산해서 넣기
+			double totalWon = assetTypeWonMap.get(type);
+			double amount = assetTypeRawAmountMap.get(type);
+			double unitPrice = (amount > 0) ? totalWon / amount : 0;
+			typeUnitPrice.add(unitPrice);
 		}
 
 		Map<String, Object> summary = new LinkedHashMap<>();
@@ -139,6 +150,7 @@ public class UserAssetService {
 		summary.put("typePercents", typePercents);
 		summary.put("typeAmounts", typeAmounts);
 		summary.put("typeCurrencies", typeCurrencies);
+		summary.put("typeUnitPrice", typeUnitPrice);
 
 		return summary;
 	}

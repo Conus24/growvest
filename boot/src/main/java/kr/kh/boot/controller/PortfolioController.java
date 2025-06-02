@@ -33,9 +33,12 @@ public class PortfolioController {
     // 유저 정보
     int userId = userService.getUserNum(principal.getName());
     double exchangeRate = exchangeRateService.getExchangeRate();
+		double exchangeRateGld = exchangeRateService.getExchangeRateGld();
+		double exchangeRateVoo = exchangeRateService.getExchangeRateVoo();
 
     // 포트폴리오 요약 정보 (총합 등)
-    Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate);
+    Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate, exchangeRateGld, exchangeRateVoo);
+
     model.addAllAttributes(summary);
     model.addAttribute("userAssetForm", new UserAssetForm());
 

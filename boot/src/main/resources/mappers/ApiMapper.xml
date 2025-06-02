@@ -12,10 +12,24 @@
 		VALUES (#{name}, #{value}, NOW(), #{date})
 	</insert>
 	<!-- 최신 USD/KRW 가져오기 -->
-	 <select id="getUsdToKrwExchangeRate" resultType="double">
+	<select id="getUsdToKrwExchangeRate" resultType="double">
 		SELECT api_value
 		FROM api
 		WHERE api_name = 'USD/KRW'
+		ORDER BY api_datetime DESC
+		LIMIT 1
+	</select>
+	<select id="getGldToKrwExchangeRate" resultType="double">
+		SELECT api_value
+		FROM api
+		WHERE api_name = 'GLD'
+		ORDER BY api_datetime DESC
+		LIMIT 1
+	</select>
+	<select id="getVooToKrwExchangeRate" resultType="double">
+		SELECT api_value
+		FROM api
+		WHERE api_name = 'VOO'
 		ORDER BY api_datetime DESC
 		LIMIT 1
 	</select>

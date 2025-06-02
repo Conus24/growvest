@@ -10,4 +10,6 @@ public interface ApiDAO {
   void insertApiData(@Param("name") String name, @Param("value") BigDecimal value, @Param("date") String date,@Param("datetime") String datetime);
   // 최신 USD/KRW 가져오기
   Double getUsdToKrwExchangeRate();
+  Double getGldToKrwExchangeRate();
+  Double getVooToKrwExchangeRate();
 }

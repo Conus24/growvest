@@ -11,8 +11,8 @@ INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amoun
    (1, '2', '현금 (달러)', 'USD', 4000, NOW()),
    (1, '3', '예적금', 'KRW', 10000000, NOW()),
    (1, '4', '채권', 'KRW', 7000000, NOW()),
-   (1, '5', '금', 'GLD', 3, NOW()),
-   (1, '6', 'S&P 500', 'VOO', 3, NOW());
+   (1, '5', '금', 'GLD', 13, NOW()),
+   (1, '6', 'S&P 500', 'VOO', 8, NOW());
 
 INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score) VALUES
    (1, '현금 (원)', 0, 0),

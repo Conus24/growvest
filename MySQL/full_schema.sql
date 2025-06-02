@@ -18,6 +18,7 @@ CREATE TABLE user_asset (
     as_asset_type VARCHAR(50),
     as_currency VARCHAR(50),
     as_amount BIGINT,
+    as_won BIGINT,
     as_created DATETIME,
     FOREIGN KEY (as_us_num) REFERENCES user(us_num)
 );

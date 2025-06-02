@@ -62,7 +62,7 @@ public class UserAssetService {
 			assets.add(new UserAssetVO(userId, "금", "GLD", form.getGold()));
 		}
 		if (form.getVoo() > 0) {
-			assets.add(new UserAssetVO(userId, "S&P 500", "USD", form.getVoo()));
+			assets.add(new UserAssetVO(userId, "S&P 500", "VOO", form.getVoo()));
 		}
 
 		if (assets.isEmpty()) {

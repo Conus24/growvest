@@ -38,11 +38,6 @@
     const typeCurrencies = /*[[${typeCurrencies}]]*/ [];
     const typeUnitPrice = /*[[${typeUnitPrice}]]*/ [];
 
-    console.log("typeLabels", typeLabels);
-    console.log("typeAmounts", typeAmounts);
-    console.log("typeCurrencies", typeCurrencies);
-
-
     let gldToWon = 0;
     let vooToWon = 0;
 
@@ -54,7 +49,6 @@
         gldToWon += amount * exchangeRateGld * exchangeRate;
       } else if (currency === 'VOO') {
         vooToWon += amount * exchangeRateVoo * exchangeRate;
-        console.log("GLD amount × rate:", amount, exchangeRateGld, exchangeRate, amount * exchangeRateGld * exchangeRate);
       }
     }
     const usdToWon = usdTotal * exchangeRate + gldToWon + vooToWon;
@@ -107,10 +101,6 @@
     };
 
     new Chart(document.getElementById('assetChart'), config);
-
-
-    console.log("unitPrice list: ", typeUnitPrice);
-
 
     const typeData = {
       labels: typeLabels,

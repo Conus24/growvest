@@ -16,4 +16,9 @@ public interface UserAssetDAO {
     List<UserAssetVO> selectUnconvertedAssets(@Param("userId") int userId);
     double selectApiValueByCurrency(@Param("currency") String currency);
     void updateWonValue(@Param("as_num") int as_num, @Param("won") long won);
+
+    // won 총량 표기
+    Long selectTotalAmountByUser(@Param("userId") int userId);
+
+
 }

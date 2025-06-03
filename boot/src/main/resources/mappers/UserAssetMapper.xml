@@ -12,7 +12,7 @@
       WHERE as_us_num = #{us_num}
       ORDER BY as_created DESC
   </select>
-  <!-- 원 조회 -->
+  <!-- 원으로 변환 조회 -->
   <select id="selectUnconvertedAssets" resultType="kr.kh.boot.model.vo.UserAssetVO">
     SELECT * 
     FROM user_asset 
@@ -30,4 +30,11 @@
     SET as_won = #{won} 
     WHERE as_num = #{as_num}
   </update>
+  <!-- 포트 페이지에 won 총량 표기 -->
+  <select id="selectTotalAmountByUser" resultType="long">
+    SELECT SUM(as_amount)
+    FROM user_asset
+    WHERE as_us_num = #{userId}
+  </select>
+
 </mapper>

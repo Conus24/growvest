@@ -42,6 +42,10 @@ public class PortfolioController {
 		// as_won이 0인 자산만 환산해서 업데이트
   	userAssetService.updateAssetWonByCurrency(userId, exchangeRate, exchangeRateGld, exchangeRateVoo);
 
+		 // 총 as_amount 합계 가져오기
+    long totalAmount = userAssetService.getTotalAmount(userId);
+		summary.put("totalAmount", totalAmount);
+
     model.addAllAttributes(summary);
     model.addAttribute("userAssetForm", new UserAssetForm());
 

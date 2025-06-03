@@ -159,6 +159,7 @@ public class UserAssetService {
 		return summary;
 	}
 
+	// 주식을 원 환산
 	public void updateAssetWonByCurrency(int userId, double usdRate, double gldRate, double vooRate) {
 		List<UserAssetVO> assets = userAssetDAO.selectUnconvertedAssets(userId);
 
@@ -185,6 +186,12 @@ public class UserAssetService {
 			long won = Math.round(asset.getAs_amount() * rate);
 			userAssetDAO.updateWonValue(asset.getAs_num(), won);
 		}
+	}
+
+	// 원 총량 표기
+	public long getTotalAmount(int userId) {
+		Long total = userAssetDAO.selectTotalAmountByUser(userId);
+		return (total != null) ? total : 0L; // ← null 방어 필수
 	}
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AssetTypeScoreMapper">
+  <select id="selectScoreByAssetId" resultType="kr.kh.boot.model.vo.AssetTypeScoreVO">
+    SELECT * FROM asset_type_score
+    WHERE at_as_num = #{assetId}
+  </select>
+  <select id="selectAllScores" resultType="kr.kh.boot.model.vo.AssetTypeScoreVO">
+    SELECT * FROM asset_type_score
+  </select>
+  <insert id="insertScore" parameterType="kr.kh.boot.model.vo.AssetTypeScoreVO">
+    INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score)
+    VALUES (#{at_as_num}, #{at_name}, #{at_mdd}, #{at_score})
+  </insert>
+  <update id="updateScore" parameterType="kr.kh.boot.model.vo.AssetTypeScoreVO">
+    UPDATE asset_type_score
+    SET at_name = #{at_name}, at_mdd = #{at_mdd}, at_score = #{at_score}
+    WHERE at_num = #{at_num}
+  </update>
+  <delete id="deleteScore">
+    DELETE FROM asset_type_score
+    WHERE at_num = #{scoreId}
+  </delete>
+</mapper>

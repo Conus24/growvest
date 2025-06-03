@@ -5,8 +5,25 @@
 <head><title>투자성향 분석</title></head>
 <main layout:fragment="content">
   <div class="container mt-5">
-    <h2 class="mb-4">투자성향 분석</h2>
-    계산 및 출력
-  </div>
+    <h2 class="mb-4 fw-bold text-center">📊 자산 타입 위험 점수</h2>
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>자산 이름</th>
+            <th>MDD</th>
+            <th>위험 점수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="score : ${scoreList}">
+            <td th:text="${score.at_num}">1</td>
+            <td th:text="${score.at_name}">금</td>
+            <td th:text="${score.at_mdd}">-12.5</td>
+            <td th:text="${score.at_score}">3</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </main>
 </html>

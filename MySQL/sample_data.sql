@@ -22,10 +22,10 @@ INSERT INTO user_asset_target (ta_us_num, ta_as_num, ta_target_percent, ta_end_d
    (1, 5, 14, '2025-09-02'),
    (1, 6, 16, '2025-09-02');
 
-INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score) VALUES
-   (1, '현금 (원)', 0, 0),
-   (2, '현금 (달러)', 0, 0),
-   (3, '예적금', 0, 0),
-   (4, '채권', 0, 0),
-   (5, '금', 45.49, 4.549),
-   (6, 'S&P 500', 53.14, 5.314);
+INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score, at_expected_return) VALUES
+   (1, '현금 (원)', 0, 0, 0),
+   (2, '현금 (달러)', 0, 0, 0),
+   (3, '예적금', 0, 0, 2.5),
+   (4, '채권', 0, 0, 0),
+   (5, '금', 45.49, 4.549, 0),
+   (6, 'S&P 500', 53.14, 5.314, 0);

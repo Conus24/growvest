@@ -110,8 +110,15 @@ public class PortfolioController {
 
 	// 목표 금액 설정
 	@GetMapping("/portfolio/goal")
-	public String traker(Model model) {
+	public String traker(Model model, Principal principal) {
+		// 유저 정보
+		int userId = userService.getUserNum(principal.getName());
+		// 현재 자산 총합
+		long totalWon = userAssetService.getTotalWon(userId);
+
 		model.addAttribute("userAssetForm", new UserAssetForm());
+		model.addAttribute("totalWon", totalWon);
+
 		return "portfolio_goal";
 	}
 

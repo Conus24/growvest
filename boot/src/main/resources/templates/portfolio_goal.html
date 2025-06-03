@@ -9,7 +9,7 @@
     <form th:action="@{/goal/submit}" method="post" class="mt-4">
     <div class="mb-3">
       <label class="form-label fw-bold">현재 자산</label>
-      <div class="fs-4 text-primary" th:text="${#numbers.formatInteger(currentAsset, 0, 'COMMA')} + ' 원'">0 원</div>
+      <div class="fs-4 text-primary" th:text="${#numbers.formatInteger(totalWon, 0, 'COMMA')} + ' 원'">0 원</div>
     </div>
     <div class="mb-3">
       <label class="form-label">🎯 목표 자산</label>

@@ -94,11 +94,11 @@ CREATE TABLE asset_type_score (
 CREATE TABLE goal_tracker (
     go_num INT PRIMARY KEY AUTO_INCREMENT,
     go_us_num INT,
-    go_target_amount BIGINT,
-    go_current_amount BIGINT,
+    go_target_won BIGINT,
+    go_current_won BIGINT,
     go_start_date DATE,
     go_end_date DATE,
-    go_tax_type ENUM('비과세', '이자소득세', '양도소득세'),
+    go_tax_type VARCHAR(20),
     go_state VARCHAR(20),
     FOREIGN KEY (go_us_num) REFERENCES user(us_num)
 );

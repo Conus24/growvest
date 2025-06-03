@@ -25,4 +25,9 @@ public class AssetTypeScoreDAO {
 		return sqlSession.selectList(NAMESPACE + "selectAllScores");
 	}
 
+	// 항목별 보유 원 보기
+	public List<AssetTypeScoreVO> selectAllScoresByUser(int userId) {
+		return sqlSession.selectList(NAMESPACE + "selectAllScores", userId);
+	}
+
 }

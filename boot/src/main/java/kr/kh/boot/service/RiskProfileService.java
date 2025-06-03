@@ -32,4 +32,9 @@ public class RiskProfileService {
     }
     return weightedRiskSum;
   }
+
+  // 항목별 보유 원
+  public List<AssetTypeScoreVO> getScoresByUser(int userId) {
+    return assetTypeScoreDAO.selectAllScoresByUser(userId);
+  }
 }

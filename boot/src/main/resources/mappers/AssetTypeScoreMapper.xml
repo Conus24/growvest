@@ -6,7 +6,15 @@
     WHERE at_as_num = #{assetId}
   </select>
   <select id="selectAllScores" resultType="kr.kh.boot.model.vo.AssetTypeScoreVO">
-    SELECT * FROM asset_type_score
+    SELECT 
+      ats.at_num, ats.at_as_num, ats.at_name, ats.at_mdd, ats.at_score,
+      ua.as_won
+    FROM 
+      asset_type_score ats
+    JOIN 
+      user_asset ua ON ats.at_as_num = ua.as_num
+    WHERE
+      ua.as_us_num = #{userId}
   </select>
   <insert id="insertScore" parameterType="kr.kh.boot.model.vo.AssetTypeScoreVO">
     INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score)

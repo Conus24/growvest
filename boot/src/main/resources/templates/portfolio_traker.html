@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{fragments/layout/layout.html}">
+<head><title>투자성향 분석</title></head>
+<main layout:fragment="content">
+  <div class="container mt-5">
+    <h2 class="mb-4 fw-bold text-center">📊 목표 금액 설정</h2>
+    <table class="table table-bordered text-center">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>자산 이름</th>
+            <th>보유 금액</th>
+            <th>손실 가능 금액</th>
+            <th>최대 손실률</th>
+            <th>위험 점수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="score : ${scoreList}">
+            <td>3</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</main>
+</html>

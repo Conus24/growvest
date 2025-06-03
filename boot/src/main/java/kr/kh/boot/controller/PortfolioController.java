@@ -108,4 +108,11 @@ public class PortfolioController {
 		return "portfolio_risk";
 	}
 
+	// 목표 금액 설정
+	@GetMapping("/portfolio/traker")
+	public String traker(Model model) {
+		model.addAttribute("userAssetForm", new UserAssetForm());
+		return "portfolio_traker";
+	}
+
 }

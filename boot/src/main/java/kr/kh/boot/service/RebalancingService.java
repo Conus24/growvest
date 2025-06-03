@@ -17,13 +17,13 @@ public class RebalancingService {
 	@Autowired
 	private UserAssetTargetDAO userAssetTargetDAO;
 	// 목표 % DB에 데이터 넣기
-	public void insertTarget(int userId, LocalDate endDate, float cash, float dollar, float deposits, float bond, float gold, float etf) {
+	public void insertTarget(int userId, LocalDate endDate, float cash, float dollar, float deposits, float bond, float gold, float voo) {
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 1, cash, endDate.toString()));
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 2, dollar, endDate.toString()));
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 3, deposits, endDate.toString()));
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 4, bond, endDate.toString()));
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 5, gold, endDate.toString()));
-		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 6, etf, endDate.toString()));
+		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 6, voo, endDate.toString()));
 	}
 
 	// 목표와 현재의 %차이 계산

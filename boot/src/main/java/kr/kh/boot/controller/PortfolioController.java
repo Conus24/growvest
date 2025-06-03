@@ -1,6 +1,7 @@
 package kr.kh.boot.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.boot.dao.AssetTypeScoreDAO;
+import kr.kh.boot.dao.GoalTrackerDAO;
+import kr.kh.boot.model.form.GoalForm;
 import kr.kh.boot.model.form.UserAssetForm;
 import kr.kh.boot.model.vo.AssetTypeScoreVO;
+import kr.kh.boot.model.vo.GoalTrackerVO;
 import kr.kh.boot.security.CustomUser;
 import kr.kh.boot.service.ExchangeRateService;
 import kr.kh.boot.service.RiskProfileService;
@@ -38,6 +42,9 @@ public class PortfolioController {
 
 	@Autowired
 	private AssetTypeScoreDAO assetTypeScoreDAO;
+
+	@Autowired
+	private GoalTrackerDAO goalTrackerDAO;
 
 	@GetMapping("/portfolio")
 	public String portfolio(Model model, Principal principal) {
@@ -89,7 +96,8 @@ public class PortfolioController {
 
 		// 투자 성향 분석: 가중 평균 리스크 계산
 		double portfolioRisk = riskProfileService.calculatePortfolioRisk(userId);
-		// List<AssetTypeScoreVO> scoreList = assetTypeScoreDAO.selectAllScoresByUser(userId);
+		// List<AssetTypeScoreVO> scoreList =
+		// assetTypeScoreDAO.selectAllScoresByUser(userId);
 		List<AssetTypeScoreVO> scoreList = riskProfileService.getScoresByUser(userId);
 
 		// 포트 최대 손실률 측정
@@ -97,7 +105,7 @@ public class PortfolioController {
 
 		// 투자 성향 분류
 		String profileType = riskProfileService.getRiskGrade(lossRate);
-		
+
 		// 모델에 데이터 전달
 		model.addAttribute("portfolioRisk", portfolioRisk);
 		model.addAttribute("userAssetForm", new UserAssetForm());
@@ -120,6 +128,24 @@ public class PortfolioController {
 		model.addAttribute("totalWon", totalWon);
 
 		return "portfolio_goal";
+	}
+
+	@PostMapping("/goal/submit")
+	public String submitGoal(@ModelAttribute GoalForm form, Principal principal) {
+		int userId = userService.getUserNum(principal.getName());
+		long totalWon = userAssetService.getTotalWon(userId); // 현재 자산
+
+		GoalTrackerVO goal = new GoalTrackerVO();
+		goal.setGo_us_num(userId);
+		goal.setGo_target_won(form.getGoalAsset());
+		goal.setGo_current_won(totalWon);
+		goal.setGo_start_date(LocalDate.now());
+		goal.setGo_end_date(form.getTargetEndDate());
+		goal.setGo_tax_type(form.getTaxType());
+		goal.setGo_state("진행중");
+
+		goalTrackerDAO.insertGoal(goal);
+		return "redirect:/portfolio/goal";
 	}
 
 }

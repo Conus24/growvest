@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoalTrackerMapper">
+  <insert id="insertGoal" parameterType="kr.kh.boot.model.vo.GoalTrackerVO">
+	INSERT INTO goal_tracker (
+		go_us_num, go_target_won, go_current_won,
+		go_start_date, go_end_date, go_tax_type, go_state
+	) VALUES (
+		#{go_us_num}, #{go_target_won}, #{go_current_won},
+		#{go_start_date}, #{go_end_date}, #{go_tax_type}, #{go_state}
+	)
+  </insert>
+</mapper>

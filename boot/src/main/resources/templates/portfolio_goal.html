@@ -43,11 +43,11 @@ layout:decorate="~{fragments/layout/layout.html}">
   <div class="mb-3">
     <label class="form-label">🏦 예적금 과세 방식</label><br>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" id="savingsTax154" name="savingsTax" value="15.4" required>
+      <input class="form-check-input" type="radio" id="savingsTax154" name="savingsTax" required>
       <label class="form-check-label" for="savingsTax154">이자소득세 15.4%</label>
     </div>
     <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" id="savingsTax0" name="savingsTax" value="0">
+      <input class="form-check-input" type="radio" id="savingsTax0" name="savingsTax">
       <label class="form-check-label" for="savingsTax0">비과세</label>
     </div>
   </div>
@@ -55,27 +55,27 @@ layout:decorate="~{fragments/layout/layout.html}">
   <div class="mb-3">
     <label class="form-label">📈 주식 과세 방식</label><br>
     <div class="form-check">
-      <input class="form-check-input" type="radio" id="stockTaxGains" name="stockTaxOption" value="22" required>
+      <input class="form-check-input" type="radio" id="stockTaxGains" name="stockTaxOption" required>
       <label class="form-check-label" for="stockTaxGains">양도소득세 22%</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="radio" id="stockTaxIsaBasic" name="stockTaxOption" value="9.9">
+      <input class="form-check-input" type="radio" id="stockTaxIsaBasic" name="stockTaxOption">
       <label class="form-check-label" for="stockTaxIsaBasic">ISA 계좌 (일반형)</label>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="radio" id="stockTaxIsaPreferential" name="stockTaxOption" value="9.9">
+      <input class="form-check-input" type="radio" id="stockTaxIsaPreferential" name="stockTaxOption">
       <label class="form-check-label" for="stockTaxIsaPreferential">ISA 계좌 (서민형)</label>
     </div>
   </div>
 
   <div class="form-check mb-2">
-    <input class="form-check-input" type="checkbox" id="stockTax250" name="stockTax250" value="2500000">
+    <input class="form-check-input" type="checkbox" id="stockTax250" name="stockTax250">
     <label class="form-check-label" for="stockTax250">
       (선택) 해외 주식 : 250만원 기본 공제
     </label>
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" id="realMoney" name="realMoney" value="realMoney">
+    <input class="form-check-input" type="checkbox" id="realMoney" name="realMoney">
     <label class="form-check-label" for="realMoney">
       (선택) 인플레이션 반영
     </label>

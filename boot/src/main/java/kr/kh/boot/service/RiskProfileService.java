@@ -13,23 +13,23 @@ import kr.kh.boot.model.vo.UserAssetVO;
 @Service
 public class RiskProfileService {
 
-    @Autowired
-    private UserAssetDAO userAssetDAO;
+  @Autowired
+  private UserAssetDAO userAssetDAO;
 
-    @Autowired
-    private AssetTypeScoreDAO assetTypeScoreDAO;
+  @Autowired
+  private AssetTypeScoreDAO assetTypeScoreDAO;
 
-    public double calculatePortfolioRisk(int userId) {
-        List<UserAssetVO> assets = userAssetDAO.selectUserAssetsByUser(userId);
-        double total = assets.stream().mapToDouble(UserAssetVO::getAs_won).sum();
-        double weightedRiskSum = 0;
+  public double calculatePortfolioRisk(int userId) {
+    List<UserAssetVO> assets = userAssetDAO.selectUserAssetsByUser(userId);
+    double total = assets.stream().mapToDouble(UserAssetVO::getAs_won).sum();
+    double weightedRiskSum = 0;
 
-        for (UserAssetVO asset : assets) {
-            AssetTypeScoreVO score = assetTypeScoreDAO.selectScoreByAssetId(asset.getAs_num());
-            if (score != null && total > 0) {
-                weightedRiskSum += ((double) asset.getAs_won() / total) * score.getAt_mdd();
-            }
-        }
-        return weightedRiskSum;
+    for (UserAssetVO asset : assets) {
+      AssetTypeScoreVO score = assetTypeScoreDAO.selectScoreByAssetId(asset.getAs_num());
+      if (score != null && total > 0) {
+        weightedRiskSum += ((double) asset.getAs_won() / total) * score.getAt_mdd();
+      }
     }
+    return weightedRiskSum;
+  }
 }

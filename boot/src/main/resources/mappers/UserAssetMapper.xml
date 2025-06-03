@@ -31,8 +31,8 @@
     WHERE as_num = #{as_num}
   </update>
   <!-- 포트 페이지에 won 총량 표기 -->
-  <select id="selectTotalAmountByUser" resultType="long">
-    SELECT SUM(as_amount)
+  <select id="selectTotalWonByUser" resultType="long">
+    SELECT SUM(as_won)
     FROM user_asset
     WHERE as_us_num = #{userId}
   </select>

@@ -189,8 +189,8 @@ public class UserAssetService {
 	}
 
 	// 원 총량 표기
-	public long getTotalAmount(int userId) {
-		Long total = userAssetDAO.selectTotalAmountByUser(userId);
+	public long getTotalWon(int userId) {
+		Long total = userAssetDAO.selectTotalWonByUser(userId);
 		return (total != null) ? total : 0L; // ← null 방어 필수
 	}
 

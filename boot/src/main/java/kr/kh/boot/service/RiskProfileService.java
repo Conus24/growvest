@@ -47,4 +47,22 @@ public class RiskProfileService {
     return list;
   }
 
+  // 포트폴리오 손실률 측정
+  public double calculateMaxPortfolioLossRate(int userId) {
+    List<AssetTypeScoreVO> list = getScoresByUser(userId); // 이 안에서 lossAmount 계산됨
+
+    long total = 0;
+    double totalLoss = 0;
+
+    for (AssetTypeScoreVO score : list) {
+      total += score.getAs_won();
+      totalLoss += score.getLossAmount();
+    }
+
+    if (total == 0)
+      return 0.0;
+
+    return Math.round((totalLoss / total) * 10000.0) / 100.0; // 소수점 둘째 자리까지 반올림
+  }
+
 }

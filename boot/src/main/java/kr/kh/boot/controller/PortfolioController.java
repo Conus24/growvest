@@ -92,10 +92,14 @@ public class PortfolioController {
 		// List<AssetTypeScoreVO> scoreList = assetTypeScoreDAO.selectAllScoresByUser(userId);
 		List<AssetTypeScoreVO> scoreList = riskProfileService.getScoresByUser(userId);
 
+		// 포트 최대 손실률 측정
+		double lossRate = riskProfileService.calculateMaxPortfolioLossRate(userId);
+		
 		// 모델에 데이터 전달
 		model.addAttribute("portfolioRisk", portfolioRisk);
 		model.addAttribute("userAssetForm", new UserAssetForm());
 		model.addAttribute("scoreList", scoreList);
+		model.addAttribute("lossRate", lossRate);
 
 		return "portfolio_risk";
 	}

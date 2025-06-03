@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{fragments/layout/layout.html}">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout/layout.html}">
 <head><title>목표 금액 설정</title>
-<style>
-  .form-check-input {
-    border-radius: 50%; /* 라디오 원 유지 */
-    border-color: #495057 !important; /* Bootstrap gray-700 */
-  }
-  .form-check-input:focus {
-    box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
-  }
-</style>
+  <style>
+    .form-check-input {
+      border-radius: 50%; /* 라디오 원 유지 */
+      border-color: #495057 !important; /* Bootstrap gray-700 */
+    }
+    .form-check-input:focus {
+      box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+    }
+    </style>
 </head>
 <main layout:fragment="content">
   <div class="container mt-5">
-    <h2 class="mb-4 fw-bold text-center">📊 목표 금액 설정</h2>
+    <h2 class="mb-4 fw-bold text-center">📊 목표 금액 설정
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#infoModal">
+      설명 보기
+    </button>
+    </h2>
     <form th:action="@{/goal/submit}" method="post" class="mt-4">
-    <div class="mb-3">
+      <div class="mb-3">
       <label class="form-label fw-bold">현재 자산</label>
       <div class="fs-4 text-primary" th:text="${#numbers.formatInteger(totalWon, 0, 'COMMA')} + ' 원'">0 원</div>
     </div>
   <div class="mb-3">
     <label class="form-label">🎯 목표 자산</label>
-    <input type="number" class="form-control" name="goalAsset" required placeholder="예: 100000000">
+    <input type="number" class="form-control" name="goalAsset" required placeholder="예: 100,000,000">
   </div>
 
   <div class="mb-3">
     <label class="form-label">💰 월 적립금액</label>
-    <input type="number" class="form-control" name="monthlyInvestment" required placeholder="예: 500000">
+    <input type="number" class="form-control" name="monthlyInvestment" required placeholder="예: 500,000">
   </div>
 
   <div class="mb-3">
@@ -68,13 +72,41 @@
   <div class="form-check">
     <input class="form-check-input" type="checkbox" id="realMoney" name="realMoney" value="realMoney">
     <label class="form-check-label" for="realMoney">
-      (선택) 인플레이션 반영 [현재 화폐 가치로 계산]
+      (선택) 인플레이션 반영 [현재 화폐의 가치]
     </label>
   </div>
     <div class="mt-4 text-center">
       <button type="submit" class="btn btn-primary btn-lg">시뮬레이션 시작</button>
     </div>
   </form>
+
+  <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">📘 적용 방식</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul>
+          <li><strong>비과세 &nbsp;</strong> 해당 수익에 대해 세금을 부과하지 않음</li>
+          <li><strong>이자소득세 &nbsp;</strong> 15.4%(지방소득세 1.4% 포함)</li>
+          <li><strong>양도소득세 &nbsp;</strong> 22%(지방소득세 2% 포함)</li>
+          <li><strong>ISA 계좌 (일반형) &nbsp;</strong> 수익의 200만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</li>
+          <li><strong>ISA 계좌 (서민형) &nbsp;</strong> 수익의 400만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</li>
+          <li><strong>해외 주식 &nbsp;</strong>연간 250만 원까지 양도차익에 대해 비과세 (기본공제)</li>
+          <li><strong>인플레이션 반영 [현재 화폐의 가치] &nbsp;</strong>실질 수익률 계산 시, 물가 상승률을 고려해 자산 가치를 보정</li>
+          <li><strong>예상 수익률 측정 기준 &nbsp;</strong>X년 동안의 연평균 복리 수익률</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 </main>
 </html>

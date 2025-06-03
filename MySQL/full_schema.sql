@@ -98,7 +98,7 @@ CREATE TABLE goal_tracker (
     go_current_won BIGINT,
     go_start_date DATE,
     go_end_date DATE,
-    go_tax_type VARCHAR(20),
+    go_tax_type VARCHAR(100),
     go_state VARCHAR(20),
     FOREIGN KEY (go_us_num) REFERENCES user(us_num)
 );

@@ -22,6 +22,7 @@ import kr.kh.boot.model.vo.GoalTrackerVO;
 import kr.kh.boot.security.CustomUser;
 import kr.kh.boot.service.ExchangeRateService;
 import kr.kh.boot.service.RiskProfileService;
+import kr.kh.boot.service.TaxTypeService;
 import kr.kh.boot.service.UserAssetService;
 import kr.kh.boot.service.UserService;
 
@@ -45,6 +46,9 @@ public class PortfolioController {
 
 	@Autowired
 	private GoalTrackerDAO goalTrackerDAO;
+
+	@Autowired
+  private TaxTypeService taxTypeService;
 
 	@GetMapping("/portfolio")
 	public String portfolio(Model model, Principal principal) {
@@ -141,7 +145,11 @@ public class PortfolioController {
 		goal.setGo_current_won(totalWon);
 		goal.setGo_start_date(LocalDate.now());
 		goal.setGo_end_date(form.getTargetEndDate());
-		goal.setGo_tax_type(form.getTaxType());
+
+
+		// 세금 타입 문자열 생성
+    String taxType = taxTypeService.generateTaxType(form);
+		goal.setGo_tax_type(taxType);
 		goal.setGo_state("진행중");
 
 		goalTrackerDAO.insertGoal(goal);

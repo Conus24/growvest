@@ -12,7 +12,8 @@
             <th>번호</th>
             <th>자산 이름</th>
             <th>보유 금액</th>
-            <th>MDD</th>
+            <th>손실 가능 금액</th>
+            <th>최대 손실률</th>
             <th>위험 점수</th>
         </tr>
         </thead>
@@ -21,6 +22,7 @@
             <td th:text="${score.at_num}">1</td>
             <td th:text="${score.at_name}">금</td>
             <td th:text="${#numbers.formatInteger(score.as_won, 0, 'COMMA')} + ' 원'">123123123 원</td>
+            <td th:text="${#numbers.formatDecimal(score.lossAmount, 1, 'COMMA', 2, 'POINT')} + ' 원'">0.0</td>
             <td th:text="${score.at_mdd}">-12.5</td>
             <td th:text="${score.at_score}">3</td>
         </tr>

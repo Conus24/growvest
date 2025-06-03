@@ -33,8 +33,18 @@ public class RiskProfileService {
     return weightedRiskSum;
   }
 
-  // 항목별 보유 원
+  // 항목별 보유 원 // 금액 * mdd
   public List<AssetTypeScoreVO> getScoresByUser(int userId) {
-    return assetTypeScoreDAO.selectAllScoresByUser(userId);
+    List<AssetTypeScoreVO> list = assetTypeScoreDAO.selectAllScoresByUser(userId);
+
+    for (AssetTypeScoreVO score : list) {
+      double mdd = score.getAt_mdd();
+      long won = score.getAs_won();
+      double loss = Math.round(won * (mdd / 100.0) * 100.0) / 100.0; // 소수점 둘째 자리 반올림
+      score.setLossAmount(loss);
+    }
+
+    return list;
   }
+
 }

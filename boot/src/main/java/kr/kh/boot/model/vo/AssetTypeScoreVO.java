@@ -10,4 +10,7 @@ public class AssetTypeScoreVO {
     private float at_mdd;
     private int at_score;
     private long as_won;
+
+    private double lossAmount;
+
 }

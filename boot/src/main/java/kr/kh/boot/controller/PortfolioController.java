@@ -89,8 +89,8 @@ public class PortfolioController {
 
 		// 투자 성향 분석: 가중 평균 리스크 계산
 		double portfolioRisk = riskProfileService.calculatePortfolioRisk(userId);
-		List<AssetTypeScoreVO> scoreList = assetTypeScoreDAO.selectAllScoresByUser(userId);
-
+		// List<AssetTypeScoreVO> scoreList = assetTypeScoreDAO.selectAllScoresByUser(userId);
+		List<AssetTypeScoreVO> scoreList = riskProfileService.getScoresByUser(userId);
 
 		// 모델에 데이터 전달
 		model.addAttribute("portfolioRisk", portfolioRisk);

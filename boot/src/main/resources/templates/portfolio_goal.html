@@ -15,7 +15,6 @@
       <label class="form-label">🎯 목표 자산</label>
       <input type="number" class="form-control" name="goalAsset" required placeholder="예: 100000000">
     </div>
-
     <div class="mb-3">
       <label class="form-label">💰 월 적립금액</label>
       <input type="number" class="form-control" name="monthlyInvestment" required placeholder="예: 500000">
@@ -33,14 +32,17 @@
     <div class="mb-3">
       <label class="form-label">📈 주식 비과세 선택</label><br>
 
-      <input type="radio" id="stockTaxGains" name="stockTaxOption" value="22.2">
+      <input type="radio" id="stockTaxGains" name="stockTaxOption" value="22">
       <label for="stockTaxGains" class="ms-1 me-1">양도소득세</label>
 
-      <input type="radio" id="stockTaxIsa" name="stockTaxOption" value="isa">
-      <label for="stockTaxIsa" class="ms-1 me-1">ISA 계좌 활용</label><br>
+      <input type="radio" id="stockTaxIsaBasic" name="stockTaxOption" value="9.9">
+      <label for="stockTaxIsaBasic" class="ms-1 me-1">ISA 계좌 (일반형)</label>
 
-      <input type="checkbox" id="stockTax250" name="stockTaxOption" value="250">
-      <label for="stockTax250" class="ms-1 mt-2">250만원 기본 공제</label>
+      <input type="radio" id="stockTaxIsaPreferential" name="stockTaxOption" value="9.9">
+      <label for="stockTaxIsaPreferential" class="ms-1 me-1">ISA 계좌 (서민형)</label><br>
+
+      <input type="checkbox" id="stockTax250" name="stockTax250" value="2500000">
+      <label for="stockTax250" class="ms-1 mt-2">해외 주식 : 250만원 기본 공제</label>
     </div>
     <div class="mt-4 text-center">
       <button type="submit" class="btn btn-primary btn-lg">시뮬레이션 시작</button>

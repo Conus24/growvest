@@ -94,12 +94,16 @@ public class PortfolioController {
 
 		// 포트 최대 손실률 측정
 		double lossRate = riskProfileService.calculateMaxPortfolioLossRate(userId);
+
+		// 투자 성향 분류
+		String profileType = riskProfileService.getRiskGrade(lossRate);
 		
 		// 모델에 데이터 전달
 		model.addAttribute("portfolioRisk", portfolioRisk);
 		model.addAttribute("userAssetForm", new UserAssetForm());
 		model.addAttribute("scoreList", scoreList);
 		model.addAttribute("lossRate", lossRate);
+		model.addAttribute("profileType", profileType);
 
 		return "portfolio_risk";
 	}

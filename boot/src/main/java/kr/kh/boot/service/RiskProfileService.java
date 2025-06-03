@@ -65,4 +65,17 @@ public class RiskProfileService {
     return Math.round((totalLoss / total) * 10000.0) / 100.0; // 소수점 둘째 자리까지 반올림
   }
 
+  public String getRiskGrade(double lossRate) {
+    if (lossRate <= 5.0)
+      return "초안정형";
+    else if (lossRate <= 15.0)
+      return "안정형";
+    else if (lossRate <= 30.0)
+      return "중립형";
+    else if (lossRate <= 50.0)
+      return "위험추구형";
+    else
+      return "공격형";
+  }
+
 }

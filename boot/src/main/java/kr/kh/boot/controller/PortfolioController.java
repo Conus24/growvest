@@ -39,6 +39,9 @@ public class PortfolioController {
     // 포트폴리오 요약 정보 (총합 등)
     Map<String, Object> summary = userAssetService.getPortfolioSummary(userId, exchangeRate, exchangeRateGld, exchangeRateVoo);
 
+		// as_won이 0인 자산만 환산해서 업데이트
+  	userAssetService.updateAssetWonByCurrency(userId, exchangeRate, exchangeRateGld, exchangeRateVoo);
+
     model.addAllAttributes(summary);
     model.addAttribute("userAssetForm", new UserAssetForm());
 

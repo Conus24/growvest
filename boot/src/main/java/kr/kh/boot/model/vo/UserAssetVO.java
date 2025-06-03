@@ -36,4 +36,8 @@ public class UserAssetVO {
     return as_asset_type;
 	}
 
+	public int getAs_num() {
+    return as_num;
+	}
+
 }

@@ -159,4 +159,32 @@ public class UserAssetService {
 		return summary;
 	}
 
+	public void updateAssetWonByCurrency(int userId, double usdRate, double gldRate, double vooRate) {
+		List<UserAssetVO> assets = userAssetDAO.selectUnconvertedAssets(userId);
+
+		for (UserAssetVO asset : assets) {
+			double rate;
+
+			switch (asset.getAs_currency()) {
+				case "USD":
+					rate = usdRate;
+					break;
+
+				case "GLD":
+					rate = gldRate * usdRate; // USD 가격 × 원화 환율
+					break;
+
+				case "VOO":
+					rate = vooRate * usdRate; // USD 가격 × 원화 환율
+					break;
+
+				default: // KRW
+					rate = 1.0;
+			}
+
+			long won = Math.round(asset.getAs_amount() * rate);
+			userAssetDAO.updateWonValue(asset.getAs_num(), won);
+		}
+	}
+
 }

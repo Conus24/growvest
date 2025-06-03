@@ -12,4 +12,22 @@
       WHERE as_us_num = #{us_num}
       ORDER BY as_created DESC
   </select>
+  <!-- 원 조회 -->
+  <select id="selectUnconvertedAssets" resultType="kr.kh.boot.model.vo.UserAssetVO">
+    SELECT * 
+    FROM user_asset 
+    WHERE as_us_num = #{userId} AND as_won = 0
+  </select>
+  <select id="selectApiValueByCurrency" parameterType="String" resultType="double">
+    SELECT api_value 
+    FROM api 
+    WHERE api_name = #{currency} 
+    ORDER BY api_date DESC 
+    LIMIT 1
+  </select>
+  <update id="updateWonValue">
+    UPDATE user_asset 
+    SET as_won = #{won} 
+    WHERE as_num = #{as_num}
+  </update>
 </mapper>

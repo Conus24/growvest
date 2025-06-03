@@ -11,5 +11,9 @@ public interface UserAssetDAO {
 
     // 특정 유저의 전체 자산 조회 (선택적으로 사용)
     List<UserAssetVO> selectUserAssetsByUser(@Param("us_num") int us_num);
-
+    
+    // won 조회
+    List<UserAssetVO> selectUnconvertedAssets(@Param("userId") int userId);
+    double selectApiValueByCurrency(@Param("currency") String currency);
+    void updateWonValue(@Param("as_num") int as_num, @Param("won") long won);
 }

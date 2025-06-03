@@ -109,10 +109,10 @@ public class PortfolioController {
 	}
 
 	// 목표 금액 설정
-	@GetMapping("/portfolio/traker")
+	@GetMapping("/portfolio/goal")
 	public String traker(Model model) {
 		model.addAttribute("userAssetForm", new UserAssetForm());
-		return "portfolio_traker";
+		return "portfolio_goal";
 	}
 
 }

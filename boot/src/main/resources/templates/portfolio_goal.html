@@ -7,39 +7,41 @@
   <div class="container mt-5">
     <h2 class="mb-4 fw-bold text-center">📊 목표 금액 설정</h2>
     <form th:action="@{/goal/submit}" method="post" class="mt-4">
-    <!-- ✅ 현재 자산: 출력용 -->
     <div class="mb-3">
       <label class="form-label fw-bold">현재 자산</label>
       <div class="fs-4 text-primary" th:text="${#numbers.formatInteger(currentAsset, 0, 'COMMA')} + ' 원'">0 원</div>
     </div>
-
-    <!-- ✅ 목표 자산 -->
     <div class="mb-3">
       <label class="form-label">🎯 목표 자산</label>
       <input type="number" class="form-control" name="goalAsset" required placeholder="예: 100000000">
     </div>
 
-    <!-- ✅ 월 적립금액 -->
     <div class="mb-3">
       <label class="form-label">💰 월 적립금액</label>
       <input type="number" class="form-control" name="monthlyInvestment" required placeholder="예: 500000">
     </div>
 
-    <!-- ✅ 예적금 과세 -->
     <div class="mb-3">
       <label class="form-label">🏦 예적금 과세 방식</label><br>
-      <input type="radio" name="savingsTax" value="15.4" required> 이자소득세 15.4%
-      <input type="radio" name="savingsTax" value="0"> 비과세 예금
+      <input type="radio" id="savingsTax154" name="savingsTax" value="15.4" required>
+      <label for="savingsTax154" class="ms-1 me-1">이자소득세 15.4%</label>
+
+      <input type="radio" id="savingsTax0" name="savingsTax" value="0">
+      <label for="savingsTax0" class="ms-1">비과세 예금</label>
     </div>
 
-    <!-- ✅ 주식 비과세 -->
     <div class="mb-3">
       <label class="form-label">📈 주식 비과세 선택</label><br>
-      <input type="checkbox" name="stockTaxOption" value="250"> 250만 원 기본 공제<br>
-      <input type="checkbox" name="stockTaxOption" value="isa"> ISA 계좌 활용
-    </div>
 
-    <!-- ✅ 제출 버튼 -->
+      <input type="radio" id="stockTaxGains" name="stockTaxOption" value="22.2">
+      <label for="stockTaxGains" class="ms-1 me-1">양도소득세</label>
+
+      <input type="radio" id="stockTaxIsa" name="stockTaxOption" value="isa">
+      <label for="stockTaxIsa" class="ms-1 me-1">ISA 계좌 활용</label><br>
+
+      <input type="checkbox" id="stockTax250" name="stockTaxOption" value="250">
+      <label for="stockTax250" class="ms-1 mt-2">250만원 기본 공제</label>
+    </div>
     <div class="mt-4 text-center">
       <button type="submit" class="btn btn-primary btn-lg">시뮬레이션 시작</button>
     </div>

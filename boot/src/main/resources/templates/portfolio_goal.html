@@ -11,7 +11,12 @@ layout:decorate="~{fragments/layout/layout.html}">
     .form-check-input:focus {
       box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
     }
-    </style>
+    /* 표 마지막 줄의 밑줄 제거 */
+    table tr:last-child td, 
+    table tr:last-child th {
+      border-bottom: none;
+    }
+  </style>
 </head>
 <main layout:fragment="content">
   <div class="container mt-5">
@@ -88,17 +93,43 @@ layout:decorate="~{fragments/layout/layout.html}">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <ul>
-            <li><strong>비과세 &nbsp;</strong> 해당 수익에 대해 세금을 부과하지 않음</li>
-            <li><strong>이자소득세 &nbsp;</strong> 15.4%(지방소득세 1.4% 포함)</li>
-            <li><strong>양도소득세 &nbsp;</strong> 22%(지방소득세 2% 포함)</li>
-            <li><strong>ISA 계좌 (일반형) &nbsp;</strong> 수익의 200만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</li>
-            <li><strong>ISA 계좌 (서민형) &nbsp;</strong> 수익의 400만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</li>
-            <li><strong>해외 주식 &nbsp;</strong>연간 250만 원까지 양도차익에 대해 비과세 (기본공제)</li>
-            <li><strong>인플레이션 반영 [현재 화폐의 가치] &nbsp;</strong>실질 수익률 계산 시, 물가 상승률을 고려해 자산 가치를 보정</li>
-            <li><strong>예상 수익률 측정 기준 &nbsp;</strong>X년 동안의 연평균 복리 수익률</li>
-          </ul>
-        </div>
+          <table class="table table-sm align-middle">
+  <tbody>
+    <tr>
+      <th scope="row">비과세</th>
+      <td>해당 수익에 대해 세금을 부과하지 않음</td>
+    </tr>
+    <tr>
+      <th scope="row">이자소득세</th>
+      <td>15.4% (지방소득세 1.4% 포함)</td>
+    </tr>
+    <tr>
+      <th scope="row">양도소득세</th>
+      <td>22% (지방소득세 2% 포함)</td>
+    </tr>
+    <tr>
+      <th scope="row">ISA 계좌 (일반형)</th>
+      <td>수익의 200만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</td>
+    </tr>
+    <tr>
+      <th scope="row">ISA 계좌 (서민형)</th>
+      <td>수익의 400만 원까지는 비과세, 초과분은 9.9%의 분리과세 적용</td>
+    </tr>
+    <tr>
+      <th scope="row">해외 주식</th>
+      <td>연간 250만 원까지 양도차익에 대해 비과세 (기본공제)</td>
+    </tr>
+    <tr>
+      <th scope="row">인플레이션 반영<br><span class="text-muted">(현재 화폐의 가치)</span></th>
+      <td>실질 수익률 계산 시, 물가 상승률을 고려해 자산 가치를 보정</td>
+    </tr>
+    <tr>
+      <th scope="row">예상 수익률 기준</th>
+      <td>X년 동안의 연평균 복리 수익률</td>
+    </tr>
+  </tbody>
+</table>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         </div>

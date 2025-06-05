@@ -10,6 +10,7 @@ public class UserAssetVO {
 	private String as_currency;
 	private long as_amount;
 	private long as_won;
+	private double as_expected_return;
 	private LocalDateTime as_created;
 
 	// 기본 생성자
@@ -35,6 +36,11 @@ public class UserAssetVO {
 	public long getAs_won() {
 		return as_won;
 	}
+
+	public double getAs_expected_return() {
+		return as_expected_return;
+	}
+
 	
 	public String getAs_asset_type() {
     return as_asset_type;

@@ -29,7 +29,7 @@ public class GoalService {
 				return new GoalSimulationResult(years, totalAssets);
 			}
 
-			// ✅ 3. 연도 제한: 100년 넘으면 강제 종료
+			// 3. 연도 제한: 100년 넘으면 강제 종료
 			if (years >= MAX_YEARS) {
 				throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
 			}

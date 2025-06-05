@@ -140,7 +140,7 @@ public class PortfolioController {
 		return "portfolio_goal";
 	}
 
-	@PostMapping("/goal/submit")
+	@PostMapping("/portfolio/goal/submit")
 	public String submitGoal(@ModelAttribute GoalForm form, Principal principal, Model model) {
 		int userId = userService.getUserNum(principal.getName());
 		long totalWon = userAssetService.getTotalWon(userId); // 현재 자산

@@ -151,7 +151,7 @@ public class PortfolioController {
 		goal.setGo_current_won(totalWon);
 		goal.setGo_start_date(LocalDate.now());
 		goal.setGo_end_date(form.getTargetEndDate());
-
+		
 		// 세금 타입 문자열 생성
 		String taxType = taxTypeService.generateTaxType(form);
 		goal.setGo_tax_type(taxType);
@@ -163,14 +163,17 @@ public class PortfolioController {
 		List<UserAssetVO> assets = userAssetService.getUserAssetsByUser(userId);
 		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, form.getGoalAsset());
 
+		// 기대 수익률 계산해서 전달
+		double expectedReturn = goalService.calculateExpectedReturn(userId);
+		model.addAttribute("expectedReturn", expectedReturn);
 
 		// ==== 결과 화면으로 전송 ====
+		model.addAttribute("totalWon", totalWon);
 		model.addAttribute("goal", form.getGoalAsset());
 		model.addAttribute("years", result.getYears());
 		model.addAttribute("finalAmount", result.getFinalAmount());
 
-
-		return "portfolio_goal_result"; // 결과 보여줄 HTML
+		return "portfolio_goal_result";
 	}
 
 }

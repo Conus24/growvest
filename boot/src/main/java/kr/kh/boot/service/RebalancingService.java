@@ -16,6 +16,7 @@ public class RebalancingService {
 
 	@Autowired
 	private UserAssetTargetDAO userAssetTargetDAO;
+	
 	// 목표 % DB에 데이터 넣기
 	public void insertTarget(int userId, LocalDate endDate, float cash, float dollar, float deposits, float bond, float gold, float voo) {
 		userAssetTargetDAO.insertTarget(new UserAssetTargetVO(0, userId, 1, cash, endDate.toString()));

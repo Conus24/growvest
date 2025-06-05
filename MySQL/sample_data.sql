@@ -6,13 +6,13 @@ INSERT INTO user (
     '테스트유저',
     'USER');
     
-INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amount, as_won, as_created) VALUES
-   (1, '1', '현금 (원)', 'KRW', 5000000, 0, NOW()),
-   (1, '2', '현금 (달러)', 'USD', 4000, 0, NOW()),
-   (1, '3', '예적금', 'KRW', 10000000, 0, NOW()),
-   (1, '4', '채권', 'KRW', 7000000, 0, NOW()),
-   (1, '5', '금', 'GLD', 13, 0, NOW()),
-   (1, '6', 'S&P 500', 'VOO', 8, 0, NOW());
+INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amount, as_won, as_expected_return, as_created) VALUES
+   (1, '1', '현금 (원)', 'KRW', 5000000, 0, 0, NOW()),
+   (1, '2', '현금 (달러)', 'USD', 4000, 0, 0, NOW()),
+   (1, '3', '예적금', 'KRW', 10000000, 0, 0, NOW()),
+   (1, '4', '채권', 'KRW', 7000000, 0, 0, NOW()),
+   (1, '5', '금', 'GLD', 13, 0, 1.0853, NOW()),
+   (1, '6', 'S&P 500', 'VOO', 8, 0, 1.07998, NOW());
    
 INSERT INTO user_asset_target (ta_us_num, ta_as_num, ta_target_percent, ta_end_date) VALUES
    (1, 1, 13, '2025-09-02'),

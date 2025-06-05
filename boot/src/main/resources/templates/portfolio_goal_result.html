@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout/layout.html}">
+<head><title>목표 금액 설정</title>
+</head>
+<main layout:fragment="content">
+  <div class="container mt-4">
+    <h2 class="text-center">🎯 목표 달성 시뮬레이션</h2>
+
+    <div class="text-center mt-4">
+      <p> 🎉 목표 달성 가능</p>
+      <p>목표 금액: <strong th:text="${goal}"></strong>원</p>
+      <p>도달 시점: <strong th:text="${years}"></strong>년</p>
+      <p>도달 시 누적 자산: <strong th:text="${finalAmount}"></strong>원</p>
+      <p>✔ 현재 자산/수익률로 충분합니다</p>
+      <p>✅ 현재 포트폴리오의 연 평균 기대 수익률은 ~% 입니다.</p>
+    </div>
+  </div>
+
+  <div class="mt-4 text-center">
+    <a href="/portfolio/goal" class="btn btn-secondary btn-lg">돌아가기</a>
+  </div>
+</main>
+</html>

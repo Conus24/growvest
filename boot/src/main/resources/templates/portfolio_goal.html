@@ -37,8 +37,8 @@ layout:decorate="~{fragments/layout/layout.html}">
 
   <div class="mb-3">
     <label class="form-label">🏦 예금 과세 방식</label><br>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" id="savingsTax154" name="savingsTax" value="15.4">
+    <div class="form-check form-check-inline" required>
+      <input class="form-check-input" type="radio" id="savingsTax154" name="savingsTax" value="15.4" required>
       <label class="form-check-label" for="savingsTax154">이자소득세 15.4%</label>
     </div>
     <div class="form-check form-check-inline">
@@ -50,7 +50,7 @@ layout:decorate="~{fragments/layout/layout.html}">
   <div class="mb-3">
     <label class="form-label">📈 주식 과세 방식</label><br>
     <div class="form-check">
-      <input class="form-check-input" type="radio" id="stockTaxGains" name="stockTaxOption" value="22">
+      <input class="form-check-input" type="radio" id="stockTaxGains" name="stockTaxOption" value="22" required>
       <label class="form-check-label" for="stockTaxGains">양도소득세 22%</label>
     </div>
     <div class="form-check">

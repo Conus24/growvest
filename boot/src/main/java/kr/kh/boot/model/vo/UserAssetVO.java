@@ -37,6 +37,10 @@ public class UserAssetVO {
 		return as_won;
 	}
 
+	public void setAs_won(long as_won) {
+    this.as_won = as_won;
+	}
+
 	public double getAs_expected_return() {
 		return as_expected_return;
 	}

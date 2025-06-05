@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.boot.dao.AssetTypeScoreDAO;
 import kr.kh.boot.dao.GoalTrackerDAO;
+import kr.kh.boot.model.dto.GoalSimulationResult;
 import kr.kh.boot.model.form.GoalForm;
 import kr.kh.boot.model.form.UserAssetForm;
 import kr.kh.boot.model.vo.AssetTypeScoreVO;
 import kr.kh.boot.model.vo.GoalTrackerVO;
+import kr.kh.boot.model.vo.UserAssetVO;
 import kr.kh.boot.security.CustomUser;
 import kr.kh.boot.service.ExchangeRateService;
+import kr.kh.boot.service.GoalService;
 import kr.kh.boot.service.RiskProfileService;
 import kr.kh.boot.service.TaxTypeService;
 import kr.kh.boot.service.UserAssetService;
@@ -48,7 +51,10 @@ public class PortfolioController {
 	private GoalTrackerDAO goalTrackerDAO;
 
 	@Autowired
-  private TaxTypeService taxTypeService;
+	private TaxTypeService taxTypeService;
+
+	@Autowired
+	private GoalService goalService;
 
 	@GetMapping("/portfolio")
 	public String portfolio(Model model, Principal principal) {
@@ -135,7 +141,7 @@ public class PortfolioController {
 	}
 
 	@PostMapping("/goal/submit")
-	public String submitGoal(@ModelAttribute GoalForm form, Principal principal) {
+	public String submitGoal(@ModelAttribute GoalForm form, Principal principal, Model model) {
 		int userId = userService.getUserNum(principal.getName());
 		long totalWon = userAssetService.getTotalWon(userId); // 현재 자산
 
@@ -146,14 +152,25 @@ public class PortfolioController {
 		goal.setGo_start_date(LocalDate.now());
 		goal.setGo_end_date(form.getTargetEndDate());
 
-
 		// 세금 타입 문자열 생성
-    String taxType = taxTypeService.generateTaxType(form);
+		String taxType = taxTypeService.generateTaxType(form);
 		goal.setGo_tax_type(taxType);
 		goal.setGo_state("진행중");
 
 		goalTrackerDAO.insertGoal(goal);
-		return "redirect:/portfolio/goal";
+
+		// ==== 시뮬레이션 계산 ====
+		List<UserAssetVO> assets = userAssetService.getUserAssetsByUser(userId);
+		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, form.getGoalAsset());
+
+
+		// ==== 결과 화면으로 전송 ====
+		model.addAttribute("goal", form.getGoalAsset());
+		model.addAttribute("years", result.getYears());
+		model.addAttribute("finalAmount", result.getFinalAmount());
+
+
+		return "portfolio_goal_result"; // 결과 보여줄 HTML
 	}
 
 }

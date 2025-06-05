@@ -9,12 +9,11 @@ layout:decorate="~{fragments/layout/layout.html}">
     <h2 class="text-center">🎯 목표 달성 시뮬레이션</h2>
 
     <div class="text-center mt-4">
-      <p> 🎉 목표 달성 가능</p>
-      <p>목표 금액: <strong th:text="${goal}"></strong>원</p>
-      <p>도달 시점: <strong th:text="${years}"></strong>년</p>
-      <p>도달 시 누적 자산: <strong th:text="${finalAmount}"></strong>원</p>
-      <p>✔ 현재 자산/수익률로 충분합니다</p>
-      <p>✅ 현재 포트폴리오의 연 평균 기대 수익률은 ~% 입니다.</p>
+      <p>🎯 목표 금액: <strong th:text="${#numbers.formatInteger(goal, 3, 'COMMA')}"></strong>원</p>
+      <p>📈 도달 시점: <strong th:text="${years}"></strong>년</p>
+      <p>💰 도달 시 누적 자산: <strong th:text="${#numbers.formatInteger(finalAmount, 3, 'COMMA')}"></strong>원</p>
+      <p>✅ 현재 포트폴리오의 연 평균 기대 수익률은 
+      <strong th:text="${#numbers.formatDecimal(expectedReturn, 1, 2)} + '%'"></strong> 입니다.</p>
     </div>
   </div>
 

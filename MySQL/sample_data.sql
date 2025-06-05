@@ -7,8 +7,8 @@ INSERT INTO user (
     'USER');
     
 INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amount, as_won, as_expected_return, as_created) VALUES
-   (1, '1', '현금 (원)', 'KRW', 5000000, 0, 0, NOW()),
-   (1, '2', '현금 (달러)', 'USD', 4000, 0, 0, NOW()),
+   (1, '1', '현금 (원)', 'KRW', 5000000, 0, 1, NOW()),
+   (1, '2', '현금 (달러)', 'USD', 4000, 0, 1, NOW()),
    (1, '3', '예적금', 'KRW', 10000000, 0, 1.025, NOW()),
    (1, '4', '채권', 'KRW', 7000000, 0, 1.04, NOW()),
    (1, '5', '금', 'GLD', 13, 0, 1.0853, NOW()),

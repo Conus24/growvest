@@ -20,7 +20,8 @@ public class GoalService {
 			long goalAmount,
 			double savingsTaxRate,
 			String stockTaxOption,
-			boolean isStockTax250) {
+			boolean isStockTax250,
+			boolean isRealMoney) {
 
 		int years = 0;
 		final int MAX_YEARS = 100;
@@ -86,6 +87,12 @@ public class GoalService {
 
 			System.out.printf("➡ 누적 자산: %d / 목표: %d%n", totalAssets, goalAmount);
 
+			// 인플레이션 적용
+			if (isRealMoney) {
+				totalAssets = Math.round(totalAssets * 0.9757);
+				System.out.printf("💸 인플레이션 적용: 실질 자산 %.0f%n", totalAssets * 1.0);
+			}
+
 			if (totalAssets >= goalAmount) {
 				double actualReturnRate = (double) (totalAssets - initialAmount) / initialAmount * 100;
 				yearlyAssets.add(totalAssets); // 마지막 해 자산도 기록
@@ -100,8 +107,8 @@ public class GoalService {
 
 			yearlyAssets.add(totalAssets); // 루프 마지막에 연도별 자산 누적
 			years++;
-		}
 
+		}
 	}
 
 	public double calculateExpectedReturn(int userId) {

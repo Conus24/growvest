@@ -5,27 +5,140 @@ layout:decorate="~{fragments/layout/layout.html}">
 <head><title>목표 금액 설정</title>
 </head>
 <main layout:fragment="content">
+  <style>
+    .chart-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+  </style>
+
   <div class="container mt-4">
     <h2 class="text-center">🎯 목표 달성 시뮬레이션</h2>
-
     <div class="text-center mt-4">
       <p>💰 원금: <strong th:text="${#numbers.formatInteger(totalWon, 0, 'COMMA')} + ' 원'"></strong></p>
       <p>🎯 목표 금액: <strong th:text="${#numbers.formatInteger(goal, 3, 'COMMA')} + ' 원'"></strong></p>
       <p>📈 도달 시점: <strong th:text="${years} + '년'"></strong></p>
       <p>💰 도달 시 누적 자산: <strong th:text="${#numbers.formatInteger(finalAmount, 3, 'COMMA')} + ' 원'"></strong></p>
-      <p>✅ 연 평균 세전 기대 수익률은 
+      <p>✅ 세전 연 평균 기대 수익률은 
       <strong th:text="${#numbers.formatDecimal((expectedReturn - 1.0) * 100, 1, 2) + '%'}"></strong>
-      <p>📉 세후 실질 수익률: 
-      <strong th:text="${#numbers.formatDecimal(expectedReturnRateAfterTax, 1, 2)} + '%'"></strong>
-      </p>
+      <!-- <p>📉 세후 실질 수익률:  -->
+      <!-- <strong th:text="${#numbers.formatDecimal(expectedReturnRateAfterTax, 1, 2)} + '%'"></strong> -->
+      <!-- </p> -->
       <p>💸 부과된 세금 총액: 
       <strong th:text="${#numbers.formatInteger(calculatedTax, 0, 'COMMA')} + ' 원'"></strong>
       </p>
     </div>
   </div>
-
+  <div class="chart-wrapper">
+    <canvas id="myChart"></canvas>
+  </div>
   <div class="mt-4 text-center">
     <a href="/portfolio/goal" class="btn btn-secondary btn-lg">돌아가기</a>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const nominalAssets = [[${yearlyAssets}]]; // 명목 자산
+  const realAssets = nominalAssets.map((val, idx) => Math.round(val * Math.pow(0.9757, idx)));
+
+  let easing = Chart.helpers.easingEffects.easeInQuad;
+  const totalDuration = 5000;
+  const duration = ctx => easing(ctx.index / nominalAssets.length) * totalDuration / nominalAssets.length;
+  const delay = ctx => easing(ctx.index / nominalAssets.length) * totalDuration;
+  const previousY = ctx => ctx.index === 0
+    ? ctx.chart.scales.y.getPixelForValue(nominalAssets[0])
+    : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+
+  const animation = {
+    x: {
+      type: 'number',
+      easing: 'linear',
+      duration,
+      from: NaN,
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.xStarted) return 0;
+        ctx.xStarted = true;
+        return delay(ctx);
+      }
+    },
+    y: {
+      type: 'number',
+      easing: 'linear',
+      duration,
+      from: previousY,
+      delay(ctx) {
+        if (ctx.type !== 'data' || ctx.yStarted) return 0;
+        ctx.yStarted = true;
+        return delay(ctx);
+      }
+    }
+  };
+
+  const config = {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: '명목 자산',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 2,
+          radius: 3,
+          backgroundColor: 'rgba(255,99,132,0.3)',
+          data: nominalAssets.map((y, x) => ({x, y}))
+        },
+        {
+          label: '실질 자산',
+          borderColor: 'rgba(54,162,235,1)',
+          borderWidth: 2,
+          radius: 3,
+          backgroundColor: 'rgba(54,162,235,0.3)',
+          data: realAssets.map((y, x) => ({x, y}))
+        }
+      ]
+    },
+    options: {
+      animation,
+      interaction: {
+        intersect: false
+      },
+      plugins: {
+        legend: { display: true },
+        title: {
+          display: true,
+          text: () => '명목 vs 실질 자산 시뮬레이션'
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          title: {
+            display: true,
+            text: '연도'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: '자산 (원)'
+          }
+        }
+      }
+    }
+  };
+
+  const chart = new Chart(document.getElementById('myChart'), config);
+
+  function restartAnims(chart) {
+    chart.stop();
+    const meta0 = chart.getDatasetMeta(0);
+    const meta1 = chart.getDatasetMeta(1);
+    for (let i = 0; i < nominalAssets.length; i++) {
+      const ctx0 = meta0.controller.getContext(i);
+      const ctx1 = meta1.controller.getContext(i);
+      ctx0.xStarted = ctx0.yStarted = false;
+      ctx1.xStarted = ctx1.yStarted = false;
+    }
+    chart.update();
+  }
+</script>
 </main>
 </html>

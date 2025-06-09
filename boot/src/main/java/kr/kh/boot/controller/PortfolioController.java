@@ -151,7 +151,7 @@ public class PortfolioController {
 		goal.setGo_current_won(totalWon);
 		goal.setGo_start_date(LocalDate.now());
 		goal.setGo_end_date(form.getTargetEndDate());
-		
+
 		// 세금 타입 문자열 생성
 		String taxType = taxTypeService.generateTaxType(form);
 		goal.setGo_tax_type(taxType);
@@ -159,9 +159,19 @@ public class PortfolioController {
 
 		goalTrackerDAO.insertGoal(goal);
 
+		// 세금 계산
+		// 1. savingsTax는 String 형태로 넘어옴: "15.4" 또는 "0"
+		String taxStr = form.getSavingsTax(); // 예: "15.4"
+
+		// 2. Double로 파싱
+		double savingsTaxRate = 0.0;
+		if ("15.4".equals(taxStr)) {
+			savingsTaxRate = 15.4;
+		}
+
 		// ==== 시뮬레이션 계산 ====
 		List<UserAssetVO> assets = userAssetService.getUserAssetsByUser(userId);
-		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, form.getGoalAsset());
+		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, form.getGoalAsset(), savingsTaxRate);
 
 		// 기대 수익률 계산해서 전달
 		double expectedReturn = goalService.calculateExpectedReturn(userId);

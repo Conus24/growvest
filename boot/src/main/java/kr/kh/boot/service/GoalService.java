@@ -14,30 +14,40 @@ public class GoalService {
 	@Autowired
 	private UserAssetDAO userAssetDAO;
 
-	public GoalSimulationResult simulateYearsToReachGoal(List<UserAssetVO> assets, long goalAmount) {
+	public GoalSimulationResult simulateYearsToReachGoal(List<UserAssetVO> assets, long goalAmount, double savingsTaxRate) {
 		int years = 0;
 		final int MAX_YEARS = 100;
 
 		while (true) {
-			// 1. 자산 총합 계산
-			long totalAssets = assets.stream()
-					.mapToLong(UserAssetVO::getAs_won)
-					.sum();
+			long totalAssets = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
 
-			// 2. 목표 도달 시 종료
 			if (totalAssets >= goalAmount) {
 				return new GoalSimulationResult(years, totalAssets);
 			}
 
-			// 3. 연도 제한: 100년 넘으면 강제 종료
 			if (years >= MAX_YEARS) {
 				throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
 			}
 
-			// 4. 자산 갱신
 			for (UserAssetVO asset : assets) {
 				double expectedReturn = asset.getAs_expected_return();
-				long updatedValue = Math.round(asset.getAs_won() * expectedReturn);
+				long current = asset.getAs_won();
+				long updatedValue = Math.round(current * expectedReturn);
+				String type = asset.getAs_asset_type();
+				long profit = updatedValue - current;
+
+				// === 세금 적용 로직 ===
+				if ("예적금".equals(type) && savingsTaxRate > 0) {
+					// 사용자가 선택한 세금율 적용
+					long taxedProfit = Math.round(profit * (1 - savingsTaxRate / 100.0));
+					updatedValue = current + taxedProfit;
+				} else if ("채권".equals(type)) {
+					// 채권은 무조건 15.4% 과세
+					long taxedProfit = Math.round(profit * (1 - 0.154));
+					updatedValue = current + taxedProfit;
+				}
+				// =====================
+
 				asset.setAs_won(updatedValue);
 			}
 

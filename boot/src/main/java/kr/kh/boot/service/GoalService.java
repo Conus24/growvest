@@ -33,6 +33,7 @@ public class GoalService {
 				double expectedReturn = asset.getAs_expected_return();
 				long current = asset.getAs_won();
 				String type = asset.getAs_asset_type();
+
 				long updatedValue = Math.round(current * expectedReturn);
 				long profit = updatedValue - current;
 
@@ -65,10 +66,17 @@ public class GoalService {
 								profit, taxFreeAmount, taxableAmount, tax, updatedValue);
 
 					} else if ("ISA_PREFERENTIAL".equals(stockTaxOption)) {
-						// 추후 서민형 ISA 400만 원 처리 시 여기에 로직 추가
+						long taxFreeAmount = Math.min(profit, 4_000_000);
+						long taxableAmount = Math.max(0, profit - taxFreeAmount);
+						long tax = Math.round(taxableAmount * 0.099);
+						updatedValue = current + (profit - tax);
+
+						System.out.printf("[ISA 서민형] 세전 수익: %d, 비과세: %d, 과세: %d → 세금: %d → 최종 자산: %d%n",
+								profit, taxFreeAmount, taxableAmount, tax, updatedValue);
 					}
 				}
 
+				// ✅ 모든 자산 공통 처리
 				asset.setAs_won(updatedValue);
 				totalAssets += updatedValue;
 			}

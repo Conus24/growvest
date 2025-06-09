@@ -14,46 +14,57 @@ public class GoalService {
 	@Autowired
 	private UserAssetDAO userAssetDAO;
 
-	public GoalSimulationResult simulateYearsToReachGoal(List<UserAssetVO> assets, long goalAmount, double savingsTaxRate) {
-		int years = 0;
-		final int MAX_YEARS = 100;
+	public GoalSimulationResult simulateYearsToReachGoal(List<UserAssetVO> assets, long goalAmount, double savingsTaxRate, String stockTaxOption) {
+	int years = 0;
+	final int MAX_YEARS = 100;
+	long initialAmount = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
 
-		while (true) {
-			long totalAssets = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
+	while (true) {
+		long totalAssets = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
 
-			if (totalAssets >= goalAmount) {
-				return new GoalSimulationResult(years, totalAssets);
-			}
-
-			if (years >= MAX_YEARS) {
-				throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
-			}
-
-			for (UserAssetVO asset : assets) {
-				double expectedReturn = asset.getAs_expected_return();
-				long current = asset.getAs_won();
-				long updatedValue = Math.round(current * expectedReturn);
-				String type = asset.getAs_asset_type();
-				long profit = updatedValue - current;
-
-				// === 세금 적용 로직 ===
-				if ("예적금".equals(type) && savingsTaxRate > 0) {
-					// 사용자가 선택한 세금율 적용
-					long taxedProfit = Math.round(profit * (1 - savingsTaxRate / 100.0));
-					updatedValue = current + taxedProfit;
-				} else if ("채권".equals(type)) {
-					// 채권은 무조건 15.4% 과세
-					long taxedProfit = Math.round(profit * (1 - 0.154));
-					updatedValue = current + taxedProfit;
-				}
-				// =====================
-
-				asset.setAs_won(updatedValue);
-			}
-
-			years++;
+		if (totalAssets >= goalAmount) {
+			double actualReturnRate = (double)(totalAssets - initialAmount) / initialAmount * 100;
+			return new GoalSimulationResult(years, totalAssets, actualReturnRate);
 		}
+
+		if (years >= MAX_YEARS) {
+			throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
+		}
+
+		for (UserAssetVO asset : assets) {
+			double expectedReturn = asset.getAs_expected_return();
+			long current = asset.getAs_won();
+			String type = asset.getAs_asset_type();
+			long updatedValue = Math.round(current * expectedReturn);
+			long profit = updatedValue - current;
+
+			// 예적금 과세
+			if ("예적금".equals(type) && savingsTaxRate > 0) {
+				long taxedProfit = Math.round(profit * (1 - savingsTaxRate / 100.0));
+				updatedValue = current + taxedProfit;
+
+			// 채권 과세
+			} else if ("채권".equals(type)) {
+				long taxedProfit = Math.round(profit * (1 - 0.154));
+				updatedValue = current + taxedProfit;
+
+			// 금 & S&P500: 주식과세 22%
+			} else if (("금".equals(type) || "S&P 500".equals(type)) && "22".equals(stockTaxOption)) {
+				long taxedProfit = Math.round(profit * (1 - 0.22));
+				updatedValue = current + taxedProfit;
+
+			// ISA 계좌는 나중에 처리
+			} else if (("금".equals(type) || "S&P 500".equals(type)) && stockTaxOption.startsWith("ISA")) {
+				// 향후 ISA 로직 구현 예정
+			}
+
+			asset.setAs_won(updatedValue);
+		}
+
+		years++;
 	}
+}
+
 
 	public double calculateExpectedReturn(int userId) {
 		List<UserAssetVO> assets = userAssetDAO.selectUserAssetsByUser(userId);

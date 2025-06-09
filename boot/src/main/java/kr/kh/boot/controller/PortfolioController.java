@@ -170,8 +170,10 @@ public class PortfolioController {
 		}
 
 		// ==== 시뮬레이션 계산 ====
+		long goalAmount = form.getGoalAsset();
 		List<UserAssetVO> assets = userAssetService.getUserAssetsByUser(userId);
-		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, form.getGoalAsset(), savingsTaxRate);
+		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, goalAmount, savingsTaxRate, form.getStockTaxOption());
+
 
 		// 기대 수익률 계산해서 전달
 		double expectedReturn = goalService.calculateExpectedReturn(userId);

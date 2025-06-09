@@ -8,4 +8,5 @@ import lombok.Data;
 public class GoalSimulationResult {
     private int years;        // 몇 년 걸렸는지
     private long finalAmount; // 도달 시점의 총 자산
+    private double actualReturnRate;
 }

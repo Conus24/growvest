@@ -1,5 +1,6 @@
 package kr.kh.boot.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class GoalService {
 		int years = 0;
 		final int MAX_YEARS = 100;
 		long initialAmount = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
+		List<Long> yearlyAssets = new ArrayList<>();
+		yearlyAssets.add(initialAmount);
 
 		while (true) {
 			System.out.println("==== " + (years + 1) + "년차 시뮬레이션 시작 ====");
@@ -85,14 +88,17 @@ public class GoalService {
 
 			if (totalAssets >= goalAmount) {
 				double actualReturnRate = (double) (totalAssets - initialAmount) / initialAmount * 100;
+				yearlyAssets.add(totalAssets); // 마지막 해 자산도 기록
 				System.out.printf("✅ 시뮬레이션 종료: 총 %d년 소요, 수익률: %.4f%%%n", years + 1, actualReturnRate);
-				return new GoalSimulationResult(years + 1, totalAssets, actualReturnRate);
+				return new GoalSimulationResult(years + 1, totalAssets, actualReturnRate, yearlyAssets);
+
 			}
 
 			if (years >= MAX_YEARS) {
 				throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
 			}
 
+			yearlyAssets.add(totalAssets); // 루프 마지막에 연도별 자산 누적
 			years++;
 		}
 

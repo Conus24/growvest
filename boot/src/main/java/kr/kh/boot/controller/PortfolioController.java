@@ -191,6 +191,7 @@ public class PortfolioController {
 		model.addAttribute("goal", form.getGoalAsset());
 		model.addAttribute("years", result.getYears());
 		model.addAttribute("finalAmount", result.getFinalAmount());
+		model.addAttribute("yearlyAssets", result.getYearlyAssets());
 
 		return "portfolio_goal_result";
 	}

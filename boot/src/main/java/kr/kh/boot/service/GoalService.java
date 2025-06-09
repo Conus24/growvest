@@ -18,7 +18,8 @@ public class GoalService {
 			List<UserAssetVO> assets,
 			long goalAmount,
 			double savingsTaxRate,
-			String stockTaxOption) {
+			String stockTaxOption,
+			boolean isStockTax250) {
 
 		int years = 0;
 		final int MAX_YEARS = 100;
@@ -51,29 +52,28 @@ public class GoalService {
 					System.out.printf("[채권] %d → %d (세후 15.4%%)%n", current, updatedValue);
 
 				} else if ("금".equals(type) || "S&P 500".equals(type)) {
-					if ("22".equals(stockTaxOption)) {
-						long taxedProfit = Math.round(profit * (1 - 0.22));
-						updatedValue = current + taxedProfit;
-						System.out.printf("[양도소득세 22%%] %d → %d (세후)%n", current, updatedValue);
+					long baseTaxFree = switch (stockTaxOption) {
+						case "ISA_BASIC" -> 2_000_000;
+						case "ISA_PREFERENTIAL" -> 4_000_000;
+						case "22" -> 0;
+						default -> 0;
+					};
 
-					} else if ("ISA_BASIC".equals(stockTaxOption)) {
-						long taxFreeAmount = Math.min(profit, 2_000_000);
-						long taxableAmount = Math.max(0, profit - taxFreeAmount);
-						long tax = Math.round(taxableAmount * 0.099);
-						updatedValue = current + (profit - tax);
-
-						System.out.printf("[ISA 일반형] 세전 수익: %d, 비과세: %d, 과세: %d → 세금: %d → 최종 자산: %d%n",
-								profit, taxFreeAmount, taxableAmount, tax, updatedValue);
-
-					} else if ("ISA_PREFERENTIAL".equals(stockTaxOption)) {
-						long taxFreeAmount = Math.min(profit, 4_000_000);
-						long taxableAmount = Math.max(0, profit - taxFreeAmount);
-						long tax = Math.round(taxableAmount * 0.099);
-						updatedValue = current + (profit - tax);
-
-						System.out.printf("[ISA 서민형] 세전 수익: %d, 비과세: %d, 과세: %d → 세금: %d → 최종 자산: %d%n",
-								profit, taxFreeAmount, taxableAmount, tax, updatedValue);
+					if (isStockTax250) {
+						baseTaxFree += 2_500_000; // ✅ 250만 원 추가 공제
 					}
+
+					double taxRate = "22".equals(stockTaxOption) ? 0.22 : 0.099;
+
+					long taxFreeAmount = Math.min(profit, baseTaxFree);
+					long taxableAmount = Math.max(0, profit - taxFreeAmount);
+					long tax = Math.round(taxableAmount * taxRate);
+					updatedValue = current + (profit - tax);
+
+					System.out.printf("[%s%s] 세전 수익: %d, 비과세: %d, 과세: %d → 세금: %d → 최종 자산: %d%n",
+							"22".equals(stockTaxOption) ? "양도소득세 " : "ISA ",
+							isStockTax250 ? "+250" : "",
+							profit, taxFreeAmount, taxableAmount, tax, updatedValue);
 				}
 
 				// ✅ 모든 자산 공통 처리
@@ -95,6 +95,7 @@ public class GoalService {
 
 			years++;
 		}
+
 	}
 
 	public double calculateExpectedReturn(int userId) {

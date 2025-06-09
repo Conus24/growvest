@@ -31,6 +31,8 @@ layout:decorate="~{fragments/layout/layout.html}">
   </div>
   <div class="chart-wrapper">
     <canvas id="myChart"></canvas>
+    <canvas id="compoundChart" width="800" height="400"></canvas>
+
   </div>
   <div class="mt-4 text-center">
     <a href="/portfolio/goal" class="btn btn-secondary btn-lg">돌아가기</a>
@@ -104,7 +106,7 @@ layout:decorate="~{fragments/layout/layout.html}">
         legend: { display: true },
         title: {
           display: true,
-          text: () => '명목 vs 실질 자산 시뮬레이션'
+          text: () => '자산 증가 시뮬레이션'
         }
       },
       scales: {
@@ -118,7 +120,7 @@ layout:decorate="~{fragments/layout/layout.html}">
         y: {
           title: {
             display: true,
-            text: '자산 (원)'
+            text: '자산 (원)',
           }
         }
       }

@@ -13,5 +13,6 @@ public class GoalSimulationResult {
     private double actualReturnRate; // 세금 계산
     private List<Long> yearlyAssets; // 연도별 그래프 추적
     private List<Long> cumulativeProfits; //  누적 수익 필드 추가
+    private List<Long> yearlyProfits; // 년도별 수익 비교
 
 }

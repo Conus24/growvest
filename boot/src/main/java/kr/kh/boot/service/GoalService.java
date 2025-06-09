@@ -26,8 +26,12 @@ public class GoalService {
 		int years = 0;
 		final int MAX_YEARS = 100;
 		long initialAmount = assets.stream().mapToLong(UserAssetVO::getAs_won).sum();
+
 		List<Long> yearlyAssets = new ArrayList<>();
+		List<Long> yearlyProfits = new ArrayList<>();
+
 		yearlyAssets.add(initialAmount);
+		yearlyProfits.add(0L); // 첫 해는 수익 없음
 
 		while (true) {
 			System.out.println("==== " + (years + 1) + "년차 시뮬레이션 시작 ====");
@@ -48,12 +52,10 @@ public class GoalService {
 				if ("예적금".equals(type) && savingsTaxRate > 0) {
 					long taxedProfit = Math.round(profit * (1 - savingsTaxRate / 100.0));
 					updatedValue = current + taxedProfit;
-					System.out.printf("[예적금] %d → %d (세후 수익률 적용)%n", current, updatedValue);
 
 				} else if ("채권".equals(type)) {
 					long taxedProfit = Math.round(profit * (1 - 0.154));
 					updatedValue = current + taxedProfit;
-					System.out.printf("[채권] %d → %d (세후 15.4%%)%n", current, updatedValue);
 
 				} else if ("금".equals(type) || "S&P 500".equals(type)) {
 					long baseTaxFree = switch (stockTaxOption) {
@@ -63,9 +65,8 @@ public class GoalService {
 						default -> 0;
 					};
 
-					if (isStockTax250) {
-						baseTaxFree += 2_500_000; // ✅ 250만 원 추가 공제
-					}
+					if (isStockTax250)
+						baseTaxFree += 2_500_000;
 
 					double taxRate = "22".equals(stockTaxOption) ? 0.22 : 0.099;
 
@@ -73,37 +74,31 @@ public class GoalService {
 					long taxableAmount = Math.max(0, profit - taxFreeAmount);
 					long tax = Math.round(taxableAmount * taxRate);
 					updatedValue = current + (profit - tax);
-
-					System.out.printf("[%s%s] 세전 수익: %d, 비과세: %d, 과세: %d → 세금: %d → 최종 자산: %d%n",
-							"22".equals(stockTaxOption) ? "양도소득세 " : "ISA ",
-							isStockTax250 ? "+250" : "",
-							profit, taxFreeAmount, taxableAmount, tax, updatedValue);
 				}
 
-				// ✅ 모든 자산 공통 처리
 				asset.setAs_won(updatedValue);
 				totalAssets += updatedValue;
 			}
 
-			System.out.printf("➡ 누적 자산: %d / 목표: %d%n", totalAssets, goalAmount);
-
-			// ✅ 인플레이션 적용 (먼저 반영)
 			if (isRealMoney) {
 				totalAssets = Math.round(totalAssets * 0.9757);
-				System.out.printf("💸 인플레이션 적용: 실질 자산 %.0f%n", totalAssets * 1.0);
 			}
 
-			// ✅ 목표 도달 체크는 인플레이션 반영된 자산 기준이어야 맞음
+			yearlyAssets.add(totalAssets);
+
+			// ✅ 연도별 수익 계산: 올해 자산 - 작년 자산
+			long last = yearlyAssets.get(yearlyAssets.size() - 2);
+			long profitThisYear = totalAssets - last;
+			yearlyProfits.add(profitThisYear);
+
 			if (totalAssets >= goalAmount) {
 				double actualReturnRate = (double) (totalAssets - initialAmount) / initialAmount * 100;
 
-				yearlyAssets.add(totalAssets); // 인플레이션 적용된 자산 기록
-
-				// ✅ 누적 수익 계산
+				// ✅ 누적 수익 리스트
 				List<Long> cumulativeProfits = new ArrayList<>();
-				long initial = yearlyAssets.get(0);
+				long base = yearlyAssets.get(0);
 				for (long asset : yearlyAssets) {
-					cumulativeProfits.add(asset - initial);
+					cumulativeProfits.add(asset - base);
 				}
 
 				return new GoalSimulationResult(
@@ -111,16 +106,16 @@ public class GoalService {
 						totalAssets,
 						actualReturnRate,
 						yearlyAssets,
-						cumulativeProfits);
+						cumulativeProfits,
+						yearlyProfits // ← 연도별 수익 리스트 추가
+				);
 			}
 
 			if (years >= MAX_YEARS) {
 				throw new RuntimeException("100년 이내로 목표 자산 달성 불가");
 			}
 
-			yearlyAssets.add(totalAssets); // 루프 마지막에 연도별 자산 누적
 			years++;
-
 		}
 	}
 

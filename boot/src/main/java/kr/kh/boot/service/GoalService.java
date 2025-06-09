@@ -87,18 +87,31 @@ public class GoalService {
 
 			System.out.printf("➡ 누적 자산: %d / 목표: %d%n", totalAssets, goalAmount);
 
-			// 인플레이션 적용
+			// ✅ 인플레이션 적용 (먼저 반영)
 			if (isRealMoney) {
 				totalAssets = Math.round(totalAssets * 0.9757);
 				System.out.printf("💸 인플레이션 적용: 실질 자산 %.0f%n", totalAssets * 1.0);
 			}
 
+			// ✅ 목표 도달 체크는 인플레이션 반영된 자산 기준이어야 맞음
 			if (totalAssets >= goalAmount) {
 				double actualReturnRate = (double) (totalAssets - initialAmount) / initialAmount * 100;
-				yearlyAssets.add(totalAssets); // 마지막 해 자산도 기록
-				System.out.printf("✅ 시뮬레이션 종료: 총 %d년 소요, 수익률: %.4f%%%n", years + 1, actualReturnRate);
-				return new GoalSimulationResult(years + 1, totalAssets, actualReturnRate, yearlyAssets);
 
+				yearlyAssets.add(totalAssets); // 인플레이션 적용된 자산 기록
+
+				// ✅ 누적 수익 계산
+				List<Long> cumulativeProfits = new ArrayList<>();
+				long initial = yearlyAssets.get(0);
+				for (long asset : yearlyAssets) {
+					cumulativeProfits.add(asset - initial);
+				}
+
+				return new GoalSimulationResult(
+						years + 1,
+						totalAssets,
+						actualReturnRate,
+						yearlyAssets,
+						cumulativeProfits);
 			}
 
 			if (years >= MAX_YEARS) {

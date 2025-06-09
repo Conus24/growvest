@@ -39,10 +39,10 @@ layout:decorate="~{fragments/layout/layout.html}">
   </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const nominalAssets = [[${yearlyAssets}]]; // 명목 자산
+  const nominalAssets = [[${yearlyAssets}]];
   const realAssets = nominalAssets.map((val, idx) => Math.round(val * Math.pow(0.9757, idx)));
 
-  let easing = Chart.helpers.easingEffects.easeInQuad;
+  const easing = Chart.helpers.easingEffects.easeInQuint;
   const totalDuration = 5000;
   const duration = ctx => easing(ctx.index / nominalAssets.length) * totalDuration / nominalAssets.length;
   const delay = ctx => easing(ctx.index / nominalAssets.length) * totalDuration;
@@ -75,7 +75,7 @@ layout:decorate="~{fragments/layout/layout.html}">
     }
   };
 
-  const config = {
+  const chart = new Chart(document.getElementById('myChart'), {
     type: 'line',
     data: {
       datasets: [
@@ -98,49 +98,92 @@ layout:decorate="~{fragments/layout/layout.html}">
       ]
     },
     options: {
-      animation,
+      animation: false,
       interaction: {
-        intersect: false
+        intersect: false,
+        mode: 'index',      // 데이터 라인 전체를 인식
+        axis: 'x'           // x축 기준 툴팁 동작
       },
       plugins: {
         legend: { display: true },
-        title: {
-          display: true,
-          text: () => '자산 증가 시뮬레이션'
+        title: { display: true, text: '자산 증가 시뮬레이션' },
+
+      //  여기에 tooltip 설정 추가
+      tooltip: {
+        enabled: true,
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+          title: function(tooltipItems) {
+            return tooltipItems[0].parsed.x + '년';
+          },
+          label: function(tooltipItem) {
+            const label = tooltipItem.dataset.label || '';
+            const yValue = tooltipItem.raw.y; // ✅ 여기만 바꾸면 됨
+            const formatted = Number(yValue).toLocaleString();
+            return `${label}: ${formatted}원`;
+            }
+          }
         }
       },
       scales: {
         x: {
           type: 'linear',
-          title: {
-            display: true,
-            text: '연도'
+          title: { display: true, text: '연도' },
+          ticks: {
+            callback: function(value) {
+              return value + '년';
+            }
           }
         },
         y: {
-          title: {
-            display: true,
-            text: '자산 (원)',
-          }
+          title: { display: true, text: '자산 (원)' }
         }
       }
     }
-  };
+  });
 
-  const chart = new Chart(document.getElementById('myChart'), config);
+  // 복리 누적 수익 총합 Bar 차트
+  const cumulativeProfits = [[${cumulativeProfits}]];
+  const labels = cumulativeProfits.map((_, i) => i + '년');
 
-  function restartAnims(chart) {
-    chart.stop();
-    const meta0 = chart.getDatasetMeta(0);
-    const meta1 = chart.getDatasetMeta(1);
-    for (let i = 0; i < nominalAssets.length; i++) {
-      const ctx0 = meta0.controller.getContext(i);
-      const ctx1 = meta1.controller.getContext(i);
-      ctx0.xStarted = ctx0.yStarted = false;
-      ctx1.xStarted = ctx1.yStarted = false;
+  new Chart(document.getElementById('compoundChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '복리 누적 수익 총합',
+        data: cumulativeProfits,
+        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+        borderColor: 'rgba(255, 206, 86, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: '누적 수익 총합',
+          font: { size: 18 }
+        },
+        legend: { display: true }
+      },
+       scales: {
+        x: {
+          title: { display: true, text: '연도' },
+          ticks: {
+            callback: function(value) {
+              return value + '년'; // ✅ 여기도 동일하게
+            }
+          }
+        },
+        y: {
+          title: { display: true, text: '누적 수익 (원)' },
+          beginAtZero: true
+        }
+      }
     }
-    chart.update();
-  }
+  });
 </script>
 </main>
 </html>

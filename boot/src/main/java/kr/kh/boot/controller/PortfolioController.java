@@ -192,6 +192,7 @@ public class PortfolioController {
 		model.addAttribute("years", result.getYears());
 		model.addAttribute("finalAmount", result.getFinalAmount());
 		model.addAttribute("yearlyAssets", result.getYearlyAssets());
+		model.addAttribute("cumulativeProfits", result.getCumulativeProfits()); 
 
 		return "portfolio_goal_result";
 	}

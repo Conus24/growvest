@@ -172,12 +172,19 @@ public class PortfolioController {
 		// ==== 시뮬레이션 계산 ====
 		long goalAmount = form.getGoalAsset();
 		List<UserAssetVO> assets = userAssetService.getUserAssetsByUser(userId);
-		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, goalAmount, savingsTaxRate, form.getStockTaxOption(), form.isStockTax250());
-
+		GoalSimulationResult result = goalService.simulateYearsToReachGoal(assets, goalAmount, savingsTaxRate,
+				form.getStockTaxOption(), form.isStockTax250());
 
 		// 기대 수익률 계산해서 전달
 		double expectedReturn = goalService.calculateExpectedReturn(userId);
 		model.addAttribute("expectedReturn", expectedReturn);
+
+		// 세후 수익률 및 세금 계산 추가
+		double actualReturnRate = (double) (result.getFinalAmount() - totalWon) / totalWon * 100;
+		model.addAttribute("expectedReturnRateAfterTax", actualReturnRate);
+
+		long estimatedTax = Math.round((totalWon * (expectedReturn - 1.0)) - (result.getFinalAmount() - totalWon));
+		model.addAttribute("calculatedTax", estimatedTax);
 
 		// ==== 결과 화면으로 전송 ====
 		model.addAttribute("totalWon", totalWon);

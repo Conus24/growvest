@@ -13,8 +13,14 @@ layout:decorate="~{fragments/layout/layout.html}">
       <p>🎯 목표 금액: <strong th:text="${#numbers.formatInteger(goal, 3, 'COMMA')} + ' 원'"></strong></p>
       <p>📈 도달 시점: <strong th:text="${years} + '년'"></strong></p>
       <p>💰 도달 시 누적 자산: <strong th:text="${#numbers.formatInteger(finalAmount, 3, 'COMMA')} + ' 원'"></strong></p>
-      <p>✅ 연 평균 기대 수익률은 
+      <p>✅ 연 평균 세전 기대 수익률은 
       <strong th:text="${#numbers.formatDecimal((expectedReturn - 1.0) * 100, 1, 2) + '%'}"></strong>
+      <p>📉 세후 실질 수익률: 
+      <strong th:text="${#numbers.formatDecimal(expectedReturnRateAfterTax, 1, 2)} + '%'"></strong>
+      </p>
+      <p>💸 부과된 세금 총액: 
+      <strong th:text="${#numbers.formatInteger(calculatedTax, 0, 'COMMA')} + ' 원'"></strong>
+      </p>
     </div>
   </div>
 

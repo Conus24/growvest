@@ -119,7 +119,7 @@ layout:decorate="~{fragments/layout/layout.html}">
           },
           label: function(tooltipItem) {
             const label = tooltipItem.dataset.label || '';
-            const yValue = tooltipItem.raw.y; // ✅ 여기만 바꾸면 됨
+            const yValue = tooltipItem.raw.y;
             const formatted = Number(yValue).toLocaleString();
             return `${label}: ${formatted}원`;
             }
@@ -173,7 +173,7 @@ layout:decorate="~{fragments/layout/layout.html}">
           title: { display: true, text: '연도' },
           ticks: {
             callback: function(value) {
-              return value + '년'; // ✅ 여기도 동일하게
+              return value + '년';
             }
           }
         },

@@ -29,6 +29,64 @@
     <!-- 왼쪽 콘텐츠 -->
     <div class="col-lg-9">
       내용
+      <h4 class="text-center">📊 오늘의 시장 요약</h4>
+      <p class="text-center">
+        S&P500 (SPY)는 최근 30일간 
+        <span th:if="${percentChange >= 0}" style="color:red">
+          <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 상승했습니다.
+        </span>
+        <span th:if="${percentChange < 0}" style="color:skyblue">
+          <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 하락했습니다.
+        </span>
+      </p>
+
+      <canvas id="marketTrendChart" style="max-height: 300px;"></canvas>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- 데이터 바인딩 및 차트 생성 -->
+<script th:inline="javascript">
+  const labels = /*[[${dates}]]*/ [];
+  const prices = /*[[${closes}]]*/ [];
+
+  const ctx = document.getElementById('marketTrendChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels, // 날짜 리스트
+      datasets: [{
+        label: 'SPY 종가 (최근 30일)',
+        data: prices, // 종가 리스트
+        borderWidth: 2,
+        pointRadius: 0,
+        segment: {
+          borderColor: ctx => {
+            const { p0, p1 } = ctx;
+            return p1.parsed.y > p0.parsed.y
+              ? 'rgba(255,99,132,1)'    // 상승 구간: 빨간색 계열
+              : 'rgba(54,162,235,1)';   // 하락 구간: 하늘색 계열
+          }
+        }
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { maxTicksLimit: 6 }
+        },
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+</script>
+
     </div>
   <!-- 오른쪽 사이드 패널 -->
   <div class="col-lg-2 border-start ps-4">

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.boot.model.vo.UserVO;
+import kr.kh.boot.service.MarketService;
 import kr.kh.boot.service.StockService;
 import kr.kh.boot.service.UserService;
 
@@ -23,6 +24,8 @@ public class HomeController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private MarketService marketService;
 
   @GetMapping("/")
   public String home(Model model) {
@@ -34,6 +37,11 @@ public class HomeController {
 
     Map<String, Double> priceMap = stockService.getLatestApiPriceMap();
     model.addAttribute("priceMap", priceMap);
+
+
+    // 메인 페이지 지수 출력 구성
+    Map<String, Object> market = marketService.getSPXMarketSummary();
+	  model.addAllAttributes(market);
     return "index";
   }
 

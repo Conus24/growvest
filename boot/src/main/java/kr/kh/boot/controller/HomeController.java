@@ -38,10 +38,18 @@ public class HomeController {
     Map<String, Double> priceMap = stockService.getLatestApiPriceMap();
     model.addAttribute("priceMap", priceMap);
 
-
-    // 메인 페이지 지수 출력 구성
+    // SPY 차트용 데이터
     Map<String, Object> market = marketService.getSPYMarketSummary();
-	  model.addAllAttributes(market);
+    model.addAttribute("dates", market.get("dates"));
+    model.addAttribute("closes", market.get("closes"));
+    model.addAttribute("percentChange", market.get("percentChange"));
+
+    // USD/KRW 차트용 데이터 (분리된 키 이름으로)
+    Map<String, Object> usdkrwMarket = marketService.getUSDKRWMarketSummary();
+    model.addAttribute("usdDates", usdkrwMarket.get("dates"));
+    model.addAttribute("usdCloses", usdkrwMarket.get("closes"));
+    model.addAttribute("usdChange", usdkrwMarket.get("percentChange"));
+    
     return "index";
   }
 

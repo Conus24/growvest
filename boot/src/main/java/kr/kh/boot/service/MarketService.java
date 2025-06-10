@@ -77,4 +77,41 @@ public class MarketService {
 		}
 		return result;
 	}
+
+	public Map<String, Object> getUSDKRWMarketSummary() {
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			String url = BASE_URL + "?symbol=USD/KRW&interval=1day&outputsize=30&apikey=" + apiKey;
+			HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+			HttpClient client = HttpClient.newHttpClient();
+			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+			JSONObject json = new JSONObject(response.body());
+			JSONArray values = json.getJSONArray("values");
+
+			List<String> dates = new ArrayList<>();
+			List<Double> closes = new ArrayList<>();
+
+			for (int i = values.length() - 1; i >= 0; i--) {
+				JSONObject day = values.getJSONObject(i);
+				dates.add(day.getString("datetime"));
+				closes.add(Double.parseDouble(day.getString("close")));
+			}
+
+			double start = closes.get(0);
+			double end = closes.get(closes.size() - 1);
+			double percent = ((end - start) / start) * 100;
+
+			result.put("dates", dates);
+			result.put("closes", closes);
+			result.put("percentChange", percent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 }

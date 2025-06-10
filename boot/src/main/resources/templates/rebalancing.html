@@ -38,12 +38,6 @@
     <div th:if="${#lists.isEmpty(comparisonList)}" class="alert alert-warning text-center">
       아직 등록된 리밸런싱 목표가 없거나 자산 데이터가 없습니다.
     </div>
-      <div class="d-flex justify-content-center">
-        <div class="text-center text-danger fw-bold">
-          여기에 요약해서 알려줌 가장 많이 벗어난 순으로 % 출력<br>
-          출력값을 ~바~로 보여줍시다
-        </div>
-    </div>
   </div>
 <script th:inline="javascript">
   const rawData = [[${comparisonList}]];

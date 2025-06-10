@@ -14,7 +14,6 @@
             <th>보유 금액</th>
             <th>손실 가능 금액</th>
             <th>최대 손실률</th>
-            <th>위험 점수</th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +23,6 @@
             <td th:text="${#numbers.formatInteger(score.as_won, 0, 'COMMA')} + ' 원'"></td>
             <td th:text="${#numbers.formatInteger(T(java.lang.Math).round(score.lossAmount), 0, 'COMMA')} + ' 원'"></td>
             <td th:text="${score.at_mdd} + '%'">-12.5</td>
-            <td th:text="${score.at_score}">3</td>
         </tr>
         </tbody>
     </table>
@@ -32,7 +30,7 @@
       이 포트폴리오의 원금 최대 손실률은 
       <span class="text-danger" th:text="${lossRate} + '%'">12.34 %</span> 입니다.<br>
       당신의 투자 성향은 
-      <span class="text-primary" th:text="${profileType}">공격형</span>
+      <span class="text-primary" th:text="${profileType}">~~형</span>
       입니다.
     </div>
 </div>

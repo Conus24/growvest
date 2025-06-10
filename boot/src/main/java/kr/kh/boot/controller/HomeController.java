@@ -25,11 +25,14 @@ public class HomeController {
 
 
   @GetMapping("/")
-  public String home() {
+  public String home(Model model) {
     stockService.fetchAndStorePrice("USD/KRW");
     stockService.fetchAndStorePrice("QQQ");
     stockService.fetchAndStorePrice("VOO");
     stockService.fetchAndStorePrice("GLD");
+    stockService.fetchAndStorePrice("SPY");
+
+    
     return "index";
   }
 

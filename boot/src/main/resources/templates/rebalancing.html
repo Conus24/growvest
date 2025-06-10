@@ -30,7 +30,7 @@
         <td th:text="${row.current_percent + '%'}"></td>
         <td th:text="${row.ta_target_percent + '%'}"></td>
         <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"
-            th:classappend="${row.gap_percent > 0} ? 'text-primary fw-bold' : 'text-danger fw-bold'"></td>
+            th:classappend="${row.gap_percent > 0} ? 'text-danger fw-bold' : 'text-primary fw-bold'"></td>
       </tr>
     </tbody>
   </table>
@@ -53,8 +53,8 @@
     datasets: [{
       label: '현재 - 목표 차이(%)',
       data: data,
-      backgroundColor: data.map(v => v >= 0 ? 'rgba(54, 162, 235, 0.7)' : 'rgba(255, 99, 132, 0.7)'),
-      borderColor: data.map(v => v >= 0 ? 'rgb(54, 162, 235)' : 'rgb(255, 99, 132)'),
+      backgroundColor: data.map(v => v >= 0 ? 'rgba(255, 99, 132, 0.7)' : 'rgba(54, 162, 235, 0.7)'),
+      borderColor: data.map(v => v >= 0 ? 'rgb(255, 99, 132)' : 'rgb(54, 162, 235)'),
       borderWidth: 1
     }]
   };

@@ -3,15 +3,13 @@
 <mapper namespace="kr.kh.boot.dao.UserAssetTargetDAO">
   <insert id="insertTarget" parameterType="kr.kh.boot.model.vo.UserAssetTargetVO">
     INSERT INTO user_asset_target (
-      ta_us_num,
-      ta_as_num,
-      ta_target_percent,
-      ta_end_date)
-    VALUES (
-      #{ta_us_num},
-      #{ta_as_num},
-      #{ta_target_percent},
-      #{ta_end_date})
+    ta_us_num, ta_as_num, ta_target_percent, ta_end_date
+  ) VALUES (
+    #{ta_us_num}, #{ta_as_num}, #{ta_target_percent}, #{ta_end_date}
+  )
+  ON DUPLICATE KEY UPDATE
+    ta_target_percent = VALUES(ta_target_percent),
+    ta_end_date = VALUES(ta_end_date)
   </insert>
   <!-- 중복 방지 -->
   <select id="selectTargetByUserAndType" resultType="kr.kh.boot.model.vo.UserAssetTargetVO">

@@ -2,13 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{fragments/layout/layout.html}">
-<head><title>리밸런싱</title></head>
-<main layout:fragment="content">
-  <div class="container mt-5">
-    <button>
-      <a class="nav-link" href="/rebalancing/create">리밸런싱 목표 설정</a>
-    </button>
-    <!-- 데이터가 있을 경우만 테이블 보여줌 -->
+  <head><title>리밸런싱</title></head>
+  <main layout:fragment="content">
+    <div class="container mt-5">
+      <button>
+        <a class="nav-link" href="/rebalancing/create">리밸런싱 목표 설정</a>
+      </button>
+      <!-- 데이터가 있을 경우만 테이블 보여줌 -->
+      <div class="mt-5">
+        <canvas id="rebalanceChart" style="max-height: 400px;"></canvas>
+      </div>
     <div th:if="${not #lists.isEmpty(comparisonList)}">
       <table class="table mt-4">
         <thead>
@@ -42,6 +45,55 @@
         </div>
     </div>
   </div>
+<script th:inline="javascript">
+  const rawData = [[${comparisonList}]];
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // gap_percent 절댓값 기준으로 정렬
+  const sorted = rawData.slice().sort((a, b) => Math.abs(b.gap_percent) - Math.abs(a.gap_percent));
+
+  const labels = sorted.map(item => item.as_asset_type);
+  const data = sorted.map(item => item.gap_percent);
+
+  const ctx = document.getElementById('rebalanceChart').getContext('2d');
+
+  const chartData = {
+    labels: labels,
+    datasets: [{
+      label: '현재 - 목표 차이(%)',
+      data: data,
+      backgroundColor: data.map(v => v >= 0 ? 'rgba(54, 162, 235, 0.7)' : 'rgba(255, 99, 132, 0.7)'),
+      borderColor: data.map(v => v >= 0 ? 'rgb(54, 162, 235)' : 'rgb(255, 99, 132)'),
+      borderWidth: 1
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: chartData,
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: '리밸런싱 비중 차이 시각화'
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: value => value + '%'
+          }
+        }
+      }
+    }
+  };
+
+  new Chart(ctx, config);
+</script>
 </main>
 </html>
 

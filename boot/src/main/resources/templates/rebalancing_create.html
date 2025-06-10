@@ -1,102 +1,130 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{fragments/layout/layout.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout/layout.html}">
 <head><title>리밸런싱 설정</title></head>
 <main layout:fragment="content">
   <div class="container mt-5">
-    <h2 class="mb-4">자산 목표 비중 설정</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6"> <!-- 🌟 전체 폼 너비 조절 -->
+        <h2 class="mb-4">자산 목표 비중 설정</h2>
+        <form id="targetForm" th:action="@{/rebalancing/submit}" method="post">
+          <div class="mb-3">
+            <label for="ta_end_date" class="form-label">목표 달성 날짜</label>
+            <input type="date" class="form-control" name="ta_end_date" id="ta_end_date" required />
+          </div>
 
-    <form id="targetForm" th:action="@{/rebalancing/submit}" method="post">
-      <div class="mb-3">
-        <label for="ta_end_date" class="form-label">목표 달성 날짜</label>
-        <input type="date" class="form-control" name="ta_end_date" id="ta_end_date" required />
-      </div>
+          <div class="mb-3">
+            <label class="form-label">현금 (원):</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="cashWon" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
 
-      <div class="mb-3" id="sliderContainer">
-        <!-- 각 자산 슬라이더 생성 -->
-        <div class="mb-3">
-          <label class="form-label">현금 (원): <span id="cashWonVal">0%</span></label>
-          <input type="range" class="form-range" name="cashWon" min="0" max="100" value="0" oninput="updateValue(this, 'cashWonVal')">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">현금 (달러): <span id="cashDollarVal">0%</span></label>
-          <input type="range" class="form-range" name="cashDollar" min="0" max="100" value="0" oninput="updateValue(this, 'cashDollarVal')">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">예적금: <span id="depositsVal">0%</span></label>
-          <input type="range" class="form-range" name="deposits" min="0" max="100" value="0" oninput="updateValue(this, 'depositsVal')">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">채권: <span id="bondVal">0%</span></label>
-          <input type="range" class="form-range" name="bond" min="0" max="100" value="0" oninput="updateValue(this, 'bondVal')">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">금: <span id="goldVal">0%</span></label>
-          <input type="range" class="form-range" name="gold" min="0" max="100" value="0" oninput="updateValue(this, 'goldVal')">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">S&P 500 (VOO): <span id="vooVal">0%</span></label>
-          <input type="range" class="form-range" name="voo" min="0" max="100" value="0" oninput="updateValue(this, 'vooVal')">
-        </div>
-        <div class="mb-3 text-center">
-          현재 합계: <span id="totalPercent">0%</span>
-          <br> 반드시 100%로 제출
-        </div>
+          <div class="mb-3">
+            <label class="form-label">현금 (달러):</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="cashDollar" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">예적금:</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="deposits" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">채권:</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="bond" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">금:</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="gold" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">S&P 500 (VOO):</label>
+            <div class="input-group">
+              <input type="number" class="form-control percent-input" name="voo" min="0" max="100" value="0">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+
+          <div class="mb-3 text-center">
+            현재 합계: <span id="totalPercent">0%</span><br>
+            반드시 100%로 제출
+          </div>
+
+          <div class="alert alert-danger d-none" id="errorBox">총합이 100%가 되어야 합니다.</div>
+
+          <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary">목표 저장</button>
+          </div>
+        </form>
       </div>
-      <div class="alert alert-danger d-none" id="errorBox">총합이 100%가 되어야 합니다.</div>
-      <div class="mb-3 text-center">
-        <button type="submit" class="btn btn-primary">목표 저장</button>
-      </div>
-    </form>
+    </div>
   </div>
 </main>
+
 <th:block layout:fragment="script">
   <script th:inline="javascript">
-  function updateValue(slider, labelId) {
-    document.getElementById(labelId).textContent = slider.value + "%";
-    updateTotal();
-  }
+    function updateTotalPercent() {
+      const inputs = document.querySelectorAll(".percent-input");
+      let sum = 0;
+      inputs.forEach(input => {
+        const val = parseFloat(input.value) || 0;
+        sum += val;
+      });
 
-  function updateTotal() {
-    const sliders = document.querySelectorAll("input[type='range']");
-    let sum = 0;
-    sliders.forEach(slider => sum += parseFloat(slider.value));
-    document.getElementById("totalPercent").textContent = sum + "%";
-
-    const errorBox = document.getElementById("errorBox");
-    if (Math.round(sum) === 100) {
-      errorBox.classList.add("d-none");
+      document.getElementById("totalPercent").textContent = Math.round(sum) + "%";
+      const errorBox = document.getElementById("errorBox");
+      if (Math.round(sum) === 100) {
+        errorBox.classList.add("d-none");
+      } else {
+        errorBox.classList.remove("d-none");
+      }
     }
-  }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // 슬라이더 초기값 렌더링
-    document.querySelectorAll("input[type='range']").forEach(slider => {
-      const labelId = slider.getAttribute("oninput").match(/'([^']+)'/)[1];
-      updateValue(slider, labelId);
+    document.addEventListener("DOMContentLoaded", function () {
+      updateTotalPercent();
+
+      // 날짜 기본값 설정 (오늘 + 3개월)
+      const dateInput = document.getElementById("ta_end_date");
+      const now = new Date();
+      now.setMonth(now.getMonth() + 3);
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+
+      // 숫자 입력 시 합계 업데이트
+      document.querySelectorAll(".percent-input").forEach(input => {
+        input.addEventListener("input", updateTotalPercent);
+      });
     });
 
-    // 날짜 기본값을 오늘 + 3개월로 설정
-    const dateInput = document.getElementById("ta_end_date");
-    const now = new Date();
-    now.setMonth(now.getMonth() + 3);
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
-    dateInput.value = `${yyyy}-${mm}-${dd}`;
-  });
+    document.getElementById("targetForm").addEventListener("submit", function (e) {
+      const inputs = document.querySelectorAll(".percent-input");
+      let sum = 0;
+      inputs.forEach(input => sum += parseFloat(input.value) || 0);
 
-  document.getElementById("targetForm").addEventListener("submit", function (e) {
-    const sliders = document.querySelectorAll("input[type='range']");
-    let sum = 0;
-    sliders.forEach(slider => sum += parseFloat(slider.value));
-
-    if (Math.round(sum) !== 100) {
-      e.preventDefault();
-      document.getElementById("errorBox").classList.remove("d-none");
-    }
-  });
-</script>
+      if (Math.round(sum) !== 100) {
+        e.preventDefault();
+        document.getElementById("errorBox").classList.remove("d-none");
+      }
+    });
+  </script>
 </th:block>
 </html>

@@ -60,7 +60,7 @@ public class RebalancingController {
 		int userId = customUser.getUser().getUs_num();
 		rebalancingService.insertTarget(userId, endDate, cashWon, cashDollar, deposits, bond, gold, voo);
 
-		return "redirect:/";
+		return "rebalancin";
 	}
 
 }

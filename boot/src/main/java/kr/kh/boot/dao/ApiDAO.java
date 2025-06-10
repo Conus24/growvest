@@ -1,7 +1,11 @@
 package kr.kh.boot.dao;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
+
+import kr.kh.boot.model.vo.ApiVO;
 
 public interface ApiDAO {
   // API 자동 등록, 중복 체크
@@ -12,4 +16,8 @@ public interface ApiDAO {
   Double getUsdToKrwExchangeRate();
   Double getGldToKrwExchangeRate();
   Double getVooToKrwExchangeRate();
+
+  // 홈에 지수 연동
+  List<ApiVO> selectLatestApiValues();
+
 }

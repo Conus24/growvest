@@ -33,4 +33,15 @@
 		ORDER BY api_datetime DESC
 		LIMIT 1
 	</select>
+	<select id="selectLatestApiValues" resultType="kr.kh.boot.model.vo.ApiVO">
+		SELECT a.api_name, a.api_value
+		FROM api a
+		JOIN (
+			SELECT api_name, MAX(api_datetime) AS latest_time
+			FROM api
+			GROUP BY api_name
+		) b ON a.api_name = b.api_name AND a.api_datetime = b.latest_time
+	</select>
+
+
 </mapper>

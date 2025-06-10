@@ -2,6 +2,7 @@ package kr.kh.boot.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import kr.kh.boot.dao.ApiDAO;
+import kr.kh.boot.model.vo.ApiVO;
 
 @Service
 public class StockService {
@@ -53,5 +55,15 @@ public class StockService {
       apiDAO.insertApiData(symbol, close, date, datetime);
     }
   }
+
+  public Map<String, Double> getLatestApiPriceMap() {
+    List<ApiVO> apiList = apiDAO.selectLatestApiValues();
+    Map<String, Double> priceMap = new HashMap<>();
+    for (ApiVO api : apiList) {
+        priceMap.put(api.getApi_name(), api.getApi_value());
+    }
+    return priceMap;
+}
+
 
 }

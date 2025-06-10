@@ -32,7 +32,8 @@ public class HomeController {
     stockService.fetchAndStorePrice("GLD");
     stockService.fetchAndStorePrice("SPY");
 
-    
+    Map<String, Double> priceMap = stockService.getLatestApiPriceMap();
+    model.addAttribute("priceMap", priceMap);
     return "index";
   }
 

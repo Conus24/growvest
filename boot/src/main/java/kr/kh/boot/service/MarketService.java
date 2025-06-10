@@ -17,7 +17,7 @@ public class MarketService {
 
 	private static final String BASE_URL = "https://api.twelvedata.com/time_series";
 
-	public Map<String, Object> getSPXMarketSummary() {
+	public Map<String, Object> getSPYMarketSummary() {
 		Map<String, Object> result = new HashMap<>();
 
 		try {

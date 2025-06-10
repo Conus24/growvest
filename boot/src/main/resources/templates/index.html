@@ -28,61 +28,72 @@
   <div class="row gx-5">
     <!-- 왼쪽 콘텐츠 -->
     <div class="col-lg-9">
-      내용
       <h4 class="text-center">📊 오늘의 시장 요약</h4>
       <p class="text-center">
         S&P500 (SPY)는 최근 30일간 
         <span th:if="${percentChange >= 0}" style="color:red">
           <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 상승했습니다.
         </span>
-        <span th:if="${percentChange < 0}" style="color:skyblue">
+        <span th:if="${percentChange < 0}" style="color:blue">
           <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 하락했습니다.
         </span>
       </p>
       <canvas id="marketTrendChart" style="max-height: 300px;"></canvas>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <h4 class="text-center mt-5">💱 환율 시장 요약</h4>
+      <p class="text-center">
+        달러/원 환율은 최근 30일간 
+        <span th:if="${usdChange >= 0}" style="color:red">
+          <span th:text="${#numbers.formatDecimal(usdChange, 1, 2)} + '%'"></span> 상승했습니다.
+        </span>
+        <span th:if="${usdChange < 0}" style="color:blue">
+          <span th:text="${#numbers.formatDecimal(usdChange, 1, 2)} + '%'"></span> 하락했습니다.
+        </span>
+      </p>
     </div>
+    
     <!-- 오른쪽 사이드 패널 -->
     <div class="col-lg-2 border-start ps-4">
-    <!-- 🔹 지수 타이틀 박스 -->
-    <div class="bg-light px-3 py-2 rounded-pill" style="display: inline-block;">
-      <h6 class="text-muted mb-0">📈 대표 지수</h6>
-  </div>
-  <!-- 🔹 지표 리스트 영역 -->
-  <div class="pt-2">
-    <div class="d-flex justify-content-between">
-      <div class="text-muted">달러/원 환율</div>
-      <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['USD/KRW'], 1, 'COMMA', 2, 'POINT')}"></span>
+      <!-- 🔹 지수 타이틀 박스 -->
+      <div class="bg-light px-3 py-2 rounded-pill" style="display: inline-block;">
+        <h6 class="text-muted mb-0">📈 대표 지수</h6>
+      </div>
+      <!-- 🔹 지표 리스트 영역 -->
+      <div class="pt-2">
+        <div class="d-flex justify-content-between">
+          <div class="text-muted">달러/원 환율</div>
+          <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['USD/KRW'], 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="text-muted">금 (GLD)</div>
+          <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['GLD'], 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="text-muted">나스닥 (QQQ)</div>
+          <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['QQQ'], 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="text-muted">S&P 500(SPY)</div>
+          <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['SPY'], 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="text-muted">S&P 500(VOO)</div>
+          <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['VOO'], 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+      </div>
     </div>
-    <div class="d-flex justify-content-between">
-      <div class="text-muted">금 (GLD)</div>
-      <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['GLD'], 1, 'COMMA', 2, 'POINT')}"></span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="text-muted">나스닥 (QQQ)</div>
-      <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['QQQ'], 1, 'COMMA', 2, 'POINT')}"></span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="text-muted">S&P 500(SPY)</div>
-      <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['SPY'], 1, 'COMMA', 2, 'POINT')}"></span>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div class="text-muted">S&P 500(VOO)</div>
-      <span class="text-danger" th:text="${#numbers.formatDecimal(priceMap['VOO'], 1, 'COMMA', 2, 'POINT')}"></span>
-    </div>
-  </div>
-</div>
-<script th:inline="javascript">
-  const labels = /*[[${dates}]]*/ [];
-  const prices = /*[[${closes}]]*/ [];
-
-  const ctx = document.getElementById('marketTrendChart').getContext('2d');
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels, // 날짜 리스트
-      datasets: [{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+      const labels = /*[[${dates}]]*/ [];
+      const prices = /*[[${closes}]]*/ [];
+      
+      const ctx = document.getElementById('marketTrendChart').getContext('2d');
+      
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels, // 날짜 리스트
+          datasets: [{
         label: 'SPY 종가 (최근 30일)',
         data: prices, // 종가 리스트
         borderWidth: 2,

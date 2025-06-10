@@ -40,7 +40,7 @@ public class HomeController {
 
 
     // 메인 페이지 지수 출력 구성
-    Map<String, Object> market = marketService.getSPXMarketSummary();
+    Map<String, Object> market = marketService.getSPYMarketSummary();
 	  model.addAllAttributes(market);
     return "index";
   }

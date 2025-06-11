@@ -2,6 +2,11 @@ package kr.kh.boot.model.vo;
 
 import java.time.LocalDateTime;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class UserAssetVO {
 
 	private int as_num;
@@ -13,45 +18,12 @@ public class UserAssetVO {
 	private double as_expected_return;
 	private LocalDateTime as_created;
 
-	// 기본 생성자
-	public UserAssetVO() {
-	}
-
-	// 원하는 생성자 추가
-	public UserAssetVO(int as_us_num, String as_asset_type, String as_currency, long as_amount) {
+	// 원하는 생성자만 따로 작성
+	public UserAssetVO(int as_us_num, String as_asset_type, String as_currency, long as_amount, double as_expected_return) {
 		this.as_us_num = as_us_num;
 		this.as_asset_type = as_asset_type;
 		this.as_currency = as_currency;
 		this.as_amount = as_amount;
+		this.as_expected_return = as_expected_return;
 	}
-
-	public String getAs_currency() {
-		return as_currency;
-	}
-
-	public long getAs_amount() {
-		return as_amount;
-	}
-
-	public long getAs_won() {
-		return as_won;
-	}
-
-	public void setAs_won(long as_won) {
-    this.as_won = as_won;
-	}
-
-	public double getAs_expected_return() {
-		return as_expected_return;
-	}
-
-	
-	public String getAs_asset_type() {
-    return as_asset_type;
-	}
-
-	public int getAs_num() {
-    return as_num;
-	}
-
 }

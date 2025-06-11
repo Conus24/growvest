@@ -54,6 +54,13 @@
     }
     const usdToWon = usdTotal * exchangeRate + gldToWon + vooToWon;
 
+    console.log("usdTotal(달러):", usdTotal); // 예: 1000
+    console.log("gldToWon (원화):", gldToWon); // 예: 800,000
+    console.log("vooToWon (원화):", vooToWon); // 예: 600,000
+    console.log("usdTotal * 환율:", usdTotal * exchangeRate); // 예: 1,500,000
+    console.log("최종 usdToWon:", usdToWon); // 예: 2,900,000 → 혹시 너무 높다면 중복
+    console.log("KrwTotal:", krwTotal);
+
     const data = {
       labels: ['KRW 비중', 'USD 비중'],
       datasets: [{

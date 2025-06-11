@@ -99,12 +99,10 @@ public class UserAssetService {
 				usdTotal += amount;
 				won *= exchangeRate;
 			} else if ("GLD".equals(currency)) {
-				usdTotal += amount;
 				won *= gldRate * exchangeRate;
 			} else if ("VOO".equals(currency)) {
-				usdTotal += amount;
 				won *= vooRate * exchangeRate;
-			} else {
+			} else if ("KRW".equals(currency)) {
 				krwTotal += amount;
 			}
 

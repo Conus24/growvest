@@ -1,8 +1,10 @@
 package kr.kh.boot.controller;
 
 import java.security.Principal;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +39,21 @@ public class HomeController {
     stockService.fetchAndStorePrice("GLD");
     stockService.fetchAndStorePrice("SPY");
 
-    LocalTime now = LocalTime.now(ZoneId.of("Asia/Seoul"));
-    boolean isKoreaMarketOpen = !now.isBefore(LocalTime.of(9, 0)) && now.isBefore(LocalTime.of(15, 30));
+    ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+    LocalTime time = now.toLocalTime();
+    DayOfWeek day = now.getDayOfWeek();
+
+    // 국내시장: 평일 09:00 ~ 15:30
+    boolean isKoreaMarketOpen = (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) &&
+        !time.isBefore(LocalTime.of(9, 0)) &&
+        time.isBefore(LocalTime.of(15, 30));
+
+    boolean isUSMarketOpen = (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) &&
+        (time.isAfter(LocalTime.of(23, 29)) || time.isBefore(LocalTime.of(6, 0)));
 
     // 장시간 체크
     model.addAttribute("isKoreaMarketOpen", isKoreaMarketOpen);
+    model.addAttribute("isUSMarketOpen", isUSMarketOpen);
 
     Map<String, Double> priceMap = stockService.getLatestApiPriceMap();
     model.addAttribute("priceMap", priceMap);
@@ -57,7 +69,7 @@ public class HomeController {
     model.addAttribute("usdDates", usdkrwMarket.get("dates"));
     model.addAttribute("usdCloses", usdkrwMarket.get("closes"));
     model.addAttribute("usdChange", usdkrwMarket.get("percentChange"));
-    
+
     return "index";
   }
 

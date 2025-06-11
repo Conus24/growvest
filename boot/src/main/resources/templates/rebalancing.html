@@ -7,11 +7,12 @@
     <div class="container mt-5">
         <a class="btn btn-secondary" href="/rebalancing/create">리밸런싱 목표 설정</a>
       <!-- 데이터가 있을 경우만 테이블 보여줌 -->
-      <div class="mt-5">
+      <h2 class="mb-4 fw-bold text-center">💡 목표 비중 / 현재 비중 비교</h2>
+      <div class="mt-4">
         <canvas id="rebalanceChart" style="max-height: 400px;"></canvas>
       </div>
     <div th:if="${not #lists.isEmpty(comparisonList)}">
-  <table class="table table-bordered text-center align-middle mt-4">
+  <table class="table table-bordered text-center align-middle mt-5">
     <thead class="table-dark">
       <tr>
         <th>자산</th>

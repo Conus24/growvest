@@ -5,26 +5,31 @@
 <head><title>포트폴리오 생성</title></head>
 <main layout:fragment="content">
   <div class="container mt-5">
-    <h2 class="mb-4">포트폴리오 생성</h2>
-    <form th:action="@{/portfolio/submit}" method="post" th:object="${userAssetForm}">
-      <div class="mb-3">
-        <label>현금 (원)</label>
-        <input type="number" th:field="*{cashWon}" class="form-control" />
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="mb-4">포트폴리오 생성</h2>
+        <form th:action="@{/portfolio/submit}" method="post" th:object="${userAssetForm}">
+          <div class="mb-3">
+            <label>현금 (원)</label>
+            <input type="number" th:field="*{cashWon}" class="form-control" />
 
-        <label>현금 (달러)</label>
-        <input type="number" th:field="*{cashDollar}" class="form-control" />
+            <label>현금 (달러)</label>
+            <input type="number" th:field="*{cashDollar}" class="form-control" />
 
-        <label>예금</label>
-        <input type="number" th:field="*{deposits}" class="form-control" />
+            <label>예금</label>
+            <input type="number" th:field="*{deposits}" class="form-control" />
 
-        <label>채권</label>
-        <input type="number" th:field="*{bond}" class="form-control" />
+            <label>채권</label>
+            <input type="number" th:field="*{bond}" class="form-control" />
 
-        <label>금</label>
-        <input type="number" th:field="*{gold}" class="form-control" />
+            <label>금</label>
+            <input type="number" th:field="*{gold}" class="form-control" />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">생성하기</button>
+        </form>
+
       </div>
-      <button type="submit" class="btn btn-primary">생성하기</button>
-    </form>
+    </div>
   </div>
 </main>
 </html>

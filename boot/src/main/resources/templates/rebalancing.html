@@ -4,39 +4,46 @@
   layout:decorate="~{fragments/layout/layout.html}">
   <head><title>리밸런싱</title></head>
   <main layout:fragment="content">
-    <div class="container mt-4">
-      <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-          <a class="btn btn-secondary" href="/rebalancing/create">리밸런싱 목표 설정</a>
-        </div>
-      </div>
-      <!-- 데이터가 있을 경우만 테이블 보여줌 -->
-      <h2 class="mb-4 fw-bold text-center mt-4">💡 목표 비중 / 현재 비중 비교</h2>
-      <div class="mt-4">
-        <canvas id="rebalanceChart" style="max-height: 400px;"></canvas>
-      </div>
-    <div th:if="${not #lists.isEmpty(comparisonList)}">
-  <table class="table table-bordered text-center align-middle mt-5">
-    <thead class="table-dark">
-      <tr>
-        <th>자산</th>
-        <th>통화</th>
-        <th>현재 비중</th>
-        <th>목표 비중</th>
-        <th>차이</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="row : ${comparisonList}">
-        <td th:text="${row.as_asset_type}" class="fw-bold"></td>
-        <td th:text="${row.as_currency}"></td>
-        <td th:text="${row.current_percent + '%'}"></td>
-        <td th:text="${row.ta_target_percent + '%'}"></td>
-        <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"
-            th:classappend="${row.gap_percent > 0} ? 'text-danger fw-bold' : 'text-primary fw-bold'"></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <a class="btn btn-secondary" href="/rebalancing/create">리밸런싱 목표 설정</a>
+    </div>
+  </div>
+  <h2 class="mb-4 fw-bold text-center mt-4">💡 목표 비중 / 현재 비중 비교</h2>
+  <!-- 차트 영역 제한 -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <canvas id="rebalanceChart" style="max-height: 400px;"></canvas>
+    </div>
+  </div>
+
+  <!-- 테이블 영역 제한 -->
+  <div class="row justify-content-center mt-5" th:if="${not #lists.isEmpty(comparisonList)}">
+    <div class="col-md-8">
+      <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>자산</th>
+            <th>통화</th>
+            <th>현재 비중</th>
+            <th>목표 비중</th>
+            <th>차이</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="row : ${comparisonList}">
+            <td th:text="${row.as_asset_type}" class="fw-bold"></td>
+            <td th:text="${row.as_currency}"></td>
+            <td th:text="${row.current_percent + '%'}"></td>
+            <td th:text="${row.ta_target_percent + '%'}"></td>
+            <td th:text="${row.gap_percent > 0 ? '+' + row.gap_percent + '%' : row.gap_percent + '%'}"
+                th:classappend="${row.gap_percent > 0} ? 'text-danger fw-bold' : 'text-primary fw-bold'"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <script th:inline="javascript">
   const rawData = [[${comparisonList}]];

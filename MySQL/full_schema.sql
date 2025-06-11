@@ -85,13 +85,16 @@ CREATE TABLE portfolio_risk_profile (
 
 CREATE TABLE asset_type_score (
     at_num INT PRIMARY KEY AUTO_INCREMENT,
+    at_us_num INT NOT NULL,
     at_as_num INT NOT NULL,
     at_name VARCHAR(20) NOT NULL,
     at_mdd FLOAT,
     at_score FLOAT,
     at_expected_return FLOAT,
+    FOREIGN KEY (at_us_num) REFERENCES user(us_num),
     FOREIGN KEY (at_as_num) REFERENCES user_asset(as_num)
 );
+
 
 CREATE TABLE goal_tracker (
     go_num INT PRIMARY KEY AUTO_INCREMENT,

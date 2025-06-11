@@ -20,6 +20,9 @@ layout:decorate="~{fragments/layout/layout.html}">
 </head>
 <main layout:fragment="content">
   <div class="container mt-5">
+    <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
+    <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
+    <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
     <h2 class="mb-4 fw-bold text-center">📊 목표 금액 설정
     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#infoModal">
       설명 보기
@@ -115,12 +118,8 @@ layout:decorate="~{fragments/layout/layout.html}">
       <td>연간 250만 원까지 양도차익에 대해 비과세 (기본공제)</td>
     </tr>
     <tr>
-      <th scope="row">인플레이션 반영<br><span class="text-muted">(현재 화폐의 가치)</span></th>
-      <td>실질 수익률 계산 시, 물가 상승률을 고려해 자산 가치를 보정</td>
-    </tr>
-    <tr>
       <th scope="row">예상 수익률 기준</th>
-      <td>X년 동안의 연평균 복리 수익률</td>
+      <td>최근 20년 동안의 연평균 수익률</td>
     </tr>
   </tbody>
 </table>

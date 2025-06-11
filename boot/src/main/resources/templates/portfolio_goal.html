@@ -19,17 +19,22 @@ layout:decorate="~{fragments/layout/layout.html}">
   </style>
 </head>
 <main layout:fragment="content">
-  <div class="container mt-4">
+  <div class="container mt-5">
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-6 text-center">
+        <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
+        <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
+        <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
+      </div>
+    </div>
     <div class="row justify-content-center">
-    <div class="col-md-6">
-    <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
-    <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
-    <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
-    <h2 class="mb-4 fw-bold text-center mt-5">📊 목표 금액 설정
-    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#infoModal">
-      설명 보기
-    </button>
+  <div class="col-md-6">
+    <h2 class="mb-4 fw-bold text-center mt-4">📊 목표 금액 설정
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#infoModal">
+        설명 보기
+      </button>
     </h2>
+
     <form th:action="@{/portfolio/goal/submit}" method="post" class="mt-4">
 
       <div class="mb-3">
@@ -44,7 +49,7 @@ layout:decorate="~{fragments/layout/layout.html}">
 
       <div class="mb-3">
         <label class="form-label">🏦 예금 과세 방식</label><br>
-        <div class="form-check form-check-inline" required>
+        <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" id="savingsTax154" name="savingsTax" value="15.4" required>
           <label class="form-check-label" for="savingsTax154">이자소득세 15.4%</label>
         </div>
@@ -81,9 +86,10 @@ layout:decorate="~{fragments/layout/layout.html}">
         <button type="submit" class="btn btn-primary btn-lg">시뮬레이션 시작</button>
       </div>
 
-    </div>
+    </form>
   </div>
-</form>
+</div>
+
 
 
   <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">

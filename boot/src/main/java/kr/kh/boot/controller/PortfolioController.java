@@ -96,7 +96,7 @@ public class PortfolioController {
 			model.addAttribute("error", "최소 한 가지 이상의 자산을 입력해주세요.");
 			return "portfolio_create";
 		}
-		return "redirect:/";
+		return "portfolio";
 	}
 
 	// 투자 성향 분석

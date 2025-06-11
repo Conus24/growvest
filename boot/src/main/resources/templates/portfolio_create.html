@@ -32,8 +32,11 @@
           <label>채권</label>
           <input type="number" th:field="*{bond}" class="form-control" />
 
-          <label>금</label>
+          <label>금 (GLD 수량)</label>
           <input type="number" th:field="*{gold}" class="form-control" />
+
+          <label>S&P 500 (VOO 수량)</label>
+          <input type="number" th:field="*{voo}" class="form-control" />
         </div>
         <button type="submit" class="btn btn-primary w-100">생성하기</button>
       </form>

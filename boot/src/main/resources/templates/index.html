@@ -21,9 +21,17 @@
     </div>
   </div> -->
   <div class="bg-white border-bottom py-2 d-flex justify-content-center gap-4 small fw-semibold">
-    <div> <span class="text-dark">국내</span> <span class="text-muted">· 장 닫힘</span> </div>
-    <div> <span class="text-dark">해외</span> <span class="text-muted">· 장 닫힘</span> </div>
+  <div>
+    <span class="text-dark">국내</span>
+    <span th:if="${isKoreaMarketOpen}" class="fw-bold" style="color:tomato">· 장 열림</span>
+    <span th:unless="${isKoreaMarketOpen}" class="text-muted">· 장 닫힘</span>
   </div>
+  <div>
+    <span class="text-dark">해외</span>
+    <span class="text-muted">· 장 닫힘</span> <!-- 해외는 그대로 둠 -->
+  </div>
+</div>
+
 <div class="container mt-4">
   <div class="row gx-5">
     <!-- 왼쪽 콘텐츠 -->
@@ -31,10 +39,10 @@
       <h4 class="text-center">💱 환율 시장 요약</h4>
       <p class="text-center">
         달러/원 환율은 최근 30일간 
-        <span th:if="${usdChange >= 0}" style="color:red">
+        <span th:if="${usdChange >= 0}" style="color:tomato">
           <span th:text="${#numbers.formatDecimal(usdChange, 1, 2)} + '%'"></span> 상승했습니다.
         </span>
-        <span th:if="${usdChange < 0}" style="color:blue">
+        <span th:if="${usdChange < 0}" style="color:mediumblue">
           <span th:text="${#numbers.formatDecimal(usdChange, 1, 2)} + '%'"></span> 하락했습니다.
         </span>
       </p>
@@ -42,10 +50,10 @@
       <h4 class="text-center mt-5">📊 오늘의 시장 요약</h4>
       <p class="text-center">
         S&P500 (SPY)는 최근 30일간 
-        <span th:if="${percentChange >= 0}" style="color:red">
+        <span th:if="${percentChange >= 0}" style="color:tomato">
           <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 상승했습니다.
         </span>
-        <span th:if="${percentChange < 0}" style="color:blue">
+        <span th:if="${percentChange < 0}" style="color:mediumblue">
           <span th:text="${#numbers.formatDecimal(percentChange, 1, 2)} + '%'"></span> 하락했습니다.
         </span>
       </p>

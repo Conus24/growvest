@@ -1,6 +1,8 @@
 package kr.kh.boot.controller;
 
 import java.security.Principal;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class HomeController {
     stockService.fetchAndStorePrice("VOO");
     stockService.fetchAndStorePrice("GLD");
     stockService.fetchAndStorePrice("SPY");
+
+    LocalTime now = LocalTime.now(ZoneId.of("Asia/Seoul"));
+    boolean isKoreaMarketOpen = !now.isBefore(LocalTime.of(9, 0)) && now.isBefore(LocalTime.of(15, 30));
+
+    // 장시간 체크
+    model.addAttribute("isKoreaMarketOpen", isKoreaMarketOpen);
 
     Map<String, Double> priceMap = stockService.getLatestApiPriceMap();
     model.addAttribute("priceMap", priceMap);

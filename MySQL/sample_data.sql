@@ -15,12 +15,12 @@ INSERT INTO user_asset (as_us_num, as_type, as_asset_type, as_currency, as_amoun
    (1, '6', 'S&P 500', 'VOO', 8, 0, 1.07998, NOW());
    
 INSERT INTO user_asset_target (ta_us_num, ta_as_num, ta_target_percent, ta_end_date) VALUES
-   (1, 1, 13, '2025-09-02'),
-   (1, 2, 14, '2025-09-02'),
-   (1, 3, 25, '2025-09-02'),
-   (1, 4, 18, '2025-09-02'),
-   (1, 5, 14, '2025-09-02'),
-   (1, 6, 16, '2025-09-02');
+   (1, 1, 14, '2025-09-02'),
+   (1, 2, 15, '2025-09-02'),
+   (1, 3, 16, '2025-09-02'),
+   (1, 4, 17, '2025-09-02'),
+   (1, 5, 18, '2025-09-02'),
+   (1, 6, 20, '2025-09-02');
 
 INSERT INTO asset_type_score (at_as_num, at_name, at_mdd, at_score, at_expected_return) VALUES
    (1, '현금 (원)', 0, 0, 0),

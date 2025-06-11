@@ -11,9 +11,16 @@ layout:decorate="~{fragments/layout/layout.html}">
       margin: 0 auto;
     }
   </style>
-
-  <div class="container mt-4">
-    <h2 class="text-center">🎯 목표 달성 시뮬레이션</h2>
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+          <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
+          <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
+          <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
+        </div>
+      </div>
+    </div>
+    <h2 class="text-center mt-4">🎯 목표 달성 시뮬레이션</h2>
     <div class="text-center mt-4">
       <p>💰 원금: <strong th:text="${#numbers.formatInteger(totalWon, 0, 'COMMA')} + ' 원'"></strong></p>
       <p>🎯 목표 금액: <strong th:text="${#numbers.formatInteger(goal, 3, 'COMMA')} + ' 원'"></strong></p>

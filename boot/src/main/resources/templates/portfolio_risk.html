@@ -5,39 +5,48 @@
 <head><title>투자성향 분석</title></head>
 <main layout:fragment="content">
   <div class="container mt-5">
-    <div class="container mt-5">
+  <div class="row justify-content-center mb-3">
+    <div class="col-md-6 text-center">
       <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
       <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
       <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
     </div>
-    <h2 class="mb-4 fw-bold text-center">📉 자산 타입 위험 점수</h2>
-    <table class="table table-bordered text-center">
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h2 class="mb-4 fw-bold text-center">📉 자산 타입 위험 점수</h2>
+      <table class="table table-bordered text-center">
         <thead class="table-dark">
-        <tr>
+          <tr>
             <th>번호</th>
             <th>자산 이름</th>
             <th>보유 금액</th>
             <th>손실 가능 금액</th>
             <th>최대 손실률</th>
-        </tr>
+          </tr>
         </thead>
         <tbody>
-        <tr th:each="score : ${scoreList}">
+          <tr th:each="score : ${scoreList}">
             <td th:text="${score.at_num}">1</td>
             <td th:text="${score.at_name}">금</td>
             <td th:text="${#numbers.formatInteger(score.as_won, 0, 'COMMA')} + ' 원'"></td>
             <td th:text="${#numbers.formatInteger(T(java.lang.Math).round(score.lossAmount), 0, 'COMMA')} + ' 원'"></td>
             <td th:text="${score.at_mdd} + '%'">-12.5</td>
-        </tr>
+          </tr>
         </tbody>
-    </table>
-    <div class="text-center fw-bold mt-4">
-      이 포트폴리오의 원금 최대 손실률은 
-      <span class="text-danger" th:text="${lossRate} + '%'">12.34 %</span> 입니다.<br>
-      당신의 투자 성향은 
-      <span class="text-primary" th:text="${profileType}">~~형</span>
-      입니다.
+      </table>
+
+      <div class="text-center fw-bold mt-4">
+        이 포트폴리오의 원금 최대 손실률은 
+        <span class="text-danger" th:text="${lossRate} + '%'">12.34%</span> 입니다.<br>
+        당신의 투자 성향은 
+        <span class="text-primary" th:text="${profileType}">~~형</span>
+        입니다.
+      </div>
     </div>
+  </div>
 </div>
+
 </main>
 </html>

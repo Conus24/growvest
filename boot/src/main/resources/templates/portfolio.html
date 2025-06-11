@@ -4,10 +4,14 @@
   layout:decorate="~{fragments/layout/layout.html}">
 <head><title>포트폴리오</title></head>
 <main layout:fragment="content">
-  <div class="container mt-5">
-    <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
-    <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
-    <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <a class="btn btn-secondary" href="/portfolio/create">포트폴리오 생성</a>
+        <a class="btn btn-secondary" href="/portfolio/risk">투자성향 분석</a>
+        <a class="btn btn-secondary" href="/portfolio/goal">목표 금액 설정</a>
+      </div>
+    </div>
   </div>
   <div class="container">
     <div th:if="${krwTotal != null}">

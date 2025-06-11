@@ -94,9 +94,9 @@ public class PortfolioController {
 
 		if (!result) {
 			model.addAttribute("error", "최소 한 가지 이상의 자산을 입력해주세요.");
-			return "portfolio_create";
+			return "portfolio";
 		}
-		return "portfolio";
+		return "redirect:/portfolio";
 	}
 
 	// 투자 성향 분석

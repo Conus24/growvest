@@ -47,22 +47,22 @@ public class UserAssetService {
 		List<UserAssetVO> assets = new ArrayList<>();
 
 		if (form.getCashWon() > 0) {
-			assets.add(new UserAssetVO(userId, "현금 (원)", "KRW", form.getCashWon(), 1.0));
+			assets.add(new UserAssetVO(userId, 1, "현금 (원)", "KRW", form.getCashWon(), 0, 1.0));
 		}
 		if (form.getCashDollar() > 0) {
-			assets.add(new UserAssetVO(userId, "현금 (달러)", "USD", form.getCashDollar(), 1.0));
+			assets.add(new UserAssetVO(userId, 2, "현금 (달러)", "USD", form.getCashDollar(), 0, 1.0));
 		}
 		if (form.getDeposits() > 0) {
-			assets.add(new UserAssetVO(userId, "예적금", "KRW", form.getDeposits(), 1.025));
+			assets.add(new UserAssetVO(userId, 3, "예적금", "KRW", form.getDeposits(), 0, 1.025));
 		}
 		if (form.getBond() > 0) {
-			assets.add(new UserAssetVO(userId, "채권", "KRW", form.getBond(), 1.04));
+			assets.add(new UserAssetVO(userId, 4, "채권", "KRW", form.getBond(), 0, 1.04));
 		}
 		if (form.getGold() > 0) {
-			assets.add(new UserAssetVO(userId, "금", "GLD", form.getGold(), 1.083));
+			assets.add(new UserAssetVO(userId, 5, "금", "GLD", form.getGold(), 0, 1.083));
 		}
 		if (form.getVoo() > 0) {
-			assets.add(new UserAssetVO(userId, "S&P 500", "VOO", form.getVoo(), 1.07998));
+			assets.add(new UserAssetVO(userId, 6, "S&P 500", "VOO", form.getVoo(), 0, 1.07998));
 		}
 
 		if (assets.isEmpty()) {

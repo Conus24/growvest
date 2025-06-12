@@ -23,13 +23,13 @@
 <div class="bg-white border-bottom py-2 d-flex justify-content-center gap-4 small fw-semibold">
   <div>
     <i class="fas fa-flag text-danger"></i> <span class="text-dark">
-      <img src="/img/kr.png" width="30" class="me-1">국내</span>
+      <img src="/img/kr.png" width="30" class="me-1">국장</span>
     <span th:if="${isKoreaMarketOpen}" class="fw-bold" style="color: tomato;">· 장 열림</span>
     <span th:unless="${isKoreaMarketOpen}" class="text-muted">· 장 닫힘</span>
   </div>
   <div>
     <i class="fas fa-flag-usa text-primary"></i> <span class="text-dark">
-      <img src="/img/us.png" width="20" class="me-1"> 해외</span>
+      <img src="/img/us.png" width="20" class="me-1"> 미장</span>
     <span th:if="${isUSMarketOpen}" class="fw-bold" style="color: tomato;">· 장 열림</span>
     <span th:unless="${isUSMarketOpen}" class="text-muted">· 장 닫힘</span>
   </div>

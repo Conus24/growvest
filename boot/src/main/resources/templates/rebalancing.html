@@ -50,11 +50,8 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // gap_percent 절댓값 기준으로 정렬
-  const sorted = rawData.slice().sort((a, b) => Math.abs(b.gap_percent) - Math.abs(a.gap_percent));
-
-  const labels = sorted.map(item => item.as_asset_type);
-  const data = sorted.map(item => item.gap_percent);
+  const labels = rawData.map(item => item.as_asset_type);
+  const data = rawData.map(item => item.gap_percent);
 
   const ctx = document.getElementById('rebalanceChart').getContext('2d');
 
